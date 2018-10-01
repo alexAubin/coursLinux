@@ -1,9 +1,3 @@
-TODO :
-- addon invités
-- ajouter sudo
-- config padawan sudoer
-
-
 title: Introduction à Linux
 class: animation-fade
 layout: true
@@ -105,6 +99,7 @@ Formateur
 # Disclaimers
 
 - L'informatique technique, c'est compliqué
+- Soyez patient, méthodique, attentifs !
 - Interagissez !
 
 On est là pour apprendre :
@@ -651,7 +646,7 @@ votre_login@machine:~$ █
 - Le terminal permet de taper des commandes pour interagir "directement" avec l'OS
 - Des commandes comme dans "passer commande"
 - Certaines affichent des choses, d'autres changent des états
-
+- Vous pouvez ouvrir d'autres TTy / consoles avec Ctrl+Alt+F1, F2, F3, ..
 
 ---
 
@@ -1587,7 +1582,26 @@ pkill java
 pkill -9 java
 ```
 
+---
 
+# 7. Processus
 
+.center[
+![](img/dontsigkill.png)
+]
+
+---
+
+# 7. Processus
+
+## `screen`
+
+`screen` permet de lancer une commande dans un terminal que l'on peut récupérer plus tard
+
+1. On ouvre une session avec `screen`
+2. On lance ce que l'on veut dedans
+3. On peut sortir de la session avec `<Ctrl>+A` puis `D`.
+4. La commande lancée continue à s'executer
+5. On peut revenir dans la session plus tard avec `screen -r`
 
 

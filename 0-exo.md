@@ -86,6 +86,7 @@ documents/
 - 5.7 - Ouvrir plusieurs tty et se logger avec différents utilisateurs, puis observer ce que `who` retourne
 - 5.8 - Vérifiez que les infos de `r2d2` sont bien dans `/etc/passwd` et `/etc/shadow`
 - 5.9 - Que se passe-t-il si vous définissez `/bin/false` comme shell par défaut pour `r2d2` ?
+- 5.10 - En inspectant le contenu de `/etc/sudoers`, pouvez-vous donnez le droit à `r2d2` d'utiliser `sudo` ?
 
 ### 6. Permissions
 
@@ -116,3 +117,7 @@ documents/
 - 7.9 - Tout en laissant `openssl speed -multi 4` s'executer, lancer la commande `ls /bin/` avec la priorité la plus faible possible. Que se passe-t-il ?
 - 7.10 - Réduisez drastiquement "à chaud" la priorité de la commande `openssl speed -multi 4` en train de s'executer. Si vous relancer `ls /bin/` toujours avec la priorité la plus basse, comment la situation évolue-t-elle ?
 - 7.11 - Comment pouvez-vous tuer d'un seul coup tous les processus `openssl` ?
+- 7.12 - Lancez une session screen puis une commande longue dans cette session, comme par exemple `sleep 30`. Détachez la session puis ré-attachez-la depuis un autre tty.
+- 7.13 - Dans une autre console, identifiez via `ps` le PID de la session screen et tentez de tuer ce processus.
+
+
