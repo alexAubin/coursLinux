@@ -51,3 +51,40 @@ Il est possible de créer l'alias `say` qui parle dans le chat avec :
 ```
 alias say="echo [$USER] >> /tmp/chat"
 ```
+
+## 9 partie 2 - pipes et boîte à outils
+
+- 9.8 : utiliser `alias grep` pour verifier que l'alias existe, sinon ajouter `alias grep="grep --color=auto"` au `.bashrc` et le recharger.
+- 9.9 : `cat /etc/passwd | grep "/bin/bash"`
+- 9.10 : `cat /etc/passwd | grep "/bin/bash" | tr ':' ' ' | awk '{print $1}'` (on peut aussi utiliser `awk -F:`, ou la commande `cut`)
+- 9.11 : `cat /etc/passwd | grep "nologin$" | tr ':' ' ' | awk '{print $1}'`
+- 9.12 : Les utilisateurs n'ayant pas de mot de passe sont typiquement caractérisés par un `:x:` sur la ligne (ou eventuellement un `:!:`) dans `/etc/shadow`. On utilise alors un grep 'inversé' (`-v`) pour obtenir les lignes des utilisateurs qui ont vraiment un mot de passe. On utilise aussi un "ou" dans grep (avec `\|`) pour ignorer à la fois les lignes contenant `:!:` et `:x:`.
+
+```bash
+cat /etc/shadow | grep -v ":\!:\|:x:" | awk -F: '{print $1}'
+```
+
+- 9.13 : On affiche le fichier en ignorant les lignes commençant (`^`) par `#` : `cat /etc/login.defs | grep -v "^#"`.
+- 9.14 : On verifie que `groups` contient `sudo`. La sortie standard ne nous intéresse pas, donc on peut la supprimer avec `>/dev/null` ou l'option `-q` de `grep` :
+
+```
+groups | grep -q sudo && echo "oui!" || echo "non :'("
+```
+
+- 9.15 : `grep -nr "daemon" /etc/`
+- 9.16 : Les lignes vides correspondent à `^$` (début de ligne suivi de fin de ligne) donc : `cat /etc/login.defs | grep -v "^$"` Pour enlever également les commentaires, on utilise un "ou" dans grep (`\|`), ce qui donne : `cat /etc/login.defs | grep -v "^$\|^#"`
+- 9.17 : Similaire à la question 9.14 : `who | grep -q r2d2 && echo "R2d2 est là !" || echo "Mais que fais r2d2 ?!"`
+- 9.18 : `ps -ef | grep -v "UID" | awk '{print $1}' | sort | uniq -c`
+- 9.19 : `cat loginattempts.log  | awk '{print $9}' | sort | uniq -c | sort -n`
+- 9.20 : Il s'agit d'un exercice un peu avancé avec plusieurs solutions possibles (qui ne sont pas trop robuste, mais peuvent dépanner). En voici une qui envoie les adresses des images dans un fichier `img.list` :
+
+```
+curl yoloswag.team           \
+ | grep "img src"            \
+ | sed 's/img src/\n[img]/g' \
+ | grep "\[img\]"            \
+ | tr '<>"' ' '              \
+ | awk '{print $2}'          \
+ > img.list
+```
+
