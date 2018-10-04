@@ -38,7 +38,7 @@ PS1="[\033[01;31m\u on \h\033[0m:\033[01;34m\w\033[0m] \n> "
 - 9.6 : `curl -L fr.wikipedia.org > wikipedia.html >/dev/null 2>&1 || echo "ça n'a pas marché !"`
 - 9.7 : 
 
-```
+```bash
 touch /tmp/chat
 chmod +w /tmp/chat
 tail -f /tmp/chat &
@@ -48,6 +48,6 @@ puis faire `echo "beep boop" >> /tmp/chat` depuis d'autres terminaux (attention,
 
 Il est possible de créer l'alias `say` qui parle dans le chat avec :
 
-```
+```bash
 alias say="echo [$USER] >> /tmp/chat"
 ```
