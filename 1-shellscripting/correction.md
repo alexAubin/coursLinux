@@ -38,7 +38,7 @@ PS1="[\033[01;31m\u on \h\033[0m:\033[01;34m\w\033[0m] \n> "
 - 9.6 : `curl -L fr.wikipedia.org > wikipedia.html >/dev/null 2>&1 || echo "ça n'a pas marché !"`
 - 9.7 : 
 
-```
+```bash
 touch /tmp/chat
 chmod +w /tmp/chat
 tail -f /tmp/chat &
@@ -48,7 +48,7 @@ puis faire `echo "beep boop" >> /tmp/chat` depuis d'autres terminaux (attention,
 
 Il est possible de créer l'alias `say` qui parle dans le chat avec :
 
-```
+```bash
 alias say="echo [$USER] >> /tmp/chat"
 ```
 
@@ -67,7 +67,7 @@ cat /etc/shadow | grep -v ":\!:\|:x:" | awk -F: '{print $1}'
 - 9.13 : On affiche le fichier en ignorant les lignes commençant (`^`) par `#` : `cat /etc/login.defs | grep -v "^#"`.
 - 9.14 : On verifie que `groups` contient `sudo`. La sortie standard ne nous intéresse pas, donc on peut la supprimer avec `>/dev/null` ou l'option `-q` de `grep` :
 
-```
+```bash
 groups | grep -q sudo && echo "oui!" || echo "non :'("
 ```
 
@@ -78,7 +78,7 @@ groups | grep -q sudo && echo "oui!" || echo "non :'("
 - 9.19 : `cat loginattempts.log  | awk '{print $9}' | sort | uniq -c | sort -n`
 - 9.20 : Il s'agit d'un exercice un peu avancé avec plusieurs solutions possibles (qui ne sont pas trop robuste, mais peuvent dépanner). En voici une qui envoie les adresses des images dans un fichier `img.list` :
 
-```
+```bash
 curl yoloswag.team           \
  | grep "img src"            \
  | sed 's/img src/\n[img]/g' \
