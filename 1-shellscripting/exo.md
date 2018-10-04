@@ -43,3 +43,49 @@
 - 9.19 - À l'aide de `sort` et `uniq`, analysez le fichier `loginattemps.log`, et produisez un résumé du nombre de tentative de connections par ip
 - 9.20 - Construisez une ligne de commande qui récupère les adresses des images présentes dans le code du site `yolowag.team`. Vous aurez possiblement besoin de `curl`, `grep`, `tr` et `awk` (eventuellement de `sed`).
 
+## 10 partie 1 - les variables
+
+- 10.1 - Créez-vous un répertoire de travail (par exemple : `~/dev/bash`) dans lequel vous créerez vos scripts. Écrivez un premier script `hello.sh` qui affiche "Hello world !" et "How are you today ?" et executez-le.
+- 10.2 - En reprenant les codes couleurs étudiés en partie 8, définissez des variables de couleur comme `PURPLE` qui vaut `\033[35m`. Modifier le code de la question 10.1 pour affichez "How are you today ?" avec les couleurs de l'arc-en-ciel ! (Rappel : si il y a des couleurs, `echo` doit être appelé avec l'option `-e`)
+- 10.3 - Dans des variables différentes, récupérez des informations comme :
+    - le nom de la distribution (via `/etc/os-release`)
+    - le nombre d'utilisateurs (différents) actuellement loggé au système (via who)
+    - la quantité de RAM totale et utilisée (voir `free -h`)
+puis affichez un rapport comme :
+```
+La distribution est Debian Stretch
+Il y a actuellement 4 utilisateurs différents loggués
+Il reste 262Mo de RAM disponible sur un total de 5.5G
+```
+- 10.4 - Relancer le script avec `bash -x votrescript.sh` et analyser ce qui s'affiche : cette commande est utile pour débugger ce qu'il se passe dans un script !
+
+## 10 partie 2 - paramétrabilité, interactivité
+
+- 10.4 - Écrivez un script `test_args.sh` qui affiche le nom du script, le nombre d'argument donnés, ainsi que le premier et deuxième argument.
+- 10.5 - Écrivez un script `add.sh` qui prends deux nombre en argument en affiche le résultat de leur addition.
+- 10.6 - Écrivez un script `age.sh` qui demande à l'utilisateur son année de naissance, puis calcule et affiche son âge. 
+- 10.7 - Créez un script `exist.sh` qui prends un nom de fichier en argument, et affiche "Le fichier existe !" et renvoie 0 si il est possible de faire `ls` sur le fichier, et affiche "Uh Oh !? Pas sur que ce fichier existe !" et renvoie 1 sinon.
+- 10.8 - Créez un script `bkp.sh` qui prends un nom de fichier en argument, et qui créé une copie de ce fichier dans `~/bkp/` (le dossier sera automatiquement créé par le script si besoin). Le script affichera finalement un message comme "Le fichier a été backupé en tant que ~/bkp/fichier".
+- 10.9 - Dans `bkp.sh`, avant de lancer la copie, faites appel à `exist.sh` pour vérifier que le fichier existe bel et bien avant de continuer.
+- 10.10 - Créez un script `check_user.sh`. Il est destiné à être lancé par `root` pour s'assurer qu'un utilisateur donné ne fait pas n'importe quoi. Implémentez les étapes suivantes une par une, en les testant au fur et à mesure :
+   - Demander un nom d'utilisateur ;
+   - Vérifier que l'utilisateur existe via `/etc/passwd`, sinon afficher un message d'erreur (dans stderr !) et arrêter le script avec un code de retour de 1 ;
+   - Compter le nombre de processus actuellement lancés par cet utilisateur (aidez-vous de `ps au -u <user>`) et affiché un message comme "L'utilisateur a X procesus en cours" ;
+   - Même chose, mais avec le nombre de terminaux actuellement utilisés par l'utilisateur ;
+   - Calculer l'espace disque occupé par le repertoire personnel de l'utilisateur (aidez-vous de `du -hs <repertoire>`). Afficher un message comme "Son repertoire personnel pèse X Mo".
+
+## 10 partie 3 - fonctions
+
+- 10.11 - Comme un en 10.2, créer un script `utils.sh` qui défini des variables correspondant aux couleurs. À l'aide de celles-ci, implémentez et testez au fur à mesure les fonctions suivantes :
+    - `success` qui prends un message en argument et affiche `"[ OK ] Le message"` avec le mot `OK` en vert ;
+    - `info`    qui prends un message en argument et affiche `"[INFO] Le message"` avec le mot `INFO` en bleu ;
+    - `warning` qui prends un message en argument et affiche *dans la sortie d'erreur* `"[WARN] Le message"` avec le mot `WARN` en orange ;
+    - `error`   qui prends un message en argument et affiche *dans la sortie d'erreur* `"[FAIL] Le message"` avec le mot `FAIL` en rouge ;
+    - `critical` qui prends un message en argument et affiche *dans la sortie d'erreur* `"[CRIT] Le message"` avec le mot `CRIT` en rouge, **et termine directement le script avec un code de retour de 1**.
+- 10.12 - Dupliquez le script `check_user.sh` de la question 10.10 (la copie peut s'appeler `check_user_v2.sh`) et retravaillez le script pour que les différentes vérifications soient faites par des fonctions. (Testez vos modifications au fur et à mesure !)
+    - une fonction `assert_user_exists` qui prends un utilisateur en argument et s'assure qu'il existe - autrement elle arrête l'execution du script
+    - une fonction `check_processes` qui prends un utilisateur en argument, compte et affiche un message à propos du nombre de processus lancés par l'utilisateur
+    - de façon similaire, une fonction `check_terminals`
+    - de façom similaire, une fonction `check_home_space_usage`
+- 10.13 - Au début de `check_user.sh` (après le `#!/bin/bash`), ajoutez `source utils.sh` pour charger les fonctions définies dans `utils.sh`. Vous pouvez maintenant modifier la fonction `assert_user_exists` pour utiliser la fonction `critical`, et utiliser `info` dans les fonctions `check_processes`, `terminals` et `home_space_usage` pour afficher les informations.
+
