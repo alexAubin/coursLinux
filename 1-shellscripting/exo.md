@@ -77,7 +77,7 @@ Il reste 262Mo de RAM disponible sur un total de 5.5G
 ## 10 partie 3 - les conditions
 
 - 10.11 - Reprendre le script `age.sh` de l'énoncé 10.6. Vérifiez que l'année de naissance fait sens. Par exemple, si elle est inférieure à 1900, on pourra afficher "Hmm... T'es sur !?", et si l'année donnée est supérieure à 2018, on pourra afficher "Tu viens du futur !?". Dans les deux cas, on quittera le programme en renvoyant un code d'erreur
-- 10.12 - Un peu dans la même veine que l'énoncé 10.7, écrire un script `whatis.sh` qui prends un nom de fichier en argument, et affiche "Ce fichier est un fichier régulier", "Ce fichier est un dossier" ou bien "Ce fichier n'existe pas". (Pour garder une syntaxe claire, se renseigner sur `elif`)
+- 10.12 - Un peu dans la même veine que l'énoncé 10.7, écrire un script `whatis.sh` qui prends un nom de fichier en argument, et affiche "C'est un fichier régulier", "C'est un dossier" ou bien "Ce fichier n'existe pas !". (Pour garder une syntaxe claire, se renseigner sur `elif`)
 - 10.13 - En reprenant `check_user.sh` :
     - modifier le test que l'utilisateur existe bien en utilisant maintenant la syntaxe `if then ... fi`
     - adaptez le comportement du script de sorte à ce que `./check_user.sh --help` (ou `-h`) affichera (au lieu du fonctionnement normal de la fonction) une description de ce que fait le script et de comment l'utiliser.
@@ -91,9 +91,10 @@ Il reste 262Mo de RAM disponible sur un total de 5.5G
     - `warning` qui prends un message en argument et affiche *dans la sortie d'erreur* `"[WARN] Le message"` avec le mot `WARN` en orange ;
     - `error`   qui prends un message en argument et affiche *dans la sortie d'erreur* `"[FAIL] Le message"` avec le mot `FAIL` en rouge ;
     - `critical` qui prends un message en argument et affiche *dans la sortie d'erreur* `"[CRIT] Le message"` avec le mot `CRIT` en rouge, **et termine directement le script avec un code de retour de 1**.
-- 10.15 - Dupliquez le script `check_user.sh` de la question 10.10 (la copie peut s'appeler `check_user_v2.sh`), puis implémentez les choses suivantes (testez vos modifications au fur et à mesure !)
+- 10.15 - Dupliquez le script `check_user.sh` de la question 10.10 (la copie peut s'appeler `check_user_v2.sh`), puis transformez les différentes parties du script en fonctions. Ce genre de travail s'appelle *(re)factoriser du code*.  **Testez vos modifications au fur et à mesure !**
     - au début (après le `#!/bin/bash`), ajoutez `source utils.sh` pour charger les fonctions définies dans `utils.sh` dans ce script.
-    - introduisez une fonction `assert_user_exists` qui arrêtera le script (via `critical`) si l'utilisateur n'existe pas ;
+    - introduisez une fonction `assert_user_exists` qui affichera une erreur et arrêtera le script (via `critical`) si l'utilisateur n'existe pas ;
+    - introduisez une fonction `usage` qui sera appelée pour décrire le fonctionnement du script si appelé avec `--help` ou `-h` ;
     - introduisez une fonction `check_processes` qui vérifiera que le nombre de processus lancé n'est pas trop élevé. Si le nombre n'est pas trop grand, affichez le nombre avec `info` - ou avec `warn` sinon.
     - de façon similaire, une fonction `check_terminals`
     - de façom similaire, une fonction `check_home_space_usage`
