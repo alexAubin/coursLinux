@@ -20,12 +20,12 @@ class: impact
    - 9.2 pipes, et boîte à outils
 
 ## 10. Bash scripting
+
    - 10.0 écrire et executer des scripts
    - 10.1 les variables
    - 10.2 interactivité
-   - 10.3 les fonctions
-   - 10.4 les conditions 
-   - 10.5 les boucles
+   - 10.3 les conditions 
+   - 10.4 les fonctions
 
 ---
 
@@ -781,7 +781,183 @@ class: impact
 
 # 10. Bash scripts
 
-### 10.3 Les fonctions
+### 10.3 Les conditions
+
+---
+
+# 10.3 Les conditions
+
+## Généralités
+
+Les conditions permettent d'adapter l'execution d'un programme en fonction de cas particuliers...
+
+---
+
+# 10.3 Les conditions
+
+## Avec les doubles crochets (1/3)
+
+```bash
+NB_TERMINAUX_OUVERTS=$(who | wc -l)
+
+if [[ "$NB_TERMINAUX_OUVERTS" -ge "2" ]]
+then
+   echo "Il y a pleins de terminaux ouverts sur cette machine !"
+else
+   echo "Il n'y a que $NB_TERMINAUX_OUVERTS sur cette machine "
+fi
+```
+
+---
+
+# 10.3 Les conditions
+
+## Avec les doubles crochets (2/3)
+
+```bash
+if [[ ! -f "$HOME/.bashrc" ]] 
+then
+   echo "Tu devrais créer un bashrc !"
+fi
+```
+
+---
+
+# 10.3 Les conditions
+
+## Avec les doubles crochets (3/3)
+
+```bash
+if [[ expression ]]
+then
+   cmd1
+   cmd2
+   ...
+else
+   cmd3
+   cmd4
+fi
+```
+
+N.B. : Il n'est pas nécessaire d'avoir un `else` ! 
+
+---
+
+# 10.3 Les conditions
+
+## Tester des valeurs numériques
+
+- `[[ X -eq Y ]]` : X **equals** to Y
+- `[[ X -ne Y ]]` : X **not equals** to Y
+- `[[ X -ge Y ]]` : X is **greater than or equals** to Y
+- `[[ X -le Y ]]` : X is **lesser than or equals** to Y
+- `[[ X -gt Y ]]` : X is **greater than** to Y
+- `[[ X -lt Y ]]` : X is **lesser than** to Y
+
+Par exemple pour tester qu'une variable `PI` est supérieure à 2 : 
+
+```bash
+[[ "$ANSWER" -gt "42" ]]
+```
+
+---
+
+# 10.3 Les conditions
+
+## Tester des chaînes de caractère
+
+- `[[ CHAINE1 == CHAINE2 ]]` : les chaines sont égales
+- `[[ CHAINE1 != CHAINE2 ]]` : les chaines sont différentes
+- `[[ CHAINE =~ REGEX ]]` : la chaîne matche la regex..
+- `[[ -z CHAINE ]]` : la chaîne est vide (zero length)
+- `[[ -n CHAINE ]]` : la chaîne est vide (non-zero length)
+
+Exemples :
+```bash
+[[ "$USER" == "root" ]]   # Teste si l'on a à faire à l'user root 
+[[ -z "$ANSWER" ]]        # Teste que la variable ANSWER n'est pas vide
+[[ "$USER" =~ "r2d2\|c3p0" ]]  # Teste si l'on a à faire à r2d2 ou c3p0 
+```
+
+---
+
+# 10.3 Les conditions
+
+## Tester des fichiers
+
+- `[[ -e FILE ]]`   # Teste si FILE existe
+- `[[ -f FILE ]]`   # Teste si FILE est un fichier regulier
+- `[[ -d FILE ]]`   # Teste si FILE est un dossier
+
+Exemples:
+```bash
+[[ -d "$HOME/documents" ]] # Teste si le dossier documents existe
+[[ -f "$HOME/.bashrc" ]]   # Teste si vous avez un fichier .bashrc
+```
+
+---
+
+# 10.3 Les conditions
+
+## Combiner des expressions
+
+- `[[ ! expression ]]`         # Teste l'opposé de expression
+- `[[ expr1 ]] && [[ expr2 ]]` # Teste que expr1 ET expr2 sont vraies
+- `[[ expr1 ]] || [[ expr2 ]]` # Teste si expr1 OU </small>(inclusif)</small> expr2 est vrai
+
+Exemples
+```bash
+[[ ! -e "$HOME/.bashrc" ]]     # Teste que votre .bashrc n'existe pas
+[[ "$CPU_USE" > "100" ]] && [[ "$MEM_FREE" < 0 ]]
+```
+
+---
+
+# 10.3 Les conditions
+
+## Syntaxe avec une commande
+
+```bash
+if commande
+then
+   cmd1
+   cmd2
+   ...
+else
+   cmd3
+   cmd4
+fi
+```
+
+---
+
+# 10.3 Les conditions
+
+## Syntaxe avec une commande : exemple
+
+```bash
+if grep "r2d2" /etc/passwd
+then
+   echo "r2d2 est bien enregistré en tant qu'utilisateur"
+else
+   echo "r2d2 n'est pas enregistré en tant qu'utilisateur !"
+fi
+```
+
+---
+
+# 10.3 Les conditions
+
+## Note sur les expressions entre crochet
+
+`[[ expression ]]` peut être utilisé comme une vraie commande ! 
+
+C'est souvent moins lourd à écrire pour des petites choses :
+
+```bash
+[[ -f "$HOME/.bashrc" ]] || echo "Tu devrais créer un bashrc !"
+```
+
 
 ---
 
@@ -789,7 +965,126 @@ class: impact
 
 # 10. Bash scripts
 
-### 10.4 Les conditions
+### 10.4 Les fonctions
+
+---
+
+# 10.4 Les fonctions
+
+## Généralités
+
+Les fonctions sont comme des commandes, qui existent dans le contexte d'un script
+Comme les commandes, elles ont un `stdin`, `stdout`, `stderr`, des arguments (`$1`, `$2`, ...) et un code de retour
+
+L'objectif d'une fonction est :
+- de rassembler des commandes en une tâche bien définie
+- de donner un nom **pertinent** à cette tâche
+- (de rendre cette tâche paramétrable)
+- pouvoir appeler cette tâche plusieurs fois
+- de structurer le code d'un script
+
+---
+
+# 10.4 Les fonctions
+
+## Exemple
+
+Initialiser un utilisateur :
+- (il faut un nom)
+- créer l'utilisateur (`useradd`)
+- créer son home
+- créer un `.bashrc`
+- mettre les bonnes permissions sur ses dossier/fichiers
+- définir un quota
+- ...
+
+
+---
+
+# 10.4 Les fonctions
+
+## Exemple concret (non testé)
+
+```bash
+function create_droid()
+{
+    local NAME="$1" 
+
+    useradd $NAME
+    mkdir /home/$NAME
+    echo "alias ls='ls --color=auto'" > /home/$NAME/.bashrc
+    chown -R $NAME:$NAME /home/$NAME
+    adduser $NAME droid
+
+    return 0
+}
+
+create_droid r2d2
+create_droid c3p0
+create_droid bb8
+```
+
+---
+
+# 10.4 Les fonctions
+
+## Syntaxe
+
+```bash
+function ma_fonction()
+{
+    cmd1
+    cmd2
+    cmd3
+
+    return 0   # Optionnel
+}
+```
+
+---
+
+# 10.4 Les fonctions
+
+## Code de retour
+
+```bash
+function create_droid()
+{
+    local NAME="$1" 
+    if grep "^$NAME" /etc/passwd
+    then
+       echo "Un utilisateur $NAME existe deja !"
+       return 1
+    fi
+
+    # [...]
+
+    return 0
+}
+```
+
+---
+
+# 10.4 Les fonctions
+
+## Variables locales
+
+- Dans une fonction, il est possible de définir des variables locales avec le mot clef `local`
+- Ces variables et leur valeurs n'ont de sens que dans le contexte de cette fonction
+- Généralement utilisé pour clarifier les paramètres attendus
+
+```bash
+function set_quota()
+{
+   local USER="$1"
+   local LIMIT="$2"
+
+   # [...]
+}
+
+set_quota r2d2 100M
+echo $LIMIT   ## << Ne fonctionnera pas !
+```
 
 ---
 
@@ -798,6 +1093,4 @@ class: impact
 # 10. Bash scripts
 
 ### 10.5 Les boucles
-
----
-
+### 10.6 Le parsing d'options
