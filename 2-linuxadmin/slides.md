@@ -10,6 +10,16 @@ class: impact
 
 ---
 
+# Objectifs
+
+- installer et gérer une distribution
+- acquérir des notions de réseau et de sécurité
+- administrer un serveur à distance
+- configurer et gérer des services
+- déployer un serveur web
+
+---
+
 # Plan
 
 1. Installer une distribution, gérer les partitions
@@ -20,7 +30,7 @@ class: impact
 6. Les services, et principes de base de sécurité
 7. Installer nginx et déployer un site "statique"
 8. Automatiser des tâches avec cron
-9. Déployer une application PHP/Mysql
+9. Déployer une app sur une stack PHP/Mysql
 
 ---
 
@@ -479,50 +489,263 @@ class: impact
 
 # 2. Le gestionnaire de paquet
 
+## Motivation
+
+Historiquement, c'est très compliqué d'installer un programme :
+- le télécharger et le compiler
+- la compilation (ou le programme lui-même) requiert des dependances
+- il faut télécharger et compiler les dépendances
+- qui requiert elles-mêmes des dépendances ...
+
+---
+
+# 2. Le gestionnaire de paquet
+
+## Le travail d'une distribution <small>(entre autre)</small>
+
+- créer et maintenir un ensemble de paquet cohérents
+- ... et le gestionnaire de paquet qui va avec
+- les (pre)compiler pour fournir des binaires
+
+---
+
+# 2. Le gestionnaire de paquet
+
 Paquet ~ programmes ou librairies
 
-Le gestionaire de paquet est :
-- un système unifié pour installer 
-- 
+Le gestionnaire de paquet c'est :
+- La "clef de voute" d'une distribution ?
+- un **système unifié pour installer** des paquets ...  ;
+- ... **et les mettre à jour !** ;
+- le tout en gérant les dépendances et les conflits ;
+- et via une commaunauté qui s'assure que les logiciels ne font pas n'importe quoi.
 
 ---
 
 # 2. Le gestionnaire de paquet
 
-### dpkg
+## Comparaison avec Windows
 
-One package to rule them all
-One package to find them
-One package to download them all,
-and on the system bind them
-In the land of GNU/Debian where the penguin lie
+Sous Windows
+- téléchargement d'un .exe par l'utilisateur ...
+- ... depuis une source obscure ! (**critical security risk !**)
+- procédure d'installation spécifique
+- ... qui tente de vous refiler des toolbar bloated, et/ou des CGU obscures
+- système de mise à jour spécifique
+- nécessité d'installer manuellement des dépendances
 
 ---
 
 # 2. Le gestionnaire de paquet
 
-- "clef de voute" d'une distribution ?
-- aspect historique / motivation
-- comparaison avec windows
+*One package to rule them all*
 
-Installer avec apt
-- (parenthese sur apt-get)
-- apt install, remove (arbre de dependance), autoremove
-- contenu d'un .deb / depends / ...
-- apt vs. dpkg
+*One package to find them*
 
-Les repos
-- sources.list / repo
-- apt update, upgrade, dist-upgrade 
+*One package to download them all*
 
-Debian workflow / repos
-- organisation de debian
-- aspect communautaire
-- stable / testing / unstable / ... (+ nom des versions)
-- le site de debian pour naviguer dans les paquets
-- les backports
+*and on the system bind them*
 
-Les archives
+*In the land of GNU/Debian where the penguin lie*
+
+---
+
+# 2. Le gestionnaire de paquet
+
+## Sous Debian
+
+Format `.deb`
+
+`apt` : couche "haut niveau"
+- dépot, 
+- authentification, 
+- ... 
+
+`dpkg` : couche "bas niveau"
+- gestion des dépendances,
+- installation du paquet,
+- ...
+
+---
+
+# 2. Le gestionnaire de paquet
+
+## Parenthèse sur `apt-get`
+
+- Historiquement, `apt-get` (et `apt-cache`, `apt-mark`, ..) étaientt utilisés
+- Syntaxe inutilement complexe ?
+- `apt` fourni une meilleur interface (UI et UX)
+
+---
+
+# 2. Le gestionnaire de paquet
+
+## Utilisation de `apt`
+
+- `apt install <package>` : télécharge et installe le paquet et tout son arbre de dépendances
+- `apt remove <package>` : désinstaller le paquet (et les paquet dont il dépends !)
+- `apt autoremove` : supprime les paquets qui ne sont plus nécessaires
+
+---
+
+# 2. Le gestionnaire de paquet
+
+## Mais qu'est-ce que c'est, un paquet ?
+
+Un programme, et des fichiers (dossier `debian/`) qui décrivent le paquet :
+- `control` : décrit le paquet et ses dépendances
+- `install` : liste des fichiers et leur destination
+- `changelog` : un historique de l'evolution du paquet
+- `rules` : des trucs techniques pour compiler le paquet
+- `postinst`, `prerm`, ... : des scripts à lancer quand le paquet est installé, désinstallé, ...
+
+---
+
+# 2. Le gestionnaire de paquet
+
+## Mettre à jour les paquets
+
+- `apt update` : récupère la liste des paquets depuis les dépots
+- `apt dist-upgrade` : calcule et lance la mise à jour de tous les paquets
+- (`apt upgrade` : mise à jour "safe", sans installer/supprimer de nouveaux paquets)
+
+---
+
+# 2. Le gestionnaire de paquet
+
+## Les dépots
+
+Les dépots de paquets sont configurés via `/etc/apt/sources.list` et les fichiers du dossier `/etc/apt/sources.list.d/`.
+
+Exemple :
+```
+deb http://ftp.debian.fr/debian/ stretch main contrib
+```
+
+- `stretch` est le nom de la distribution
+- `main` et `contrib` sont des composantes à utiliser
+
+---
+
+# 2. Le gestionnaire de paquet
+
+## Les versions de Debian
+
+Debian vise un système libre et très stable
+
+- `stable` : paquets éprouvés et très stable (bien que souvent un peu vieux)
+- `testing` : paquets en cours de test, comportant encore quelques bugs
+- `unstable` (sid) : pour les gens qui aiment vivre dangereusement
+
+Les versions tournent tous les ~2 ans environ
+- l'ancienne `testing` devient la nouvelle `stable`
+- le passage de version peut être un peu douloureux ...
+
+---
+
+# 2. Le gestionnaire de paquet
+
+## Les versions de Debian
+
+Basé sur les personnages de Toy Story
+
+- 7, `wheezy` (oldoldstable)
+- 8, `jessie` (oldstable)
+- 9, `stretch` (stable, depuis juin 2017)
+- 10, `buster` (testing, deviendra stable vers juin 2019)
+- 11, `bullseye`
+- 12, `bookworm`
+
+---
+
+# 2. Le gestionnaire de paquet
+
+.center[
+![](img/debiantimeline.png)
+]
+
+---
+
+# 2. Le gestionnaire de paquet
+
+## Naviguez dans les paquets debian en ligne
+
+https://packages.debian.org/search
+
+.center[
+![](img/debianpackagesite.png)
+]
+
+---
+
+# 2. Le gestionnaire de paquet
+
+## Les backports
+
+- Un intermédiaire entre stabilité et nouveauté
+- Fournissent des paquets venant de `testing` en `stable`
+- À utiliser avec prudence
+
+---
+
+# 2. Le gestionnaire de paquet
+
+## Gérer des archives
+
+`tar` (tape archive) permet de créer des archives (non compressées) qui rassemblent des fichiers.
+
+```bash
+# Créer une archive monarchive.tar
+tar -cvf monarchive.tar file1 file2 folder2/ folder2/
+
+# Désassembler une archive
+tar -xvf monarchive.tar
+```
+
+---
+
+# 2. Le gestionnaire de paquet
+
+## Gérer des archives
+
+`gzip` (gunzip) permet de compresser des fichiers (similaire aux .zip, .rar, ...)
+
+```bash
+# Compresser zblorf.scd
+gzip zblorf.scd
+
+# [...] le fichier a été compressé et renommé zblorf.scd
+
+# Decompresser le fichier :
+gzip -d zblorf.scd
+```
+
+---
+
+# 2. Le gestionnaire de paquet
+
+## Gérer des archives
+
+`tar` peut en fait être invoqué avec `-x` pour générer une archive compressée
+
+```bash
+# Créer une archive compressée
+tar -cvzf monarchive.tar.gz file1 file2 folder2/ folder2/
+
+# Désassembler une archive
+tar -xvzf monarchive.tar.gz
+```
+
+---
+
+# 2. Le gestionnaire de paquet
+
+## Gérer des archives
+
+.center[
+![](img/xkcd_tar.png)
+]
+
 
 ---
 
