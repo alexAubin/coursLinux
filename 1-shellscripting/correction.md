@@ -88,3 +88,186 @@ curl yoloswag.team           \
  > img.list
 ```
 
+## 10 partie 1 - les variables
+
+- 10.1 : `mkdir ~/dev/; mkdir ~/dev/bash; cd ~/dev/bash`, puis `nano hello.py` pour commencer à éditer un nouveau fichier. Dedans, mettre:
+
+```bash
+#!/bin/bash
+
+echo "Hello world !"
+echo "How are you today ?"
+```
+
+On peut ensuite executer ce script avec `bash hello.py` ou avec `./hello.py` (si vous lui avez ajouté la permission d'execution)
+
+- 10.2 : Un exemple de solution est :
+
+```bash
+#!/bin/bash
+
+RED="\033[31m"
+GREEN="\033[32m"
+BLUE="\033[33m"
+YELLOW="\033[34m"
+PURPLE="\033[35m"
+NORMAL="\033[0m"
+
+echo "Hello world"
+echo -e "${PURPLE}How ${BLUE}are ${GREEN}you ${YELLOW}today ${RED}?${NORMAL}"
+```
+
+- 10.3 : Un exemple de solution est :
+
+```bash
+#!/bin/bash
+
+DISTRIB_NAME=$(cat /etc/os-release | grep PRETTY_NAME | awk -F= '{print $2}')
+NB_USERS=$(who | awk '{print $1}' | sort | uniq | wc -l)
+MEM_TOTAL=$(free -h | grep "^Mem:" | awk '{print $2}')
+MEM_FREE=$(free -h | grep "^Mem:" | awk '{print $4}')
+
+echo "La distribution est $DISTRIB_NAME"
+echo "Il y a actuellement $NB_USERS utilisateur.ice.s différent.e.s loggués"
+echo "Il reste $MEM_TOTAL disponible sur un total de $MEM_FREE"
+```
+
+## 10 partie 2 - paramétrabilité, interactivité
+
+- 10.4 : (c.f. cours)
+- 10.5 : Un exemple de solution est ce script, qui peut être appelé avec par exemple `./script3.sh 5 13`
+
+```bash
+#!/bin/bash
+
+RESULTAT=$(bc <<< "$1+$2")
+echo "$1 + $2 = $RESULTAT"
+```
+
+- 10.6 : Un exemple de solution est ce script. (Note : on aurait aussi pu utiliser `date +%Y` pour obtenir l'année courante.
+
+```bash
+#!/bin/bash
+
+echo -n "Quel est ton année de naissance ? "
+read ANNEE
+AGE=$(bc <<< "2018 - $ANNEE")
+echo "Tu as $AGE ans !"
+```
+
+- 10.7 : Un exemple de solution est le script suivant (il est aussi possible de résoudre ce probleme plus facilement  lisiblement avec des "vraies" conditions) 
+
+```bash
+#!/bin/bash
+
+FILENAME="$1"
+ls $FILENAME >/dev/null 2>&1 \
+    && { echo "Le fichier existe !"; exit 0; } \
+    || { echo "Uhoh !? Pas sur que ce fichier existe !"; exit 1; }
+```
+
+- 10.8, 10.9 : Exemple de solution
+
+```bash
+#!/bin/bash
+
+readonly BACKUP_FOLDER="$HOME/bkp"
+
+FILENAME=$1
+
+./exists.sh $FILENAME || exit 1
+ls $BACKUP_FOLDER >/dev/null 2>&1 || mkdir $BACKUP_FOLDER
+
+cp $FILENAME $BACKUP_FOLDER \
+   && echo "Le fichier a bien été backupé en tant que $BACKUP_FOLDER/$FILENAME"
+```
+
+- 10.10 : Exemple de solution
+
+```bash
+#!/bin/bash
+
+echo -n "Quel utilisateur faut-il vérifier ? "
+read USER
+
+grep -q "^$USER:" /etc/passwd || { echo "$USER n'existe pas !"; exit 1; }
+
+NB_PROCESS=$(ps au -u $USER | wc -l)
+NB_TERM=$(who | grep "^$USER " | wc -l)
+SPACE_USED=$(du -hs /home/$USER | awk '{print $1}')
+
+echo "L'utilisateur :"
+echo " - a $NB_PROCESS processus en cours"
+echo " - a $NB_TERM terminaux ouverts"
+echo " - utilise $SPACE_USED "
+```
+
+## 10 partie 3 - les conditions
+
+- 10.11 : Un exemple de solution est de rajouter les conditions suivantes après avoir récupéré l'année :
+
+```bash
+if [[ "$ANNEE" -le 1900  ]];
+then
+    echo "Hmmm, t'es sur !?"
+    exit 1
+fi
+if [[ "$ANNEE" -gt 2018  ]];
+then
+    echo "Tu viens du turfu !?"
+    exit 1
+fi
+```
+
+- 10.13 :
+
+```bash
+#!/bin/bash
+
+if [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]]
+then
+    echo ""
+    echo "   check_user.sh"
+    echo ""
+    echo "Permet de vérifier qu'un utilisateur n'exploite"
+    echo "pas n'importe comment les ressources du système"
+    echo ""
+    echo "Lancer le script avec ./check_user.sh"
+    echo "puis entrez le nom d'utilisateur"
+    echo ""
+    exit 0
+fi
+
+echo -n "Quel utilisateur faut-il vérifier ? "
+read USER
+
+if ! grep -q "^$USER:" /etc/passwd
+then
+    echo "L'utilisateur '$USER' n'existe pas !"
+    exit 1
+fi
+
+NB_PROCESS=$(ps au -u $USER | wc -l)
+NB_TERM=$(who | grep "^$USER " | wc -l)
+SPACE_USED=$(du -hs /home/$USER | awk '{print $1}')
+SPACE_USED_OCTETS=$(du -s /home/$USER | awk '{print $1}')
+
+echo "L'utilisateur :"
+echo " - a $NB_PROCESS processus en cours"
+echo " - a $NB_TERM terminaux ouverts"
+echo " - utilise $SPACE_USED "
+
+if [[ "$NB_PROCESS" -gt 50 ]]
+then
+   echo "L'utilisateur a trop de processus actifs !" >&2
+fi
+if [[ "$NB_TERM" -gt 5 ]]
+then
+   echo "L'utilisateur a ouvert trop de terminaux !" >&2
+fi
+if [[ "$SPACE_USED_OCTETS" -gt 1000000 ]]
+then
+   echo "L'utilisateur utilise plus que 1 Go de stockage !"
+fi
+```
+
