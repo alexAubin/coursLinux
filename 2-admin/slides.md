@@ -44,8 +44,8 @@ class: impact
 
 1. Installer une distribution, gérer les partitions
 2. Le gestionnaire de paquet (et les archives)
-3. Notions de base de réseau
-4. Introduction à la cryptographie
+3. Notions de réseau
+4. Notions de cryptographie
 5. Se connecter et gérer un serveur avec SSH
 6. Les services, et principes de base de sécurité
 7. Installer nginx et déployer un site "statique"
@@ -752,13 +752,446 @@ tar -xvzf monarchive.tar.gz
 
 class: impact
 
-# 3. Notions de base de réseau
+# 3. Notions de réseau
+
+---
+
+# 3. Notions de réseau
+
+## "Réseau"
+
+Tout ce qui permet la communication entre les machines (et les programmes)
+
+---
+
+# 3. Notions de réseau
+
+## Objectifs
+
+- Comprendre et savoir se représenter les différentes couches
+- Savoir faire quelques des tests "de base"
+- ... et les commandes associées
+
+---
+
+# 3. Notions de réseau
+
+- DNS : domaine, résolution, ...
+- Protocoles, HTTP, modèle client/serveur
+- TCP : ports, NAT
+- IP : adresses, routage, DHCP
+- Physique : interfaces réseau
+
+---
+
+.center[
+![](img/recap_network.png)
+]
+
+---
+
+# 3. Notions de réseau
+
+## Couche physique (1/2)
+
+- Ethernet, wifi, 4G, ...
+- Votre ordinateur dispose d'**interface réseau**
+- Elles permettent de communiquer sur un support (cable, onde)
+- Chaque interface réseau possède une **adresse MAC**
+- Il existe typiquement une interface `lo` (loopback, la boucle locale - 127.0.0.1)
+
+---
+
+# 3. Notions de réseau
+
+## Couche physique (2/2)
+
+- `ip a` permet d'obtenir des informations sur les interfaces
+- Historiquement, les noms étaient "simple" : eth0, wlan0, ...
+- Aujourd'hui les noms sont un peu plus complexes / arbitraires
+
+```bash
+$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> 
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: enp0s25: <NO-CARRIER,BROADCAST,MULTICAST,UP>
+    link/ether 33:0e:d8:3f:65:7e
+3: wlp3s0: <BROADCAST,MULTICAST,UP,LOWER_UP>
+    link/ether 68:a6:2d:9f:ad:07
+```
+
+---
+
+# 3. Notions de réseau
+
+## IP : Internet Protocol (1/2)
+
+- IP fait parler **des machines** !
+- Protocole de routage des paquets
+- "Best-effort", non fiable !
+- Les routeurs discutent entre eux pour optimiser l'acheminement
+- Les adresses sont comme des numéros de telephone, ou des positions GPS
+   - IPv4, par exemple 92.93.127.10   (4.3 milliards d'adresse)
+   - IPv6, par exemple 2a04:7260:9088:6c00::1 (10^38 addresses)
+
+---
+
+# 3. Notions de réseau
+
+## IP : Internet Protocol (2/2)
+
+```bash
+$ ip a
+enp3s0: <BROADCAST,MULTICAST,UP,LOWER_UP>
+ link/ether 40:8d:5c:f3:3e:35
+ inet 91.225.41.29/32 scope global enp3s0
+ inet6 2a04:7202:8008:60c0::1/56 scope global 
+```
+
+Voir aussi : `ifconfig` (deprecated) et `ipconfig` (sous windows!)
+
+---
+
+# 3. Notions de réseau
+
+## IP : `ping` teste la connexion entre deux machines
+
+```bash
+$ ping 91.198.174.192
+PING 91.198.174.192 (91.198.174.192) 56(84) bytes of data.
+64 bytes from 91.198.174.192: icmp_seq=1 ttl=58 time=51.5 ms
+64 bytes from 91.198.174.192: icmp_seq=2 ttl=58 time=65.3 ms
+^C
+--- 91.198.174.192 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 3ms
+rtt min/avg/max/mdev = 51.475/58.394/65.313/6.919 ms
+```
+
+---
+
+# 3. Notions de réseau
+
+## IP : `whois` pour obtenir des infos sur le(s) proprio(s) d'une ip
+
+```
+$ whois 91.198.174.192
+[...]
+organisation:   ORG-WFI2-RIPE
+org-name:       Wikimedia Foundation, Inc
+[...]
+mnt-by:         RIPE-NCC-HM-MNT
+mnt-by:         WIKIMEDIA-MNT
+```
+
+---
+
+# 3. Notions de réseau
+
+## IP : `traceroute` permet d'étudier la route prise par les paquets
+
+```bash
+$ traceroute 91.198.174.192
+ 1  _gateway (192.168.0.1)  4.212 ms  6.449 ms  6.482 ms
+ 2  * 10.13.25.1 (10.13.25.1)  248.615 ms *
+ 3  211-282-253-24.rev.numericable.fr (211.282.253.24)  251.263 ms  251.332 ms  251.408 ms
+ 4  172.19.132.146 (172.19.132.146)  251.493 ms ip-65.net-80-236-3.static.numericable.fr (80.236.3.65)  251.569 ms  251.619 ms
+ 5  prs-b7-link.telia.net (62.115.55.45)  251.692 ms  251.769 ms  251.979 ms
+ 6  prs-bb4-link.telia.net (62.115.120.30)  252.026 ms prs-bb3-link.telia.net (62.115.121.96)  17.989 ms prs-bb4-link.telia.net (213.155.134.228)  1069.536 ms
+ 7  adm-bb4-link.telia.net (213.155.136.167)  1070.116 ms  1242.772 ms adm-bb3-link.telia.net (213.155.136.20)  1242.839 ms
+ 8  adm-b3-link.telia.net (62.115.122.179)  1243.006 ms adm-b3-link.telia.net (62.115.122.191)  1242.879 ms  1243.082 ms
+[...]
+```
+
+---
+
+# 3. Notions de réseau
+
+## TCP : Transmission Control Protocol (1/2)
+
+- TCP fait communiquer **des programmes**
+- Découpage des messages en petits paquets pour IP
+- Fiabilité avec des accusés de réception / renvois
+
+---
+
+# 3. Notions de réseau
+
+## TCP : Transmission Control Protocol (2/2)
+
+- TCP fourni un "tuyau de communication" entre deux programmes
+- Notion de 'port'
+- Analogie avec les différents "departement" à l'intérieur d'une entreprise
+- Par exemple : votre navigateur web (port 56723) qui discute qui discute avec le serveur web (port 80)
+    - côté A : 183.92.18.6:56723 (un navigateur web)
+    - côté B : 91.198.174.192:80 (un serveur web)
+
+---
+
+# 3. Notions de réseau
+
+## TCP : `lsof -i` pour lister les connexions active
+
+```bash
+$ lsof -i
+ssh        3231 alex IPv4 shadow.local:34658->142.114.82.73.rev.sfr.net:ssh (ESTABLISHED)
+thunderbi  3475 alex IPv4 shadow.local:59424->tic.mailoo.org:imap (ESTABLISHED)
+thunderbi  3475 alex IPv4 shadow.local:57312->tic.mailoo.org:imap (ESTABLISHED)
+waterfox  12193 alex IPv4 shadow.local:54606->cybre.space:https (ESTABLISHED)
+waterfox  12193 alex IPv4 shadow.local:32580->cybre.space:https (ESTABLISHED)
+```
+
+---
+
+# 3. Notions de réseau
+
+## TCP : `nc -zv` pour tester si un port est ouvert
+
+ACHTUNG : ne pas abuser de cela..
+
+```bash
+$ nc -zv 44.112.42.13 22
+Connection to 44.112.42.13 22 port [tcp/ssh] succeeded!
+```
+
+nc -zv ynh-forge.netlib.re 53
+---
+
+# 3. Notions de réseau
+
+## TCP : `tcpdump` pour regarder l'activité sur le réseau
+
+---
+
+# 3. Notions de réseau
+
+## TCP : et aussi : `wireshark`
+
+---
+
+# 3. Notions de réseau
+
+## Modèle client/serveur
+
+Un serveur (au sens logiciel) est un programme. Comme un serveur dans un bar (!) :
+- il **écoute** et attends qu'on lui demande un service
+- par exemple : fournir la page d'acceuil d'un site
+- le serveur écoute sur *un port*  : par exemple : 80
+
+Le client est celui qui demande le service
+- il toque à la porte
+- transmet sa demande
+- le serveur lui réponds (on espère)
+
+---
+
+# 3. Notions de réseau
+
+## Modèle client/serveur : `netstat`
+
+`netstat -tulpn` permet de lister les programmes qui écoutent et attendent 
+
+```bash
+ > netstat -tulpn | grep LISTEN | grep "80\|25"
+tcp     0.0.0.0:80  LISTEN      28634/nginx: master 
+tcp     0.0.0.0:25  LISTEN      1331/master         
+tcp6    :::80       LISTEN      28634/nginx: master 
+tcp6    :::25       LISTEN      1331/master
+```
+
+---
+
+# 3. Notions de réseau
+
+## Protocoles (1/2)
+
+- Un protocole = une façon de discuter entre programmes
+- Conçus pour une finalité particulière
+- Ont généralement un port "par défaut" / conventionnel
+   - 80/http : le web (des "vitrines" pour montrer et naviguer dans du contenu)
+   - 443/https : le web (mais en chiffré)
+   - 25/smtp : le mail (pour relayer les courriers électroniques)
+   - 993/imap : le mail (synchroniser des boites de receptions)
+   - 587/smtps : le mail (soumettre un courrier à envoyer)
+   - 22/ssh : lancer des commandes à distance
+   - 53/dns : transformer des noms en ip
+   - 5222/xmpp : messagerie instantannée
+   - 6667/irc : salons de chat
+
+---
+
+# 3. Notions de réseau
+
+## Protocoles (2/2)
+
+Par exemple, HTTP : 
+- On envoie `GET /` et on reçoit 200 + la page d'acceuil
+- On envoie `GET /chaton.jpg` et on reçoit 200 + une image (si elle existe)
+- On envoie `GET /meaningoflife.txt` et on reçoit 404 (si la page n'existe pas)
+- On peut ajouter des Headers aux requetes (c.f. debugger firefox)
+- Il existe d'autres requetes : POST, PUT, DELETE, ...
+
+---
+
+# 3. Notions de réseau
+
+## DNS : Domain name server (1/5)
+
+- Retenir des numéros de telephone ou des coordonnées GPS
+- On invente l'annuaire et les adresses postales
+- `wikipedia.org -> 91.198.174.192`
+- On peut acheter des noms chez des *registrars* (OVH, Gandi, ...)
+- Composant critique d'Internet (en terme fonctionnel(
+
+---
+
+# 3. Notions de réseau
+
+## DNS : Domain name server (2/5)
+
+- Il existe des résolveurs DNS à qui on peut demander de résoudre un nom via le protocole DNS (port 53)
+- Par exemple :
+    - 8.8.8.8, le resolveur de Google
+    - 9.9.9.9, un nouveau service qui "respecte la vie privée"
+    - 89.234.141.66, le resolveur de ARN
+    - 208.67.222.222, OpenDNS
+
+- **Choix critique pour la vie privée !!**
+- Generalement, vous utilisez (malgré vous) le resolveur de votre FAI, ou bien celui de Google
+
+---
+
+# 3. Notions de réseau
+
+## DNS : Domain name server (3/5)
+
+- Sous Linux, le resolveur DNS se configure via un fichier `/etc/resolv.conf`
+
+```bash
+$ cat /etc/resolv.conf
+nameserver 89.234.141.66
+```
+
+---
+
+# 3. Notions de réseau
+
+## DNS : Domain name server (4/5)
+
+`ping` fonctionne aussi avec noms de domaine
+
+`host` permet sinon de connaître l'ip associée
+
+```bash
+$ host wikipedia.org
+wikipedia.org has address 91.198.174.192
+wikipedia.org has IPv6 address 2620:0:862:ed1a::1
+wikipedia.org mail is handled by 50 mx2001.wikimedia.org.
+wikipedia.org mail is handled by 10 mx1001.wikimedia.org.
+```
+
+---
+
+# 3. Notions de réseau
+
+## DNS : Domain name server (5/5)
+
+- On peut outrepasser / forcer la résolution DNS de certains domaine avec le fichier `/etc/hosts`
+
+```bash
+ > cat /etc/hosts
+127.0.0.1	localhost
+127.0.1.1	shadow
+::1	localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+
+127.0.0.1 google.com
+127.0.0.1 google.fr
+127.0.0.1 www.google.com
+127.0.0.1 www.google.fr
+127.0.0.1 facebook.com
+127.0.0.1 facebook.fr
+```
+
+---
+
+.center[
+![](img/recap_network.png)
+]
+
+---
+
+.center[
+![](img/recap_network2.png)
+]
+
+---
+
+.center[
+![](img/recap_network3.png)
+]
+
+---
+
+# 3. Notions de réseau
+
+## Réseau local et NAT (1/6)
+
+- En pratique, on est peu souvent "directement" connecté à internet
+    - MachinBox
+    - Routeur de l'entreprise
+- Pas assez d'IPv4 pour tout le monde
+    - nécessité de sous-réseaux "domestique" / des réseau "local"
+    - basé sur les NAT
+    - typiquement avec des IP en 192.168.x.y ou 10.0.x.y
+
+---
+
+.center[
+![](img/recap_nat1.png)
+]
+
+---
+
+.center[
+![](img/recap_nat2.png)
+]
+
+---
+
+# 3. Notions de réseau
+
+## Réseau local et NAT (4/6)
+
+- C'est le routeur qui m'attribue une IP via le DHCP
+- Le routeur agit comme "gateway" (la "passerelle" vers les internets)
+    - (c.f. `ip route`, et la route par défaut)
+- Depuis l'extérieur du réseau local, il n'est pas possible de parler "simplement" à une machine
+- Example : Je ne peux apriori pas parler à la machine 192.168.0.12 de mon réseau local chez moi depuis le centre de formation...
+- Egalement : Difficulté de connaître sa vraie IP "globale" ! Il faut forcément demander à une autre machine ... c.f whatsmyip.com
+
+---
+
+# 3. Notions de réseau
+
+## Réseau local et NAT (5/6)
+
+-La situation se complexifie avec Virtualbox :
+- Typiquement Virtualbox créé un NAT à l'intérieur de votre machine 
+- Les différentes VM ont alors des adresses en 10.0.x.y
+
+---
+
+.center[
+![](img/subnat.png)
+]
+
 
 ---
 
 class: impact
 
-# 4. Introduction à la cryptographie
+# 4. Notions de cryptographie
 
 ---
 
