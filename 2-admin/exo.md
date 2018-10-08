@@ -124,4 +124,12 @@
 - 3.16 - (~Avancé) Analysez où sont envoyées les requêtes DNS (port 53) avec Wireshark. En déduire quel est le résolveur DNS utilisée par le système. Remplacez le contenu du `/etc/resolv.conf` par `nameserver 89.234.141.68` et refaites des requêtes DNS. Confirmez avec `wireshark` que ces requêtes sont bien envoyées vers le nouveau résolveur.
 
 
+# 4 - Notions de cryptographie
 
+4.0 - Installer `gpg` si le programme n'est pas déjà présent
+4.1 - Générer une clef GPG avec `gpg --full-generate-key`.
+4.2 - Récupérer la clef GPG du formateur puis l'importer avec `gpg --import <chemin_vers_la_clef>`. S'assurer que la clef a bien été importée avec `gpg --list-key`.
+4.3 - Écrire un court message pour le formateur dans un fichier (par exemple, 'Je fais du chiffrement !') puis chiffrer ce fichier avec `gpg --encrypt --armor <fichier>`.
+4.4 - Exportez votre clef publique avec `gpg --armor --export you@example.com > mykey.asc`
+4.5 - Envoyer un mail au formateur (éventuellement depuis `throwawaymail.com`) avec le message chiffré **et votre clef publique**.
+4.6 - Attendre une réponse, et tenter de la déchiffrer avec `gpg --decrypt`.

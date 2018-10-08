@@ -1148,13 +1148,13 @@ ff02::2 ip6-allrouters
 ---
 
 .center[
-![](img/recap_nat1.png)
+![](img/nat1.png)
 ]
 
 ---
 
 .center[
-![](img/recap_nat2.png)
+![](img/nat2.png)
 ]
 
 ---
@@ -1176,7 +1176,7 @@ ff02::2 ip6-allrouters
 
 ## Réseau local et NAT (5/6)
 
--La situation se complexifie avec Virtualbox :
+La situation se complexifie avec Virtualbox :
 - Typiquement Virtualbox créé un NAT à l'intérieur de votre machine 
 - Les différentes VM ont alors des adresses en 10.0.x.y
 
@@ -1186,12 +1186,145 @@ ff02::2 ip6-allrouters
 ![](img/subnat.png)
 ]
 
-
 ---
 
 class: impact
 
 # 4. Notions de cryptographie
+
+---
+
+# 4. Notions de cryptographie
+
+## Principe, vocabulaire
+
+Protéger des messages (confidentialité, authenticité, intégrité) en s’aidant souvent de secrets ou clés.
+
+- Confidentialité : seul l'expéditeur et le destinaire ont accès au message
+- Authenticité : le message reçu par le destinaire provient bien de l'expéditeur
+- Intégrité : le message reçu est complet et n'a pas été déformé
+
+---
+
+# 4. Notions de cryptographie
+
+## Exemple de chiffrement symétrique
+
+Historique : le nombre de César 
+- un algoritme : décalage des lettres dans l'alphabet
+- un secret / une clef (par exemple : 3)
+- pour déchiffrer : opération inverse triviale
+
+```text
+Linux c'est sympatoche
+Olqxa f'hvw vbpsdwrfkh
+```
+
+---
+
+# 4. Notions de cryptographie
+
+## Chiffrement asymétrique
+
+Pas d'équivalent classique ... 
+- imaginer un sorte de nombre de César où l'on chiffre en décalant de 3 ...
+- ... mais pour déchiffrer, il faut faire -12 !
+
+---
+
+# 4. Notions de cryptographie
+
+## Chiffrement asymétrique
+
+Les mathématiques permettent de générer un couple de clef (A, B) :
+- `chiffrer(message, A)` peut être déchiffré uniquement avec `B`
+- `chiffrer(message, B)` peut être déchiffŕe uniquement avec `A`
+
+---
+
+# 4. Notions de cryptographie
+
+## Chiffrement asymétrique
+
+- On nomme une clef la clef **privée** : on la garde secrètement rien que pour nous
+- On nomme l'autre la clef **publique** : on la donne à tout le monde
+- Si quelqu'un cherche à vous envoyer un message, ils chiffrent en utilisant votre clef publique
+- Vous seul avez la clef privée et pouvez déchiffrer.
+
+---
+
+.center[
+![](img/chiffrement_asym.png)
+]
+
+---
+
+.center[
+![](img/dechiffrement_asym.png)
+]
+
+---
+
+# 4. Notions de cryptographie
+
+## Chiffrement asymétrique
+
+- Le chiffrement asymétrique assure la confidentialité et l'integrité
+- Mais pas l'authenticité !
+- Besoin d'un mécanisme de "signature"
+
+---
+
+.center[
+![](img/signature.png)
+]
+
+---
+
+.center[
+![](img/check_signature.png)
+]
+
+---
+
+# 4. Notions de cryptographie
+
+## Echange de clef
+
+- Vous recevez un mail de Edward Snowden avec sa clef publique en copie
+- Comment s'assurer que c'est la vraie bonne clef ?
+- (Spoiler alert : vous ne pouvez apriori pas...)
+
+Problème général de sécurité : il est difficile de s'assurer de l'authenticité initiale de la clef publique 
+
+---
+
+# 4. Notions de cryptographie
+
+## Solution 1 : la vraie vie
+
+Voir Edward Snowden en chair et en os, et récupérer la clef avec lui
+
+---
+
+# 4. Notions de cryptographie
+
+## Solution 2 : web of trust
+
+La clef de Edward Snowden a été signé par pleins de journalistes et activitstes indépendant à travers le monde, ice qui diminue le risque d'une falsification
+
+---
+
+# 4. Notions de cryptographie
+
+## Solution 3 : autorités de certification
+
+Vous faites confiance à Microsoft et Google (!?), qui certifient avoir vérifié que E. Snowden possède cette clef.
+
+- C'est le principe des autorités de certification utilisé par HTTPS
+- Votre navigateur fait confiance à des clefs prédéfinies correspondant à des organismes (e.g. Google, ...)
+- Le certificat HTTPS contient une signature qui a été produite avec l'une des clefs prédéfinies
+- Vous pouvez ainsi faire confiance "par délégation"
 
 ---
 
