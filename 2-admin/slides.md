@@ -10,6 +10,26 @@ class: impact
 
 ---
 
+# L'ecosystème Linux
+
+- Système d'exploitation
+- Interagir avec le système en ligne de commande
+- Un système de fichiers
+- Des utilisateurs, des permissions
+- Des Processus
+- Assemblage de commande
+- Écriture de script
+
+---
+
+# Rappels
+
+- Utilisez [Tab] !
+- Soyez attentif à ce que vous tapez et à ce que la machine vous renvoie
+
+
+---
+
 # Objectifs
 
 - installer et gérer une distribution
@@ -72,25 +92,6 @@ class: impact
 .center[
 ![](img/relax.jpg)
 ]
-
----
-
-# L'ecosystème Linux
-
-- Système d'exploitation
-- Interagir avec le système en ligne de commande
-- Un système de fichiers
-- Des utilisateurs, des permissions
-- Des Processus
-- Assemblage de commande
-- Écriture de script
-
----
-
-# Rappels
-
-- Utilisez [Tab] !
-- Soyez attentif à ce que vous tapez et à ce que la machine vous renvoie
 
 ---
 
@@ -714,10 +715,10 @@ tar -xvf monarchive.tar
 # Compresser zblorf.scd
 gzip zblorf.scd
 
-# [...] le fichier a été compressé et renommé zblorf.scd
+# [...] le fichier a été compressé et renommé zblorf.scd.gz
 
 # Decompresser le fichier :
-gzip -d zblorf.scd
+gzip -d zblorf.scd.gz
 ```
 
 ---
@@ -726,7 +727,7 @@ gzip -d zblorf.scd
 
 ## Gérer des archives
 
-`tar` peut en fait être invoqué avec `-x` pour générer une archive compressée
+`tar` peut en fait être invoqué avec `-z` pour générer une archive compressée
 
 ```bash
 # Créer une archive compressée

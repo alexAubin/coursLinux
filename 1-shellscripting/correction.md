@@ -271,3 +271,161 @@ then
 fi
 ```
 
+## 10 partie 4 - les fonctions
+
+- 10.14 : Le fichier `utils.sh`
+
+```bash
+#!/bin/bash
+
+readonly NORMAL=$(printf '\033[0m')
+readonly BOLD=$(printf '\033[1m')
+readonly faint=$(printf '\033[2m')
+readonly UNDERLINE=$(printf '\033[4m')
+readonly NEGATIVE=$(printf '\033[7m')
+readonly RED=$(printf '\033[31m')
+readonly GREEN=$(printf '\033[32m')
+readonly ORANGE=$(printf '\033[33m')
+readonly BLUE=$(printf '\033[34m')
+readonly YELLOW=$(printf '\033[93m')
+readonly WHITE=$(printf '\033[39m')
+
+function success()
+{
+  local msg=${1}
+  echo "[${BOLD}${GREEN} OK ${NORMAL}] ${msg}"
+}
+
+function info()
+{
+  local msg=${1}
+  echo "[${BOLD}${BLUE}INFO${NORMAL}] ${msg}"
+}
+
+function warn()
+{
+  local msg=${1}
+  echo "[${BOLD}${ORANGE}WARN${NORMAL}] ${msg}" 2>&1
+}
+
+function error()
+{
+  local msg=${1}
+  echo "[${BOLD}${RED}FAIL${NORMAL}] ${msg}"  2>&1
+}
+
+function critical()
+{
+  local msg=${1}
+  echo "[${BOLD}${RED}CRIT${NORMAL}] ${msg}"  2>&1
+  exit 1
+}
+```
+
+- 10.15 : Le fichier `check_user_v2.sh`
+
+```bash
+#!/bin/bash
+
+source utils.sh
+
+function main()
+{
+    echo -n "Quel utilisateur faut-il vérifier ? "
+    read USER
+    assert_user_exists $USER
+
+    # On défini une variable globale qui
+    # contiendra false ou true si il y a un
+    # probleme...
+    ISSUE="false"
+
+    check_processes $USER
+    check_term $USER
+    check_home_space_usage $USER
+
+    if [[ "$ISSUE" == "false" ]]
+    then
+        success "L'utilisateur ne fait pas n'importe quoi :)" 
+    else
+        error "L'utilisateur a dépassé les limites !"
+    fi
+}
+
+function usage()
+{
+    echo ""
+    echo "   check_user.sh"
+    echo ""
+    echo "Permet de vérifier qu'un utilisateur n'exploite"
+    echo "pas n'importe comment les ressources du système"
+    echo ""
+    echo "Lancer le script avec ./check_user.sh"
+    echo "puis entrez le nom d'utilisateur"
+    echo ""
+    exit 0
+}
+
+function assert_user_exists()
+{
+    local USER=$1
+    if ! grep -q "^$USER:" /etc/passwd;
+    then
+        critical "L'utilisateur $USER n'existe pas !"
+    fi
+}
+
+function check_processes()
+{
+    local USER=$1
+    NB_PROCESS=$(ps au -u $USER | wc -l)
+    MESSAGE="L'utilisateur a $NB_PROCESS processus en cours"
+
+    if [[ "$NB_PROCESS" -lt 10 ]]
+    then
+        info "$MESSAGE"
+    else
+        warn "$MESSAGE"
+        ISSUE="true"
+    fi
+}
+
+function check_term()
+{
+    local USER=$1
+    NB_TERM=$(who | grep "^$USER " | wc -l)
+    MESSAGE="L'utilisateur a $NB_TERM terminaux ouverts"
+
+    if [[ "$NB_TERM" -lt 5 ]]
+    then
+        info "$MESSAGE"
+    else
+        warn "$MESSAGE"
+        ISSUE="true"
+    fi
+}
+
+function check_home_space_usage()
+{
+    local USER=$1
+    SPACE_USED=$(du -hs /home/$USER | awk '{print $1}')
+    SPACE_USED_OCTETS=$(du -s /home/$USER | awk '{print $1}')
+    MESSAGE="L'utilisateur utilise $SPACE_USED"
+
+    if [[ "$SPACE_USED_OCTETS" -lt 1000000 ]]
+    then
+        info "$MESSAGE"
+    else
+        warn "$MESSAGE"
+        ISSUE="true"
+    fi
+}
+
+# Afficher la documentation (et quitter) si --help/-h
+if [[ "$1" =~ "--help" ]] || [[ "$1" == "-h" ]]
+then
+    usage
+else
+    main
+fi
+```
