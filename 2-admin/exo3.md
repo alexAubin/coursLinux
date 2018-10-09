@@ -22,7 +22,7 @@
     - tentez de vous connecter à votre utilisateur en utilisant désormais la clef (`ssh -i clef_privee user@machine`)
 - 10.7 - Depuis votre machine de bureau (Mint), configurez `~/.ssh/config` avec ce template. Vous devriez ensuite être en mesure de pouvoir vous connecter à votre machine simplement en tapant `ssh nom_de_votre_machine`
 
-```
+```bash
 Host nom_de_votre_machine
     User votre_utilisateur
     Hostname ip_de_votre_machine
