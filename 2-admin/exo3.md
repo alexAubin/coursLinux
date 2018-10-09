@@ -1,6 +1,6 @@
 # Administration Linux - feuille d'exercice n.3
 
-# 5 - Se connecter et gérer un serveur avec SSH
+## 5 - Se connecter et gérer un serveur avec SSH
 
 - 10.1 - Pingez votre serveur, connectez-vous dessus en root (si possible en vérifiant la fingerprint du serveur) et **changer le mot de passe** ! (Choisir un mot de passe un minimum robuste : il sera mis à l'épreuve !!!). Dans une autre console, constater qu'il y a maintenant une entrée correspondant à votre serveur dans `~/.ssh/known_hosts`.
 - 10.2 - Dans votre sessions SSH, familiarisez-vous avec le système : 
