@@ -1334,6 +1334,319 @@ class: impact
 
 ---
 
+# 5. SSH et les serveurs
+
+## À propos des serveurs
+
+Serveur (au sens matériel)
+- machine destinée à fournir des services (e.g. un site web)
+- allumée et connectée 24/7
+- typiquement sans interface graphique
+- ... et donc administrée à distance
+
+---
+
+# 5. SSH et les serveurs
+
+## À propos des serveurs
+
+Serveur (au sens logiciel)
+- aussi appelé "daemon", ou service
+- programme qui écoute en permanence et attends qu'un autre programme le contacte
+    - par ex. : un serveur web attends des clients
+- écoute typiquement sur un ou plusieurs port
+    - par ex. : 80 pour HTTP
+
+---
+
+# 5. SSH et les serveurs
+
+## Serveurs : quel support matériel ?
+
+.center[
+![](img/computer.png)
+]
+
+---
+
+# 5. SSH et les serveurs
+
+## Serveurs : quel support matériel ?
+
+.center[
+![](img/rpi.png)
+]
+
+
+---
+
+# 5. SSH et les serveurs
+
+.center[
+![](img/klaoude.png)
+]
+
+---
+
+## ... Plot twist !
+
+.center[
+![](img/thereisnocloud.jpg)
+]
+
+---
+
+# 5. SSH et les serveurs
+
+## "Virtual" Private Server (VPS)
+
+VPS = une VM dans un datacenter
+
+.center[
+![](img/vps.jpg)
+]
+
+---
+
+# 5. SSH et les serveurs
+
+## "Virtual" Private Server (VPS)
+
+... qui tourne quelque part sur une vraie machine
+
+.center[
+![](img/server.jpg)
+]
+
+---
+
+# 5. SSH et les serveurs
+
+.center[
+![](img/digitalocean.png)
+]
+
+---
+
+# 5. SSH et les serveurs
+
+.center[
+![](img/scaleway.png)
+]
+
+---
+
+# 5. SSH et les serveurs
+
+## SSH : Secure Shell
+
+- Un protocole **client-serveur**, par défaut sur le port 22
+- Prendre le contrôle d'une machine à distance via un shell
+- Sécurisé grâce à du chiffrement asymétrique
+    - le serveur a un jeu de clef publique/privé
+    - le client peut aussi en avoir un (sinon : mot de passe)
+- Outil "de base" pour administrer des serveurs
+
+---
+
+# 5. SSH et les serveurs
+
+## Syntaxe : `ssh utilisateur@machine`
+
+```bash
+$ ssh admin@ynh-forge.netlib.re
+The authenticity of host 'ynh-forge.netlib.re (46.101.221.117)' can't be established.
+RSA key fingerprint is SHA256:CuPd7AtmqS0UE6DwDDG68hQ+qIT2tQqZqm8pfo2oBE8.
+Are you sure you want to continue connecting (yes/no)? █ 
+```
+
+---
+
+# 5. SSH et les serveurs
+
+## Syntaxe : `ssh utilisateur@machine`
+
+
+```bash
+$ ssh admin@ynh-forge.netlib.re
+The authenticity of host 'ynh-forge.netlib.re (46.101.221.117)' can't be established.
+RSA key fingerprint is SHA256:CuPd7AtmqS0UE6DwDDG68hQ+qIT2tQqZqm8pfo2oBE8.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'ynh-forge.netlib.re' (RSA) to the list of known hosts.
+Debian GNU/Linux 9
+admin@ynh-forge.netlib.re's password: █
+```
+
+---
+
+# 5. SSH et les serveurs
+
+## Syntaxe : `ssh utilisateur@machine`
+
+
+```bash
+$ ssh admin@ynh-forge.netlib.re
+The authenticity of host 'ynh-forge.netlib.re (46.101.221.117)' can't be established.
+RSA key fingerprint is SHA256:CuPd7AtmqS0UE6DwDDG68hQ+qIT2tQqZqm8pfo2oBE8.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'ynh-forge.netlib.re' (RSA) to the list of known hosts.
+Debian GNU/Linux 9
+admin@ynh-forge.netlib.re's password: 
+
+Last login: Thu Oct  4 08:52:07 2018 from 90.63.229.46
+admin@ynh-forge:~$ █ 
+```
+
+---
+
+# 5. SSH et les serveurs
+
+## SSH : se logguer
+
+- ACHTUNG : Soyez attentif à dans quel terminal vous tapez !!!
+- En se connectant la première fois, on vérifie la clef publique du serveur
+- On a besoin du mot de passe pour se connecter
+- ... mais la bonne pratique est d'utiliser nous-aussi une clef
+
+---
+
+# 5. SSH et les serveurs
+
+## SSH : avec une clef
+
+... mais pourquoi ?
+
+- Pas de mot de passe qui se balade sur le réseau
+- Pas nécessaire de retaper le mot de passe à chaque fois
+- Possibilité d'automatiser des tâches (clef sans mot de passe)
+- (Plusieurs personnes peuvent avoir accès à un meme utilisateur sans devoir se mettre d'accord sur un mot de passe commun)
+
+---
+
+# 5. SSH et les serveurs
+
+## SSH : avec une clef
+
+1 - Générer avec `ssh-keygen -t rsa -b 4096 -C "commentaire ou description"`
+
+```bash
+$ ssh-keygen -t rsa -b 4096 -C "Clef pour la formation"
+```
+
+---
+
+# 5. SSH et les serveurs
+
+## SSH : avec une clef
+
+1 - Générer avec `ssh-keygen -t rsa -b 4096 -C "commentaire ou description"`
+
+```bash
+$ ssh-keygen -t rsa -b 4096 -C "Clef pour la formation"
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/alex/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):   # Mot de passe
+Enter same passphrase again:                  # (again)
+Your identification has been saved in /home/alex/.ssh/id_rsa.
+Your public key has been saved in /home/alex/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:ZcAKHVtTXUPz3ipqia4i+soRHZQ4tYsDGfc5ieEGWcY "Clef pour la formation"
+```
+
+---
+
+# 5. SSH et les serveurs
+
+## SSH : avec une clef
+
+2 - Configurer la clef sur le serveur
+
+- soit *depuis le client* avec 
+
+```
+ssh-copy-id -i chemin/vers/la/clef user@machine
+```
+
+- soit *depuis le serveur* en rajoutant la clef dans `~/.ssh/authorized_keys`
+    - (generalement, l'admin vous demande votre clef)
+
+---
+
+# 5. SSH et les serveurs
+
+## SSH : avec une clef
+
+3 - Utiliser la clef pour se connecter
+
+```bash
+$ ssh -i ~/.ssh/ma_clef alex@jaimelecafe.com
+Enter passphrase for key '/home/alex/.ssh/ma_clef': █
+```
+
+---
+
+# 5. SSH et les serveurs
+
+## SSH : avec une clef
+
+3 - Utiliser la clef pour se connecter
+
+```bash
+$ ssh -i ~/.ssh/ma_clef alex@jaimelecafe.com
+Enter passphrase for key '/home/alex/.ssh/ma_clef':
+
+Last login: Mon Oct  8 19:46:32 2018 from 11.22.33.44
+user@jaimelecafe.com:~$ █
+```
+
+- Le système peut potentiellement se souvenir du mot de passe pour les prochaines minutes, comme avec sudo
+- Il peut ne pas y avoir de mot de passe (utilisation dans des scripts)
+
+---
+
+# 5. SSH et les serveurs
+
+## SSH : configuration côté client
+
+- Le fichier `~/.ssh/config` peut être édité pour définir des machines et les options associées
+
+```bash
+Host jaimelecafe
+    User alex
+    Hostname jaimelecafe.com
+    IdentityFile ~/.ssh/ma_clef
+```
+
+- On peut ensuite écrire simplement : `ssh jaimelecafe`
+
+---
+
+# 5. SSH et les serveurs
+
+## SCP : copier des fichiers
+
+`scp <source> <destination>` permet de copier des fichiers entre le client et le serveur 
+- Le chemin d'un fichier distant s'écrit `machine:/chemin/vers/fichier`
+- ou (avec un user) : `utilisateur@une.machine.com:/chemin/vers/ficier`
+
+Exemples :
+```bash
+$ scp slides.html bob@dismorphia.info:/home/alex/
+$ scp bob@dismorphia.info:/home/alex/.bashrc ./
+```
+
+---
+
+# 5. SSH et les serveurs
+
+## Divers
+
+- Client SSH sous Windows : MobaXterm
+- `sshfs` pour monter des dossiers distants
+- `ssh -D` pour créer des tunnels chiffrés (similaires à des VPNs)
+
+---
+
 class: impact
 
 # 6. Les services, et principes de base de sécurité d'un serveur
