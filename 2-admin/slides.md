@@ -47,8 +47,8 @@ class: impact
 3. Notions de réseau
 4. Notions de cryptographie
 5. Se connecter et gérer un serveur avec SSH
-6. Les services, et principes de base de sécurité
-7. Installer nginx et déployer un site "statique"
+6. Services et sécurité basique d'un serveur
+7. Déployer un site "basique" avec nginx
 8. Automatiser des tâches avec cron
 9. Déployer une app sur une stack PHP/Mysql
 
@@ -1649,13 +1649,331 @@ $ scp bob@dismorphia.info:/home/alex/.bashrc ./
 
 class: impact
 
-# 6. Les services, et principes de base de sécurité d'un serveur
+# 6 - Services et sécurité basique d'un serveur
+
+---
+
+# 6 - Services et sécurité
+
+## Objectifs
+
+- Parler de la gestion des services
+- Tout en appliquant ça à certaines pratiques "de base" de sécurité d'un serveur
+
+---
+
+# 6 - Services et sécurité
+
+## `sshd`
+
+- Un service ou "daemon" qui écoute sur le port 22
+- Il gère les connexions SSH ...
+- comme d'autres services : il passe sa vie toujours éveillé et prêt à répondre
+- Comme beaucoup d'autre programmes : sa configuration est dans `/etc/` et ses logs dans `/var/log/`
+
+En particulier :
+- `/etc/ssh/sshd_config` : configuration du daemon
+- `/var/log/daemon.log` : un fichier de log utilisé par plusieurs daemons
+- `/var/log/auth.log` : logs d'authentification
+
+---
+
+# 6 - Services et sécurité
+
+## `/etc/ssh/sshd_config`
+
+```text
+Port 22
+HostKey /etc/ssh/ssh_host_ecdsa_key
+PermitRootLogin yes
+AllowGroups root sudo
+```
+
+---
+
+# 6 - Services et sécurité
+
+## Bonnes pratiques en terme de ssh
+
+- (plus ou moins subjectif !..)
+- Changer le port 22 en quelque chose d'autre (2222, 2323, 2200, ...)
+- Desactiver le login root en ssh
+- Utiliser exclusivement des clefs
+
+---
+
+# 6 - Services et sécurité
+
+## Gérer un service avec `systemd`
+
+```bash
+$ systemctl status  <nom_du_service> # Obtenir des informations sur le status du service
+```
+
+```bash
+$ systemctl start   <nom_du_service> # Démarrer le service
+$ systemctl reload  <nom_du_service> # Recharger la configuration
+$ systemctl restart <nom_du_service> # Redémarrer le service
+$ systemctl stop    <nom_du_service> # Stopper le service
+```
+
+```bash
+$ systemctl enable  <nom_du_service> # Lancer le service au démarrage de la machine
+$ systemctl disable <nom_du_service> # Ne pas lancer le service au démarrage
+```
+
+---
+
+```bash
+systemctl status ssh
+● ssh.service - OpenBSD Secure Shell server
+   Loaded: loaded (/lib/systemd/system/ssh.service; enabled; vendor preset: enabled)
+   Active: active (running) since Wed 2018-10-10 17:43:11 UTC; 3h 17min ago
+ Main PID: 788 (sshd)
+   CGroup: /system.slice/ssh.service
+           └─788 /usr/sbin/sshd -D
+
+Oct 10 20:39:34 scw-5e2fca sshd[5063]: input_userauth_request: invalid user user [preauth]
+Oct 10 20:39:34 scw-5e2fca sshd[5063]: pam_unix(sshd:auth): check pass; user unknown
+Oct 10 20:39:34 scw-5e2fca sshd[5063]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= r
+Oct 10 20:39:37 scw-5e2fca sshd[5063]: Failed password for invalid user user from 5.101.40.101 port 33879 ssh2
+Oct 10 20:39:37 scw-5e2fca sshd[5063]: Connection closed by 5.101.40.101 port 33879 [preauth]
+```
+
+---
+
+# 6 - Services et sécurité
+
+## Investiguer des logs
+
+- Fouiller `/var/log` ... par exemple : `/var/log/auth.log`
+
+```text
+Oct 10 20:50:35 scw-5e2fca sshd[5157]: Invalid user user from 5.101.40.101 port 34418
+Oct 10 20:50:35 scw-5e2fca sshd[5157]: input_userauth_request: invalid user user [preauth]
+Oct 10 20:50:35 scw-5e2fca sshd[5157]: pam_unix(sshd:auth): check pass; user unknown
+Oct 10 20:50:35 scw-5e2fca sshd[5157]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=5.101.40.101
+Oct 10 20:50:38 scw-5e2fca sshd[5157]: Failed password for invalid user user from 5.101.40.101 port 34418 ssh2
+Oct 10 20:50:38 scw-5e2fca sshd[5157]: Connection closed by 5.101.40.101 port 34418 [preauth]
+Oct 10 21:01:37 scw-5e2fca sshd[5174]: Invalid user user from 5.101.40.101 port 35162
+Oct 10 21:01:37 scw-5e2fca sshd[5174]: input_userauth_request: invalid user user [preauth]
+Oct 10 21:01:37 scw-5e2fca sshd[5174]: pam_unix(sshd:auth): check pass; user unknown
+Oct 10 21:01:37 scw-5e2fca sshd[5174]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=5.101.40.101
+Oct 10 21:01:39 scw-5e2fca sshd[5174]: Failed password for invalid user user from 5.101.40.101 port 35162 ssh2
+Oct 10 21:01:39 scw-5e2fca sshd[5174]: Connection closed by 5.101.40.101 port 35162 [preauth]
+```
+
+---
+
+# 6 - Services et sécurité
+
+## Investiguer des logs
+
+The systemd way : `journalctl -u <nom_du_service>`
+
+Par exemple : `journalctl -u ssh`
+
+---
+
+# 6 - Services et sécurité
+
+## Protéger contre le brute-force : `fail2ban`
+
+- Fail2ban analyse automatiquement les logs 
+- Cherche / détecte des activités suspectes connues
+    - Par exemple : une IP qui essaye des mots de passe
+- Déclenche une action ... comme bannir l'IP pour un certain temps
+    - (Basé sur `iptables` qui permet de définir des règles réseau)
+- Les "jails" sont configurées via `/etc/fail2ban/jail.conf`
+- Fail2ban loggue ses actions dans `/var/log/fail2ban.log`
+
+---
+
+# 6 - Services et sécurité
+
+## `fail2ban` : exemple de la jail SSH
+
+- Analyse `/var/log/auth.log`
+- Cherche des lignes comme `Failed password for user from W.X.Y.Z`
+
+```text
+# Global settings
+bantime  = 600
+findtime = 600
+maxretry = 5
+
+[sshd]
+port    = ssh
+logpath = /var/log/auth.log
+```
+
+---
+
+# 6 - Services et sécurité
+
+## `fail2ban` : le log de fail2ban
+
+```text
+2018-10-10 20:50:35 INFO    [sshd] Found 5.101.40.101
+2018-10-10 20:50:35 INFO    [sshd] Found 5.101.40.101
+2018-10-10 20:50:38 INFO    [sshd] Found 5.101.40.101
+2018-10-10 20:50:39 NOTICE  [sshd] Ban 5.101.40.101
+2018-10-10 21:00:40 NOTICE  [sshd] Unban 5.101.40.101
+2018-10-10 21:01:37 INFO    [sshd] Found 5.101.40.101
+2018-10-10 21:01:37 INFO    [sshd] Found 5.101.40.101
+2018-10-10 21:01:39 INFO    [sshd] Found 5.101.40.101
+2018-10-10 21:01:40 NOTICE  [sshd] Ban 5.101.40.101
+2018-10-10 21:11:41 NOTICE  [sshd] Unban 5.101.40.101
+```
+
+---
+
+# 6 - Services et sécurité
+
+## `fail2ban` : exemple de la jail recidive
+
+- Analyse `/var/log/fail2ban.log` (!!)
+- Cherche des lignes comme `Ban W.X.Y.Z`
+
+```text
+# Global settings
+bantime  = 600
+findtime = 600
+maxretry = 5
+
+[recidive]
+logpath  = /var/log/fail2ban.log
+banaction = %(banaction_allports)s
+bantime  = 604800  ; 1 week
+findtime = 86400   ; 1 day
+```
 
 ---
 
 class: impact
 
-# 7. Installer nginx et déployer un site "statique"
+# 7. Déployer un site "basique" avec nginx
+
+---
+
+# 7. Nginx
+
+## Généralités
+
+- Un serveur web/HTTP "léger"
+- Écoute sur le port 80 (et generalement 443 aussi si configuré pour HTTPS)
+- Sert des pages web
+
+Intérêt dans cette formation :
+- manipuler un autre service
+- rendre + utile/concret le fait d'avoir un serveur
+
+---
+
+# 7. Nginx
+
+## Configuration, logs
+
+- `/etc/nginx/conf.d` : conf principale
+- `/etc/nginx/sites-enabled/default` : conf du site par défaut
+- `/var/log/nginx/access.log` : le log d'accès aux pages
+- `/var/log/nginx/error.log` : les erreurs (s'il y'en a)
+
+---
+
+# 7. Nginx
+
+## `/etc/nginx/sites-enabled/default`
+
+```text
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+    root /var/www/html;
+}
+```
+
+---
+
+# 7. Nginx
+
+## Location blocks
+
+```text
+   location / {
+       root /var/www/html/;
+   }
+
+   location /blog {
+       alias /var/www/blog/;
+   }
+```
+
+En allant sur `monsite.web/blog`, on accédera aux fichiers dans `/var/www/blog/` (par défaut, index.html généralement)
+
+---
+
+# 7. Nginx
+
+## Location blocks
+
+```text
+   location / {
+       root /var/www/html/;
+   }
+
+   location /blog {
+       alias /var/www/blog/;
+   }
+
+   location /app {
+       proxy_pass http://127.0.0.1:1234/;
+   }
+```
+
+En allant sur `monsite.web/app`, nginx deleguera la requête à un autre programme sur la machine qui écoute sur le port 1234.
+
+---
+
+# 7. Nginx
+
+## `nginx -t` : verifier que la conf semble correcte
+
+```
+$ nginx -t
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successfu
+```
+
+(on peut ensuite faire `systemctl reload nginx` en toute sérénité)
+
+---
+
+# 7. Nginx
+
+## Fichier de log (`access.log`)
+
+```text
+88.66.22.66 - - [10/Oct/2018:20:13:23 +0000] "GET / HTTP/1.1" 403 140 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:56.0) Gecko/20100101 Firefox/56.0 Waterfox/56.0"
+88.66.22.66 - - [10/Oct/2018:20:15:11 +0000] "GET / HTTP/1.1" 200 57 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:56.0) Gecko/20100101 Firefox/56.0 Waterfox/56.0"
+88.66.22.66 - - [10/Oct/2018:20:15:14 +0000] "GET /test HTTP/1.1" 301 185 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:56.0) Gecko/20100101 Firefox/56.0 Waterfox/56.0"
+88.66.22.66 - - [10/Oct/2018:20:15:15 +0000] "GET /test/ HTTP/1.1" 200 57 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:56.0) Gecko/20100101 Firefox/56.0 Waterfox/56.0"
+```
+
+---
+
+# 7. Nginx
+
+## Fichier d'erreurs (`error.log`)
+
+(Exemple)
+
+```text
+2018/10/10 09:06:44 [error] 28638#28638: *851331 open() "/usr/share/nginx/html/.well-known/assetlinks.json" failed (2: No such file or directory), client: 66.22.66.33, server: dismorphia.info, request: "GET /.well-known/assetlinks.json HTTP/1.1", host: "dismorphia.info"
+```
+
+(ACHTUNG : quand on débugge, toujours comparer l'heure actuelle du serveur à l'heure des erreurs pour vérifier quand elles ont eu lieu !)
 
 ---
 
