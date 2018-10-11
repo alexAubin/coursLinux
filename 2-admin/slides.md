@@ -49,7 +49,7 @@ class: impact
 5. Se connecter et gérer un serveur avec SSH
 6. Services et sécurité basique d'un serveur
 7. Déployer un site "basique" avec nginx
-8. Automatiser des tâches avec cron
+8. Automatiser avec `at` et les cron jobs
 9. Déployer une app sur une stack PHP/Mysql
 
 ---
@@ -1686,7 +1686,7 @@ En particulier :
 Port 22
 HostKey /etc/ssh/ssh_host_ecdsa_key
 PermitRootLogin yes
-AllowGroups root sudo
+AllowGroups root ssh
 ```
 
 ---
@@ -1874,7 +1874,7 @@ Intérêt dans cette formation :
 
 ## Configuration, logs
 
-- `/etc/nginx/conf.d` : conf principale
+- `/etc/nginx/nginx.conf` : conf principale
 - `/etc/nginx/sites-enabled/default` : conf du site par défaut
 - `/var/log/nginx/access.log` : le log d'accès aux pages
 - `/var/log/nginx/error.log` : les erreurs (s'il y'en a)
@@ -1979,13 +1979,138 @@ nginx: configuration file /etc/nginx/nginx.conf test is successfu
 
 class: impact
 
-# 8. Automatiser des tâches avec cron
+# 8. Automatiser avec `at` et les cron jobs
 
 ---
 
-class: impact
+# 8. Automatiser
 
-# 9. Déployer une application PHP/Mysql
+## Executer des commandes (ou un script) à distance
+
+```
+# Verifier depuis combien de temps la machine tourne
+$ echo "uptime" | ssh machine
+ 19:48:51 up 1 day,  2:05,  1 user,  load average: 0.08, 0.02, 0.01
+
+# Lancer un script à distance
+$ cat script.sh | ssh machine
+[...]
+```
 
 ---
+
+# 8. Automatiser
+
+## `at`
+
+- Executer *une fois* une action à un moment précis dans le futur
+- Format de date/temps plutôt user-friendly
+
+```bash
+# En interactif
+$ at 5:00 PM     
+warning: commands will be executed using /bin/sh
+at> reboot
+job 5 at Fri Oct 12 17:00:00 2018
+```
+
+```bash
+# Avec un script
+$ at now + 30 minutes -f mettre_a_jour.sh 
+job 6 at Thu Oct 11 20:22:00 2018
+```
+
+---
+
+# 8. Automatiser 
+
+## Les jobs cron
+
+- Répéter une tâche à intervalle régulier (heures, jours, mois, ...)
+- Chaque utilisateur peut en configurer avec `crontab -e`
+
+```
+10 * 1 * * /chemin/vers/un/script
+```
+
+---
+
+# 8. Automatiser
+
+## Les jobs cron : syntaxe (1/3)
+
+```
+10 * 1 * * /chemin/vers/un/script
+```
+
+- `10` : à la minute 10
+- `*`  :toutes les heures
+- `1` le 1er du mois
+- `*` tous les mois
+- `*` (tous les jours de la semaine)
+
+---
+
+# 8. Automatiser
+
+## Les jobs cron : syntaxe (2/3)
+
+```
+0 8 * * 1-5 /chemin/vers/un/script
+```
+
+- `0` : à la minute 0
+- `8` : à 8h
+- `*` (tous les jours du mois)
+- `*` tous les mois
+- `1-5` tous les jours de travail (lundi à vendredi)
+
+---
+
+# 8. Automatiser
+
+## Les jobs cron : syntaxe (3/4)
+
+```text
+ */10 * * * * /chemin/vers/un/script
+```
+
+- `*/10` : toutes les 10 minutes
+- `*` toutes les heures
+- `*` tous les jours du mois
+- `*` tous les mois
+- `*`  tous les jours de la semaine
+
+---
+
+# 8. Automatiser
+
+## Les jobs cron : syntaxe (4/4)
+
+- `http://crontab.guru/` to the rescue !
+
+---
+
+# 8. Automatiser
+
+## `/etc/crontab` et `/etc/cron.d/`
+
+- Ce sont des fichiers/dossiers de config cron "globaux"
+- Dedans, on specifie aussi l'utilisateur utilisé pour lancer le script :
+
+```
+ # M  H  D M W   User    Command --->
+ */30 *  * * * feed2toot feed2toot -c /etc/feed2toot/feed2toot.ini
+```
+
+---
+
+# 8. Automatiser
+
+## `/etc/cron.hourly`, `daily`, `weekly`, `monthly`
+
+- Ils contiennent directement des scripts qui seront executés automatiquement à certains intervalles
+- Attention
+   - le nom des fichiers dedans ne doit pas avoir d'extensions ...
+   - .. et doit être executable (+x)
 
