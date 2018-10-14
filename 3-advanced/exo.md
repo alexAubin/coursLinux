@@ -152,20 +152,4 @@ $ lxd init
 ./deploy_lxc.sh chaton3.jpg /chaton3
 ```
 
-## 3. Découverte de YunoHost
-
-- 3.0 - Avant de continuer, il convient de supprimer (ou déplacer ailleur) le
-  dossier `/var/www/nextcloud` et le fichier `/etc/nginx/sites-available/default`.
-
-- 3.1 - Sur votre serveur, téléchargez le script d'installation de YunoHost sur
-  `https://install.yunohost.org/` et lancez-le avec `bash le_script.sh`.
-  L'installation étant terminée, lancez la postinstallation avec `yunohost tools
-  postinstall`. Le domaine principal correspond au domaine de votre serveur. Il
-  vous faudra également choisir un mot de passe administrateur.
-
-- 3.2 - Créez un premier utilisateur avec `yunohost user create <identifiant>`.
-  Pour l'adresse email demandée, il est classique de choisir quelque chose comme
-  `identifiant@votre.domaine.tld`.
-
-
 
