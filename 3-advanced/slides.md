@@ -97,14 +97,14 @@ class: impact
 
 - 0 - (Finir monitoring.html ?)
 - 1 - Déployer une application PHP/Mysql
-- 1.5 - Investiguer des problèmes
+- (1.5 - Investiguer des problèmes)
 - 2 - Introduction aux LXC
 - 3 - Introduction à YunoHost : apps, mail, ...
-- 4 - (Moar Shell Scripting !? Boucles FOR/WHILE)
+- 4 - (Moar Shell Scripting !? Boucles for/while)
 
 ---
 
-# Je ne parlerais pas
+# Ce dont je ne parlerais pas
 
 - Créer des services systemd
 - HTTPS / Certificats SSL...
@@ -192,7 +192,15 @@ Comment créer des pages "dynamiques", par exemple :
 
 ## Nextcloud
 
-TODO : LOGO
+.center[
+![](img/nextcloud-logo.jpg)
+]
+
+---
+
+# 1. Déployer une app PHP/Mysql
+
+## Nextcloud
 
 - Un logiciel libre, auto-hébergeable
 - Stockage et synchronisation de fichiers sur un serveur
@@ -210,7 +218,22 @@ TODO : LOGO
 
 ## Nextcloud
 
-TODO : screenshot
+.center[
+![](img/nextcloud-interface.png)
+]
+
+---
+
+# 1. Déployer une app PHP/Mysql
+
+## Nextcloud : procédure d'installation
+
+- Télécharger (et décompresser) les sources
+- (Configurer PHP)
+- Créer une base de donnée MySQL
+- Configurer Nginx
+- Configurer l'application
+- Tester et valider
 
 ---
 
@@ -249,9 +272,15 @@ Malheureusement ...
 
 ## Sources d'information
 
-Stack Overflow et ses dérivés :
+Savoir lire des posts sur Stack Overflow et ses dérivés :
 - Stack Overflow (développement / programmation)
-- Super User (administration système géneraliste ?)
-- Server Fault (administration de serveur ?)
+- Super User (administration système géneraliste / amateur)
+- Server Fault (contexte pro., e.g. maintenance de serveur)
+
+---
+
+class: impact
+
+# *Good luck !*
 
 
