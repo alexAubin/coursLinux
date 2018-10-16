@@ -104,7 +104,7 @@ class: impact
 - 1 - Déployer une application PHP/Mysql
 - (1.5 - Investiguer des problèmes)
 - 2 - Introduction aux LXC
-- 3 - Introduction à YunoHost : apps, mail, ...
+- 3 - Introduction à YunoHost
 - 4 - (Moar Shell Scripting !? Boucles for/while)
 
 ---
@@ -508,3 +508,327 @@ $ lxc snapshot <container> <nom_du_snapshot>
 .center[
 ![](img/lxc.png)
 ]
+
+---
+
+class: impact
+
+# 3 - Introduction à YunoHost
+
+---
+
+# 3 - Introduction à YunoHost
+
+Un outil pour **démocratiser l'auto-hébergement**
+- héberger ses propres services
+- réduire la barrière technique (et le coût en temps)
+
+**Contextes** : domestique, associatif, PME
+
+**Supports** : Carte ARM, vieux laptop, VPS, ...
+
+**Déploiement d'outils "classiques"** : 
+- synchronisation de fichier, de contacts, de calendrier
+- blog, lecteur RSS, mail, messagerie instantannée
+- tableau de tâche, ERP, ...
+- ...?
+
+---
+
+# 3 - Introduction à YunoHost
+
+D'un point de vue pratique
+- gain de temps et d'énergie (déploiement et maintenance)
+- principes de base de sécurité déjà implémenté
+- garder le contrôle de ses données
+
+D'un point de vue pédagogique
+- écosystème "complet" : apps, mail, LDAP, IM, ..
+- perspectives d'automatisation
+
+---
+
+# 3 - Introduction à YunoHost
+
+## Aspect historique
+
+- *kload* découvre l'adminsys et se rends compte que c'est galère
+- Volonté de simplifier / automatiser
+- Script qui font ce qu'un adminsys aurait fait "à la main"
+
+.center[
+![](img/dude_yunohost.jpg)
+]
+
+---
+
+# 3 - Introduction à YunoHost
+
+.center[
+![](img/yunohost_logo.png)
+]
+
+- ![](img/icon-debian.png) Basé sur Debian
+- ![](img/icon-tools.png) Administration en CLI ou via une gentille interface web
+- ![](img/icon-package.png) Installation d'applications en quelques clics
+- ![](img/icon-globe.png) ![](img/icon-lock.png)  Multi-domaines et intégration HTTPS (Let's Encrypt)
+- ![](img/icon-users.png) ![](img/icon-door.png) Multi-utilisateurs avec portail "Single Sign On"
+- ![](img/icon-mail.png) ![](img/icon-messaging.png) Stack mail complète + messagerie instantannée XMPP
+- ![](img/icon-shield.png)  Sécurité (fail2ban, firewall)
+- ![](img/icon-medic.png) Système de sauvegardes
+
+---
+
+# 3 - Introduction à YunoHost
+
+## Multi-domaines
+
+- Votre serveur peut héberger plusieurs domaines
+   - par ex. `jean-dupont.com`
+   - ... et `curling.alsace`
+
+- Il est ensuite possible d'avoir des mails et des apps sur ces domaines
+- En HTTPS ! (Certificats Let's Encrypt en quelques clics)
+
+---
+
+# 3 - Introduction à YunoHost
+
+## Applications
+
+.center[
+![](img/apps.png)
+]
+
+---
+
+# 3 - Introduction à YunoHost
+
+.center[
+![](img/zerobin.png)
+
+ou bien : `yunohost app install zerobin`
+]
+
+---
+
+# 3 - Introduction à YunoHost
+
+## Applications
+
+- L'installation fait "ce que vous auriez fait à la main"
+- Une application peut être privée (réservée à certains utilisateurs)
+- Intègre aussi la mise à jour et les backups
+- ~20 apps officielles, ~100+ communautaires
+
+---
+
+# 3 - Introduction à YunoHost
+
+## Utilisateurs 
+
+- Multi-utilisateurs, "les vrais gens de la vraie vie"
+- Portail utilisateur avec "Single Sign On" <small>(`votre.domaine.tld/yunohost/sso`)</small>
+- Ils ont automatiquement une adresse mail (et un compte XMPP)
+
+.center[
+![](img/home_panel.jpg)
+]
+
+---
+
+# 3 - Introduction à YunoHost
+
+## Administration <small>(`votre.domaine.tld/yunohost/admin`)</small>
+
+.center[
+![](img/admin.png)
+]
+
+---
+
+.center[
+![](img/ecosystem.png)
+]
+
+---
+
+.center[
+![](img/yunohost.png)
+]
+
+---
+
+.center[
+![](img/portForwarding_fr.png)
+]
+
+
+---
+
+class: impact
+
+# 4 - Boucles `for` / `while`
+
+---
+
+# 4 - Boucles `for` / `while`
+
+## Généralités sur les boucles
+
+Répéter des instructions :
+- sur une liste de valeurs / données (boucles `for`)
+- ou tant qu'une condition est vraie (boucles `while`)
+
+---
+
+# 4 - Boucles `for` / `while`
+
+## Boucle `for`
+
+```bash
+for I in $(seq 1 10)
+do
+    echo "I vaut $I"
+done
+```
+
+```bash
+I vaut 1
+I vaut 2
+I vaut 3
+...
+I vaut 10
+```
+
+---
+
+# 4 - Boucles `for` / `while`
+
+## Boucle `for`
+
+```bash
+for FILENAME in $(ls)
+do
+    cp "$FILENAME" "/home/alex/backups/${FILENAME}.bkp"
+done
+```
+
+---
+
+# 4 - Boucles `for` / `while`
+
+## Boucle `for`
+
+```bash
+for USER in $(cat /etc/passwd | awk -F: '{print $1}')
+do
+   SHELL=$(grep "^$USER:" /etc/passwd | awk -F: '{print $7}')
+   echo "L'user $USER a comme login de shell : $SHELL"
+done
+```
+
+---
+
+# 4 - Boucles `for` / `while`
+
+## Boucle `while`
+
+```bash
+I=10
+while [[ "$I" -ge 0 ]]
+do
+   echo "Maintenant I vaut $I"
+   I=$(bc <<< "$I-1")
+done
+```
+
+```
+Maintenant I vaut 10
+Maintenant I vaut 9
+Maintenant I vaut 8
+...
+Maintenant I vaut 0
+```
+
+---
+
+# 4 - Boucles `for` / `while`
+
+## Boucle `while`
+
+Tant qu'une condition est vérifiée ...
+
+```bash
+while [[ "$NUMBER" -ge 0 ]]
+do
+    echo "Donne un nombre négatif !"
+    read NUMBER
+done
+echo "Bien ouej ! $NUMBER est effectivement un nombre négatif !"
+```
+
+---
+
+# 4 - Boucles `for` / `while`
+
+## Boucle `while`
+
+```bash
+while [[ -z "$(ip a | grep 'inet ' | awk '{print $2}' | grep -v '127.0.0.1')" ]]
+do
+   echo "Waiting ..."
+   sleep 1
+done
+```
+
+---
+
+class: impact
+
+# Notes finales
+
+---
+
+.center[
+![](img/aplause.gif)
+]
+
+---
+
+.center[
+![](img/fantastic.gif)
+]
+
+---
+
+.center[
+![](img/tobecontinued.jpg)
+]
+
+---
+
+- Git, Python
+- BDD SQL / NoSQL 
+- Apache
+- Tomcat
+- Junit, Jmeter, Gatling
+- Logstach, Elastic Search, Kibana
+- Nagios
+- Scrum
+- Devops
+- Docker
+- Jenkins
+- Chef
+- Puppet
+- Ansible
+- AWS, Openstack
+
+---
+
+.center[
+![](img/thatsall.jpg)
+]
+
+
+
