@@ -749,6 +749,15 @@ ls  *.py      # Liste tous les fichiers du repertoire courant qui se finissent p
 
 # 3. La ligne de commande
 
+## Nettoyer son terminal
+
+- `clean` efface tout ce qui est affiché dans le terminal
+- `reset` permet de réinitialiser le terminal (utile pour certaines situation où le terminal est "cassé")
+
+---
+
+# 3. La ligne de commande
+
 ## Obtenir de l'aide sur des commandes
 
 ```
@@ -954,6 +963,17 @@ coursLinux/
 
 # 4. Le système de fichier
 
+## Répertoires personnels
+
+- Tous les utilisateurs ont un répertoire personnel
+- Classiquement `/home/<user>/` pour les utilisateurs "normaux"
+- Le home de root est `/root/`
+- D'autres utilisateurs ont des home particulier (`/var/mail/`, ...)
+
+---
+
+# 4. Le système de fichier
+
 ## Filesystem Hierarchy Standard
 
 .center[
@@ -976,6 +996,81 @@ Un chemin peut être :
 - Relatif : `../yunohost/script.sh` (depuis `/home/alex/dev/apps/`)
 
 Un chemin relatif n'a de sens que par rapport à un dossier donné... mais est souvent moins long à écrire
+
+
+---
+
+.center[
+![](img/relativepath_1_1.png)
+]
+
+---
+
+.center[
+![](img/relativepath_1_2.png)
+]
+
+---
+
+.center[
+![](img/relativepath_1_3.png)
+]
+
+---
+
+.center[
+![](img/relativepath_1_4.png)
+]
+
+---
+
+.center[
+![](img/relativepath_1_5.png)
+]
+
+---
+
+.center[
+![](img/relativepath_2_1.png)
+]
+
+---
+
+.center[
+![](img/relativepath_2_2.png)
+]
+
+---
+
+.center[
+![](img/relativepath_2_3.png)
+]
+
+
+---
+
+.center[
+![](img/relativepath_2_4.png)
+]
+
+
+---
+
+.center[
+![](img/relativepath_2_5.png)
+]
+
+---
+
+.center[
+![](img/relativepath_2_6.png)
+]
+
+---
+
+.center[
+![](img/relativepath_2_7.png)
+]
 
 ---
 
@@ -1034,11 +1129,12 @@ less /usr/share/doc/nano/nano.html       # Regarder interactivement le fichier
 
 - `touch <fichier>` : créer un nouveau fichier, et/ou modifie sa date de modification
 - `nano <fichier>` : éditer un fichier dans la console
+    - (`nano` créera le fichier si besoin)
     - [Ctrl]+X pour enregistrer+quitter
     - [Ctrl]+W pour chercher
     - [Alt]+Y pour activer la coloration syntaxique 
-
-(`nano` créera le fichier si besoin)
+- `vim <fichier>` : alternative à nano
+    - plus puissant (mais plus complexe)
 
 ---
 
@@ -1103,6 +1199,49 @@ mv dev.bkp  dev.bkp2   # Renomme le dossier dev.bkp en dev.bkp2
 mv dev.bkp2 ~/trash/   # Déplace dev.bkp2 dans le dossier ~/trash/
 rm -r ~/trash          # Supprime tout le dossier ~/trash et son contenu
 ```
+
+---
+
+# 4. Le système de fichier
+
+## Les liens durs (hard link)
+
+.center[
+![](img/hardlink.png)
+]
+
+- `ln <source> <destination>`
+- Le même fichier ... à plusieurs endroits !
+- Supprimer une instance de ce fichier ne supprime pas les autres
+
+---
+
+# 4. Le système de fichier
+
+## Les liens symbolic (symlink)
+
+.center[
+![](img/symlink.png)
+]
+
+- `ln -s <cible> <nom_du_lien>`
+- Similaire à un "raccourci", le fichier n'est pas vraiment là .. mais comme si
+- Supprimer le fichier pointé par le symlink "casse" le lien
+
+---
+
+# 4. Le système de fichier
+
+## Les liens symbolic (symlink)
+
+.center[
+![](img/symlink.png)
+]
+
+- Dans ce exemple, le lien a été créé avec 
+    - `ln -s ../../../conf/ynh.txt conf.json`
+- `conf.json` est "le raccourci" : on peut le supprimer sans problème
+- `ynh.txt` est la cible : le supprimer rendra inopérationnel le raccourci
 
 ---
 
@@ -1248,14 +1387,14 @@ Bref : une empreinte caractérisant une information de manière très précise
 
 ```bash
 whoami                  # Demander qui on est...!
-groups                  # Demander dans quel group on est
+groups                  # Demander dans quel groupe on est
 id                      # Lister des infos sur qui on est (uid, gid, ..) 
 passwd <user>           # Changer son password (ou celui de quelqu'un si on est root)
 who                     # Lister les utilisateurs connectés
 useradd <user>          # Créé un utilisateur
 userdel <user>          # Supprimer un utilisateur
-addgroup <group>        # Ajouter un groupe
-adduser <user> <group>  # Ajouter un utilisateur à un groupe
+groupadd <group>        # Ajouter un groupe
+usermod -a -G <group> <user>  # Ajouter un utilisateur à un groupe
 ```
 
 ---

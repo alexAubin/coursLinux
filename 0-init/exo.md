@@ -56,7 +56,7 @@ documents/
 
 - 4.2 - Remplissez `ls.txt`, `cd.txt` et `pwd.txt` avec du texte en utilisant `nano` (par exemple, résumez l'utilité de la commande et ses options / cas d'usage)
 
-- 4.3 - Vérifiez que le contenu de ces fichiers a bien été modifié avec `cat`.i
+- 4.3 - Vérifiez que le contenu de ces fichiers a bien été modifié avec `cat`.
 - 4.4 - Affichez le contenu du fichier `/etc/os-release`
 - 4.4 - Aller dans `~/documents/notes_a_propos_des_commandes` puis, *en utilisant uniquement des chemins relatifs* et en vous aidant de la touche [Tab], déplacez-vous successivement vers :
     - `~/documents/img`

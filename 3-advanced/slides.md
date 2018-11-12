@@ -105,7 +105,6 @@ class: impact
 - (1.5 - Investiguer des problèmes)
 - 2 - Introduction aux LXC
 - 3 - Introduction à YunoHost
-- 4 - (Moar Shell Scripting !? Boucles for/while)
 
 ---
 
@@ -668,124 +667,6 @@ ou bien : `yunohost app install zerobin`
 
 class: impact
 
-# 4 - Boucles `for` / `while`
-
----
-
-# 4 - Boucles `for` / `while`
-
-## Généralités sur les boucles
-
-Répéter des instructions :
-- sur une liste de valeurs / données (boucles `for`)
-- ou tant qu'une condition est vraie (boucles `while`)
-
----
-
-# 4 - Boucles `for` / `while`
-
-## Boucle `for`
-
-```bash
-for I in $(seq 1 10)
-do
-    echo "I vaut $I"
-done
-```
-
-```bash
-I vaut 1
-I vaut 2
-I vaut 3
-...
-I vaut 10
-```
-
----
-
-# 4 - Boucles `for` / `while`
-
-## Boucle `for`
-
-```bash
-for FILENAME in $(ls)
-do
-    cp "$FILENAME" "/home/alex/backups/${FILENAME}.bkp"
-done
-```
-
----
-
-# 4 - Boucles `for` / `while`
-
-## Boucle `for`
-
-```bash
-for USER in $(cat /etc/passwd | awk -F: '{print $1}')
-do
-   SHELL=$(grep "^$USER:" /etc/passwd | awk -F: '{print $7}')
-   echo "L'user $USER a comme login de shell : $SHELL"
-done
-```
-
----
-
-# 4 - Boucles `for` / `while`
-
-## Boucle `while`
-
-```bash
-I=10
-while [[ "$I" -ge 0 ]]
-do
-   echo "Maintenant I vaut $I"
-   I=$(bc <<< "$I-1")
-done
-```
-
-```
-Maintenant I vaut 10
-Maintenant I vaut 9
-Maintenant I vaut 8
-...
-Maintenant I vaut 0
-```
-
----
-
-# 4 - Boucles `for` / `while`
-
-## Boucle `while`
-
-Tant qu'une condition est vérifiée ...
-
-```bash
-while [[ "$NUMBER" -ge 0 ]]
-do
-    echo "Donne un nombre négatif !"
-    read NUMBER
-done
-echo "Bien ouej ! $NUMBER est effectivement un nombre négatif !"
-```
-
----
-
-# 4 - Boucles `for` / `while`
-
-## Boucle `while`
-
-```bash
-while [[ -z "$(ip a | grep 'inet ' | awk '{print $2}' | grep -v '127.0.0.1')" ]]
-do
-   echo "Waiting ..."
-   sleep 1
-done
-```
-
----
-
-class: impact
-
 # Notes finales
 
 ---
@@ -827,8 +708,12 @@ class: impact
 ---
 
 .center[
-![](img/thatsall.jpg)
+With great power comes great responsabilities
 ]
 
+---
 
+.center[
+![](img/thatsall.jpg)
+]
 
