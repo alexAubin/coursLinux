@@ -152,4 +152,51 @@ $ lxd init
 ./deploy_lxc.sh chaton3.jpg /chaton3
 ```
 
+## 3. Découverte de YunoHost
+
+- 3.0 - Avant de continuer, il faut demander au formateur de recréer votre
+  serveur (les modifications des modules précédent étant incompatibles avec
+  l'installation de YunoHost)
+
+- 3.1 - Sur votre serveur, téléchargez le script d'installation de YunoHost sur
+  `https://install.yunohost.org/` et lancez-le avec `bash le_script.sh`.
+  L'installation étant terminée, lancez la postinstallation avec `yunohost
+  tools postinstall`. Le domaine principal correspond au domaine de votre
+  serveur. Il vous faudra également choisir un mot de passe administrateur.
+
+- 3.2 - Créez un premier utilisateur avec `yunohost user create <identifiant>`.
+  Pour l'adresse email demandée (N.B. : il s'agit d'une adresse qui sera
+  créée, pas d'une adresse déjà existante !), il est classique de
+  choisir quelque chose comme  `identifiant@votre.domaine.tld`.
+
+- 3.3 - Installez l'application Nextcloud avec `yunohost app install nextcloud
+  --debug`. (L'option `--debug` vous permet de visualiser les différentes
+  instructions d'installation en temps réel.). Pour tester que l'application
+  fonctionne, il vous faudra probablement accepter un certificat HTTPS non
+  reconnu (et donc ajouter l'exception correspondante). Il vous faudra
+  peut-être également passer par le portail utilisateur où le login/motdepasse
+  de l'utilisateur sera demandé.
+
+- 3.4 - Via l'interface d'administration web cette fois (accessible via
+  `https://votre.domain.tld/yunohost/admin`), installez et testez l'application
+  h5ai. Pour cela, il faudra aller dans `Applications`, `Install`, puis tout en
+  bas installer une application via une URL personnalisée qui dans le cas
+  présent est `https://github.com/YunoHost-Apps/h5ai_ynh`. Testez
+  l'application, puis identifiez où sont stockés les documents rendu
+  accessibles par cette application.
+
+- 3.5 - Dans l'interface web, récupérez la configuration DNS recommandée pour
+  votre serveur. Propagez les sections "basic" et "mail" (ignorez celle sur
+  XMPP) dans l'interface de gestion de votre domaine sur `netlib.re`. Une fois
+  cela réalisé, testez la "spaminess" de vos emails avec `mail-tester.com`.
+  (Attention, vous n'avez le droit qu'à trois essais !)
+
+- 3.6 - Dans Thunderbird (client mail de bureau, normalement installé dans
+  Linux Mint par défaut), ajoutez un compte mail correspondant à votre
+  utilisateur. Vous devriez constater que votre adresse à déjà reçue des emails
+  ! Tentez ensuite d'envoyer un mail à l'un de vos camarade ayant aussi
+  configuré son Thunderbird avec son propre domaine. Si les mails mettent plus
+  que quelques secondes à arriver, vérifiez les logs `/var/log/mail.info` et la
+  commande `mailq`.
+
 

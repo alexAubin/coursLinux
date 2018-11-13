@@ -7,7 +7,7 @@ layout: true
 class: impact
 
 # Introduction à Linux
-*Become a Command Line Padawan in five days!*
+*Become a Command Line Padawan in three days!*
 
 ---
 
@@ -71,28 +71,26 @@ Formateur
 
 # Plan de la formation
 
-0. Initiation (2 jours)
-1. Shell scripting (3 jours)
-2. Administration "avancée" (8 jours)
+**Jour 1 ?**
+
+- 0, 1 - Historique, introduction, rappels
+- 2, 3 - Prise en main du terminal et de la ligne de commande
+- 4 - Le système de fichier
+
+**Jour 2 ?**
+
+- 5, 6 - Utilisateurs, groupes et permissions
+- 7 -  Les processus
+
+**Jour 3 ?**
+
+- 8 - Personnaliser son environnement
+- 9 - Commandes avancées 
+- 10 - Bash/Shell scripts
 
 ---
 
-# Plan de la formation
-
-## 0. Initiation
-
-0. Historique, introduction
-1. Rappels sur l'informatique
-2. Prise en main du terminal
-3. Les commandes
-4. Le système de fichier
-5. Utilisateurs et groupes
-6. Les permissions
-7. Les processus
-
----
-
-# Evaluation
+# Evaluation ?
 
 ---
 
@@ -100,20 +98,13 @@ Formateur
 
 - L'informatique technique, c'est compliqué
 - Soyez patient, méthodique, attentifs !
-- Interagissez !
 
 On est là pour apprendre :
 
 - Trompez-vous ! 
 - Essayez des choses ! 
 - Cassez des trucs !
-
----
-
-# Parti pris
-
-- Approche technicienne
-- Debian Stretch, sans interface graphique
+- Interagissez, posez des questions !
 
 ---
 
@@ -187,7 +178,6 @@ class: impact
 .center[
 ![](img/ritchie_thompson.jpg)
 ]
-
 
 ---
 
@@ -347,6 +337,15 @@ En très résumé :
 
 Un ensemble de programmes "packagés", préconfigurés, intégré pour un usage ~précis ou suivant une philosophie particulière
 
+- Un noyau (Linux)
+- Des programmes (GNU, ...)
+- Des pré-configurations
+- Un gestionnaire de paquet
+- Un (ou des) environnements graphiques (Gnome, KDE, Cinnamon, Mate, ...)
+- Une suite de logiciel intégrée avec l'environnement graphique
+- Des objectifs / une philosophie
+
+
 ---
 
 # 0. Les origines de Linux
@@ -440,6 +439,16 @@ Et bien d'autres : Gentoo, LinuxFromScratch, Fedora, OpenSuse, Slackware, Alpine
 .center[
 ![](img/awesome.jpg)
 ]
+
+---
+
+# 1. Installer une distribution
+
+## Linux Mint
+
+- (Choix arbitraire du formateur)
+- Distribution simple, sobre, pas spécialement controversée (?)
+- Profite de la stabilité de Debian et de l'accessibilité d'Ubuntu 
 
 ---
 
@@ -753,6 +762,8 @@ ls  *.py      # Liste tous les fichiers du repertoire courant qui se finissent p
 
 - `clean` efface tout ce qui est affiché dans le terminal
 - `reset` permet de réinitialiser le terminal (utile pour certaines situation où le terminal est "cassé")
+- `exit` permet de fermer un terminal
+- (`logout` est similaire à `exit`)
 
 ---
 
@@ -858,10 +869,14 @@ class: impact
 
 # 4. Le système de fichier
 
-## "Rappel" : partitionnement d'un disque
+##  Partitionnement d'un disque
 
 - Un disque peut être segmenté en "partitions"
 - Chaque partition héberge des données indépendantes des autres et sous un format / filesystem différent
+
+.center[
+![](img/parts.png)
+]
 
 ---
 
@@ -1242,6 +1257,169 @@ rm -r ~/trash          # Supprime tout le dossier ~/trash et son contenu
     - `ln -s ../../../conf/ynh.txt conf.json`
 - `conf.json` est "le raccourci" : on peut le supprimer sans problème
 - `ynh.txt` est la cible : le supprimer rendra inopérationnel le raccourci
+
+---
+
+# 4. Le système de fichier
+
+## Les points de montage
+
+.center[
+![](img/mounpoints.png)
+]
+
+---
+
+# 4. Le système de fichier
+
+## Notation des patitions
+
+Les disques partitions sous Linux sont généralement dénommées :
+
+- `/dev/sda` (premier disque)
+   - `/dev/sda1` (première partition de /dev/sda)
+   - `/dev/sda2` (deuxieme partition de /dev/sda)
+- `/dev/sdb` (deuxieme disque)
+   - `/dev/sdb1` (première partition de /dev/sdb)
+   - `/dev/sdb2` (deuxieme partition de /dev/sdb)
+   - `/dev/sdb3` (troisieme partition de /dev/sdb)
+
+---
+
+# 4. Le système de fichier
+
+## Outil pour lister les disques, gérer les partions
+
+```bash
+$ fdisk -l
+Disk /dev/sda: 29.8 GiB, 32017047552 bytes, 62533296 sectors
+[...]
+Device       Start      End  Sectors  Size Type
+/dev/sda1     2048  2099199  2097152    1G Linux filesystem
+/dev/sda2  2099200 62524946 60425747 28.8G Linux filesystem
+```
+
+```bash
+$ fdisk /dev/sda
+[editer interactivement le partition de /dev/sda]
+```
+
+---
+
+# 4. Le système de fichier
+
+## Outil pour lister les disques, gérer les partions
+
+`parted` et `gparted` (outil graphique très pratique !)
+
+---
+
+# 4. Le système de fichier
+
+## Les points de montage
+
+Une partition ou n'importe quel "bidule de stockage" peut être "monté" dans le système de fichier
+- partition d'un disque
+- clef usb
+- image iso
+- stockage distant
+- ...
+
+---
+
+# 4. Le système de fichier
+
+## Les points de montage
+
+Les points de montages sont gérés avec `mount`
+
+```bash
+$ mkdir /media/usbkey
+$ mount /dev/sdb1 /media/usbkey
+$ ls /media/usbkey
+# [le contenu de la clef usb s'affiche]
+```
+
+---
+
+# 4. Le système de fichier
+
+## Les points de montage
+
+On peut "démonter" un element monté avec `umount`
+
+```bash
+$ umount /media/usbkey
+```
+
+---
+
+# 4. Le système de fichier
+
+## Les points de montage : `/etc/fstab`
+
+`/etc/fstab` décrit les systèmes de fichier montés automatiquement au boot
+
+```text
+# <file system>     <mountpoint> <type>  <options>       <dump>  <pass>
+UUID=[id tres long] /            ext4    default         0       1
+UUID=[id tres long] /home/       ext4    defaults        0       2
+```
+
+<small>(historiquement, la premiere colomne contenait `/dev/sdxY`, mais les UUID sont plus robustes)</small>
+
+---
+
+# 4. Le système de fichier
+
+## Les points de montage : outils
+
+Juste `mount` permet aussi de lister les différents points de montage
+
+```bash
+$ mount
+[...]
+/dev/sda1 on /boot type ext4 (rw,noatime,discard,data=ordered)
+/dev/sda2 on / type ext4 (rw,noatime,discard,data=ordered)
+/dev/sdb1 on /media/usbkey type ntfs (rw,noatime,discard,data=ordered)
+```
+
+---
+
+# 4. Le système de fichier
+
+## Les points de montage : outils
+
+Il existe aussi `df` :
+
+```bash
+$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+dev             2.8G     0  2.8G   0% /dev
+run             2.8G  1.1M  2.8G   1% /run
+/dev/dm-0        29G   22G  5.0G  82% /
+tmpfs           2.8G   22M  2.8G   1% /dev/shm
+tmpfs           2.8G  1.9M  2.8G   1% /tmp
+/dev/sda1       976M  105M  804M  12% /boot
+tmpfs           567M   16K  567M   1% /run/user/1000
+/dev/sdb1       3.9G  105M  3.7M   3% /media/usbkey
+```
+
+---
+
+# 4. Le système de fichier
+
+## Les points de montage : outils
+
+Et aussi `lsblk` : 
+
+```bash
+$ lsblk
+NAME          MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINT
+sda             8:0    0 29.8G  0 disk
+├─sda1          8:1    0    1G  0 part  /boot
+└─sda2          8:2    0 28.8G  0 part  /
+```
 
 ---
 

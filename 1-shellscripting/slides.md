@@ -324,6 +324,9 @@ alex 22:10
 r2d2 11:27
 ```
 
+- L'option `-F` permet de specifier un autre délimiteur
+    - par ex. `cat /etc/passwd | awk -F: '{print $3}'`
+
 ---
 
 # 9.2 Pipes et boîte à outils

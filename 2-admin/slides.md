@@ -407,7 +407,7 @@ $ ls /media/usbkey
 On peut "démonter" un element monté avec `umount`
 
 ```bash
-$ umunt /media/usbkey
+$ umount /media/usbkey
 ```
 
 ---
