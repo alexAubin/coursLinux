@@ -1845,11 +1845,11 @@ TERM=rxvt-unicode-256color
 (Syntaxe absolument abominable :'( !)
 
 ```
-echo -e "\033[31mCeci est en rouge\033[0m"
-echo -e "\033[32mCeci est en vert\033[0m"
-echo -e "\033[33mCeci est en jaune\033[0m"
-echo -e "\033[7mCeci est surligné\033[0m"
-echo -e "\033[31;7mCeci est surligné en rouge\033[0m"
+echo -e "\[\033[31m\]Ceci est en rouge\[\033[0m\]"
+echo -e "\[\033[32m\]Ceci est en vert\[\033[0m\]"
+echo -e "\[\033[33m\]Ceci est en jaune\[\033[0m\]"
+echo -e "\[\033[7m\]Ceci est surligné\[\033[0m\]"
+echo -e "\[\033[31;7m\]Ceci est surligné en rouge\[\033[0m\]"
 ```
 
 ---
