@@ -2026,4 +2026,4 @@ You may list existing aliases by just typing `alias
 
 Other profile files : `~/.profile` and `/etc/bash_profile`
 
-
+---

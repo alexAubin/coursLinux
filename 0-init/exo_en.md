@@ -1,4 +1,4 @@
-# Exercice sheet
+# Exercises sheet
 
 ### 0. Setting up
 
