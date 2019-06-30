@@ -3,8 +3,11 @@
 ### 0. Création de la machine
 
 - Installer Virtualbox
-- Créer une machine en utilisant l'image OS Boxes Linux Mint comme disque dur virtuel (fichier VDI)
-- 
+- Créer une machine virtuelle
+   - choisissez comme type Linux / Other-Linux (64 bit)
+   - 2048 Mo de RAM devraient suffir
+   - au moment de spécifier le disque dur virtuel, utiliser l'image OS Boxes Linux Mint (fichier VDI)
+- Démarrer la machine
 
 ### 1. Démarrer et se logguer
 
