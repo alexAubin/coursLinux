@@ -67,6 +67,14 @@ Formateur
 
 # Logistique
 
+- 9h00 -> 12h00 <small>(pause de 10 min entre 10h et 11h)</small>
+- Repas
+- 13h00 -> 17h00 <small>(pause de 10 min entre 15h et 16h)</small>
+
+.center[
+(soit 7h00 de formation / jour !)
+]
+
 ---
 
 # Plan de la formation
@@ -86,7 +94,7 @@ Formateur
 
 - 8 - Personnaliser son environnement
 - 9 - Installer une distribution à partir d'une ISO
-- 10 - Le gestionnaire de paquet
+- 10 - Le gestionnaire de paquet et outils d'archives
 
 ---
 
@@ -575,19 +583,64 @@ class: impact
 ## Installer une machine virtuelle
 
 - Un ordinateur "simulé" dans un ordinateur
-- Parti pris : Debian Stretch, sans environnement graphique
+    - VirtualBox est un logiciel permettant ce genre de chose
+- Parti pris : Linux Mint avec Cinnamon
+
 
 ---
 
 # 2. Prendre en main sa machine et le terminal
 
-## Observer le démarrage de la machine
+## Installer une machine virtuelle
+
+.center[
+![](img/vbox1.png)
+]
+
+---
+
+# 2. Prendre en main sa machine et le terminal
+
+## Installer une machine virtuelle
+
+.center[
+![](img/vbox2.png)
+]
+
+---
+
+# 2. Prendre en main sa machine et le terminal
+
+## Installer une machine virtuelle
+
+Télécharger une Linux Mint préinstallée sur OSboxes.org
+
+.center[
+![](img/osboxes_mint.png)
+]
+
+---
+
+# 2. Prendre en main sa machine et le terminal
+
+## Installer une machine virtuelle
+
+- Installer Virtualbox
+- Créer une nouvelle machine virtuelle
+    - De type Linux / Other-linux (64 bit)
+    - 2048 Mo de RAM devraient suffir
+    - Au moment de choisir le disque dur : fournir le fichier VDI de OSboxes / Linux Mint
+- Démarrer la machine et observer les étapes de démarrage
 
 ---
 
 # 2. Prendre en main sa machine et le terminal
 
 ## Se connecter
+
+Pour cette première connexion, nous allons passer par un tty plutôt que par le login graphique.
+
+Pour ce faire, appuyer sur Ctrl+Alt+F2 (ou F3, F4, ...)
 
 ```
 Debian Stretch <nom_de_machine> tty0
@@ -601,6 +654,11 @@ Debian Stretch <nom_de_machine> tty0
 
 ## Se connecter
 
+Pour cette première connexion, nous allons passer par un tty plutôt que par le login graphique.
+
+Pour ce faire, appuyer sur Ctrl+Alt+F2 (ou F3, F4, ...)
+
+
 ```
 Debian Stretch <nom_de_machine> tty0
 
@@ -613,6 +671,11 @@ Password: █        # <<<< le mot de passe ne s'affiche pas du tout quand on le
 # 2. Prendre en main sa machine et le terminal
 
 ## Se connecter
+
+Pour cette première connexion, nous allons passer par un tty plutôt que par le login graphique.
+
+Pour ce faire, appuyer sur Ctrl+Alt+F2 (ou F3, F4, ...)
+
 
 ```
 Debian Stretch <nom_de_machine> tty0

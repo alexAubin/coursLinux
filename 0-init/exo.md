@@ -3,12 +3,17 @@
 ### 0. Création de la machine
 
 - Installer Virtualbox
-- Important une machine Debian Stretch ("appareil virtuel")
+- Créer une machine en utilisant l'image OS Boxes Linux Mint comme disque dur virtuel (fichier VDI)
+- 
 
 ### 1. Démarrer et se logguer
 
 - Observer le démarrage de la machine
-- Se logger
+- Au lieu de se connecter depuis l'interface graphique, utiliser l'interface tty (faire Ctrl+Alt+F2 ou F3, F4, ...)
+- Se logger depuis le tty
+   - login: osboxes.org
+   - password: osboxes.org
+   - (attention, il se peut que le clavier soit configuré en qwerty, on pourra y remédier sous l'interface graphique)
 
 ### 2. Premier contact avec la ligne de commande commandes
 
@@ -24,9 +29,9 @@
  
 ### 3. La ligne de commande
 
-- 3.1 - Rendez-vous dans /usr/bin et listez le contenu du dossier
+- 3.1 - Rendez-vous dans `/usr/bin` et listez le contenu du dossier
 - 3.2 - Y'a-t-il des fichiers cachés dans votre répertoire personnel ?
-- 3.3 - Quand a été modifié le fichier /etc/shadow ?
+- 3.3 - Quand a été modifié le fichier `/etc/shadow` ?
 - 3.4 - Identifiez à quoi sert l'option `-h` de la commande `ls` via son `man`.
 - 3.5 - Identifiez ce que fait la commande `sleep` via son `man`.
 - 3.6 - Lancer `sleep 30` et arrêter l'execution de la commande avant qu'elle ne se termine.
