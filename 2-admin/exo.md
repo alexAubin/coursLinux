@@ -4,11 +4,11 @@
 # 1 - Installer Linux
 
 - 1.1 - Rendez vous sur le site de Linux Mint. Choisissez un environnement graphique et télécharger l'ISO correspondante. (Si vous souhaitez utiliser KDE, il vous faudra aller chercher la version 18.3)
-- 1.2 - Pendant que l'image télécharge, trouvez le programme `sha256sum.exe`. Cherchez comment ouvrir une console sous Windows ete comment lancer ce programme pour calculer des hash. Une fois le téléchargement de l'ISO terminé,  vérifier l'intégrité de l'image téléchargée avec ce programme.
+- 1.2 - (Optionnel, mais recommandé) Pendant que l'image télécharge, trouvez le programme `sha256sum.exe`. Cherchez comment ouvrir une console sous Windows et comment lancer ce programme pour calculer des hash. Une fois le téléchargement de l'ISO terminé,  vérifier l'intégrité de l'image téléchargée avec ce programme.
 - 1.3 - Créer une nouvelle machine virtuelle en suivant les instructions :
-    - de type Linux, avec comme version "Other Linux (64-bit)" ;
+    - de type Linux, avec comme version "Other Linux (64-bit)" ("Ubuntu (64-bit)" devrait fonctionner également) ;
     - 2048 Mo de RAM semble raisonnable ;
-    - créer un disque dur virtuel, de type VDI, dynamiquement alloué, de 16 Go.
+    - créer un disque dur virtuel, de type VDI, dynamiquement alloué, de 20 Go.
 - 1.4 - Utilisez l'ISO téléchargée en tant que CD Rom virtuel que vous insérez dans la machine virtuelle. Pour ce faire : dans Configuration, Stockage, cliquer sur le CD rom (vide) puis, sur l'icone de CD rom toute à droite, et choisir l'ISO téléchargée.
 - 1.5 - Démarrer la machine : Linux Mint est censé se lancer (utiliser le mode de compatibilité sinon)
 - 1.6 - Lancer l'installation de Linux Mint
@@ -17,7 +17,7 @@
     - lors du choix du type de partitionnement, **cliquer sur "Autre chose"**
     - créer une nouvelle table de partition, puis partitionner à l'aide du "+" l'espace de la manière suivante : 
          - 300 Mo pour `/boot` en ext4
-         - 11 Go pour `/` en ext4
+         - 14 Go pour `/` en ext4
          - 5 Go pour `/home` en ext4
          - le reste (~700 Mo) en swap
     - choisissez le fuseau horaire, puis un nom d'utilisateur, de machine, et un mot de passe.

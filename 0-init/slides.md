@@ -7,7 +7,7 @@ layout: true
 class: impact
 
 # Introduction à Linux
-*Become a Command Line Padawan in three days!*
+*Become a Command Line Padawan in five days!*
 
 ---
 
@@ -85,8 +85,24 @@ Formateur
 **Jour 3 ?**
 
 - 8 - Personnaliser son environnement
-- 9 - Commandes avancées 
-- 10 - Bash/Shell scripts
+- 9 - Installer une distribution à partir d'une ISO
+- 10 - Le gestionnaire de paquet
+
+---
+
+# Plan de la formation
+
+**Jour 4 ?**
+
+- 11 - Notions de réseaux
+- 12 - Notions de cryptographie et sécurité
+
+**Jour 5 ?**
+
+- 13 - Utiliser SSH pour administrer un serveur à distance
+- 14 - Configurer et gérer des services : parefeu et fail2ban
+- 15 - Configurer et gérer des services : serveur web
+- 16 - Automatiser des tâches
 
 ---
 
@@ -97,12 +113,14 @@ Formateur
 # Disclaimers
 
 - L'informatique technique, c'est compliqué
+    - ignorez les cryptonerds qui prétendent que c'est intuitif et trivial
+    - (et désolé si je me laisse emporter!)
 - Soyez patient, méthodique, attentifs !
 
-On est là pour apprendre :
+**On est là pour apprendre :**
 
 - Trompez-vous ! 
-- Essayez des choses ! 
+- Sortez des sentiers battus ! 
 - Cassez des trucs !
 - Interagissez, posez des questions !
 

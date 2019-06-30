@@ -2009,9 +2009,11 @@ alias rm='rm -i'
 alias ls='ls --color=auto'
 ```
 
-You may list existing aliases by just typing `alias
+You may list existing aliases by just typing `alias`
 
 (Bad joke: defining `alias cd='rm -r'` !)
+
+---
 
 ---
 
