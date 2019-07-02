@@ -8,7 +8,7 @@
 - 3.2 - Ouvrir une invite de commande *Windows* (Menu Démarrer, puis taper 'cmd'), utilisez `ipconfig` pour identifiez votre adresse IP locale et l'adresse IP de la passerelle.
 - 3.3 - Dessinez un schéma de votre compréhension de l'agencement et des relations entre ces différentes entités (internet, le routeur du centre de formation, votre machine Windows, vos VMs)
 - 3.4 - Faites plusieurs tests de "ping" entre toutes ces différentes machines :
-     - Testez de pinguer les VM entres elle
+     - Testez de pinguer les VM entres elles
      - Testez de pinguer l'hôte Windows depuis une VM, et vice-versa
      - Testez de pinger la gateway des VM depuis les VM ... et depuis Windows
      - Testez de pinger la gateway de l'hôte Windows depuis Windows ... et depuis les VM
