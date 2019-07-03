@@ -14,6 +14,8 @@ class: impact
 
 # Plan
 
+## 8. Personnaliser son environnement
+
 ## 9. Commandes avancées
 
    - 9.1 redirections et assemblages de commande
@@ -27,6 +29,123 @@ class: impact
    - 10.3 les conditions 
    - 10.4 les fonctions
    - 10.5 les boucles
+
+---
+
+class: impact
+
+# 8. Personnaliser son environnement
+
+---
+
+# 8. Personnaliser son environnement
+
+## Variables d'envionnement
+
+Lorsque vous êtes dans un shell, il existe des *variables d'environnement* qui définissent certains comportements.
+
+Par exemple, la variable 'HOME' contient `/home/padawan` et corresponds à l'endroit où `cd` retourne par défaut (si pas de dossier donné en argument)
+
+Autre exemples :
+
+```
+SHELL : /bin/bash (généralement)
+LANG, LC_ALL, ... : langue utilisée par les messages
+USER, USERNAME : nom d'utilisateur
+```
+
+---
+
+# 8. Personnaliser son environnement
+
+## Changer une variable d'envionnement
+
+Exemple :
+
+```
+HOME=/tmp/ 
+```
+
+
+---
+
+# 8. Personnaliser son environnement
+
+## Lister les variables d'envionnement
+
+`env` permet de lister les variables d'environnement
+
+```
+$ env
+LC_ALL=en_US.UTF-8
+HOME=/home/alex
+LC_MONETARY=fr_FR.UTF-8
+TERM=rxvt-unicode-256color
+[...]
+```
+
+---
+
+# 8. Personnaliser son environnement
+
+## Personnaliser l'invite de commande
+
+- La variable `PS1` décrit l'apparence de l'invite de commande !
+- Généralement, `PS1` vaut : `\u@\h:\w$`
+- `\u` corresponds au nom d'utilisateur
+- `\h` corresponds au nom de la machine (host)
+- `\w` corresponds au repertoire de travail (working directory)
+- `\n` corresponds ... à un retour à la ligne !
+
+`PS2` corresponds à l'invite de commande de deuxième niveau !
+
+---
+
+# 8. Personnaliser son environnement
+
+## Ecrire du texte en couleur
+
+(Syntaxe absolument abominable :'( !)
+
+```
+echo -e "\[\033[31m\]Ceci est en rouge\[\033[0m\]"
+echo -e "\[\033[32m\]Ceci est en vert\[\033[0m\]"
+echo -e "\[\033[33m\]Ceci est en jaune\[\033[0m\]"
+echo -e "\[\033[7m\]Ceci est surligné\[\033[0m\]"
+echo -e "\[\033[31;7m\]Ceci est surligné en rouge\[\033[0m\]"
+```
+
+---
+
+# 8. Personnaliser son environnement
+
+## Définir des aliases
+
+Un alias est un nom "custom" pour une commande et des options
+
+```
+alias ll='ls -l'
+alias rm='rm -i'
+alias ls='ls --color=auto'
+```
+
+On peut connaître les alias existants avec juste `alias`
+
+(Mauvaise blague : définir `alias cd='rm -r'` !)
+
+---
+
+# 8. Personnaliser son environnement
+
+## Les fichiers de profil
+
+- Le fichier `~/.bashrc` est lu à chaque lancement de shell
+- Il permet de définir des commandes à lancer à ce moment
+- Par exemple, des alias à définir ou des variables à changer...
+- Pour appliquer les modifications, il faut faire `source ~/.bashrc`
+
+Autres fichiers de profils : `~/.profile` et `/etc/bash_profile`
+
 
 ---
 
@@ -106,13 +225,15 @@ wc < "une grande phrase"           # Compte le nomde de mot d'une chaine
 
 - `commande 2> fichier` : renvoie stderr vers un fichier (le fichier sera d'abord écrasé !)
 - `commande 2>&1` : renvoie stderr vers stdout !
+- `commande &> fichier` : renvoie stderr *et* stdout vers un fichier (le fichier sera d'abord écrasé !)
 
 Exemples :
 
 ```bash
-ls /* 2> errors # Sauvegarde les erreurs dans 'errors'
+ls /* 2> errors  # Sauvegarde les erreurs dans 'errors'
 ls /* 2>&1 > log # Redirige les erreurs vers stdout (la console) et stdout vers 'log'
 ls /* > log 2>&1 # Redirige tout vers 'log' !
+ls /* &> log     # Redirige tout vers 'log' !
 ```
 
 ---
@@ -324,8 +445,19 @@ alex 22:10
 r2d2 11:27
 ```
 
+---
+
+# 9.2 Pipes et boîte à outils
+
+## Boîte à outils : awk
+
 - L'option `-F` permet de specifier un autre délimiteur
-    - par ex. `cat /etc/passwd | awk -F: '{print $3}'`
+
+```bash
+cat /etc/passwd | awk -F: '{print $3}'  # Affiche les UID des utilisateurs
+```
+
+(Equivalent à `cat /etc/passwd | cut -d: -f 3`)
 
 ---
 
@@ -370,6 +502,23 @@ Comme premier contact : utilisation pour chercher et remplacer : `s/motif/rempla
 Exemple :
 ```bash
 ls -l | sed 's/alex/padawan/g' # Remplace toutes les occurences de alex par padawan
+```
+
+---
+
+# 9.2 Pipes et boîte à outils
+
+## Boîte à outils : find
+
+`find` permet de trouver (recursivement) des fichiers répondant à des critères sur le nom, la date de modif, la taille, ...
+
+Exemples:
+```bash
+# Lister tous les fichiers en .service dans /etc
+find /etc -name "*.service"
+
+# Lister tous les fichiers dans /var/log modifiés il y a moins de 5 minutes
+find /var/log -mmin 5
 ```
 
 ---
@@ -678,16 +827,18 @@ $ echo "$NB_DE_LINGE"
                         # <<< ligne vide !
 ```
 
+- (On peut utiliser `set -eu` au début d'un script pour traiter ces cas comme des erreurs et arrêter le déroulement du script)
+
 ---
 
 # 10.1 Les variables
 
-## Notes diverses (3/5)
+## Notes diverses (4/5)
 
 - Pour utiliser une variable sans ambiguité, il est peut être nécessaire de l'ecrire avec `${VAR}` :
 
 ```bash
-$ FICHIER=/var/log/
+$ FICHIER=/var/log/stuff
 
 $ cp $FICHIER $FICHIER_old
 cp: missing destination file operand after 'stuff'
@@ -701,7 +852,7 @@ $ cp $FICHIER ${FICHIER}_old
 
 # 10.1 Les variables
 
-## Notes diverses (4/5)
+## Notes diverses (5/5)
 
 - L'utilisation de 'simple quotes' permet d'éviter l'interpretation des variables :
 - On peut aussi utiliser \ pour echapper un caractère :
@@ -1208,4 +1359,142 @@ do
 done
 ```
 
+---
+
+class: impact
+
+# 11. Automatiser avec `at` et les cron jobs
+
+---
+
+# 11. Automatiser
+
+## Executer des commandes (ou un script) à distance
+
+```
+# Verifier depuis combien de temps la machine tourne
+$ echo "uptime" | ssh machine
+ 19:48:51 up 1 day,  2:05,  1 user,  load average: 0.08, 0.02, 0.01
+
+# Lancer un script à distance
+$ cat script.sh | ssh machine
+[...]
+```
+
+---
+
+# 11. Automatiser
+
+## `at`
+
+- Executer *une fois* une action à un moment précis dans le futur
+- Format de date/temps plutôt user-friendly
+
+```bash
+# En interactif
+$ at 5:00 PM     
+warning: commands will be executed using /bin/sh
+at> reboot
+job 5 at Fri Oct 12 17:00:00 2018
+```
+
+```bash
+# Avec un script
+$ at now + 30 minutes -f mettre_a_jour.sh 
+job 6 at Thu Oct 11 20:22:00 2018
+```
+
+---
+
+# 11. Automatiser 
+
+## Les jobs cron
+
+- Répéter une tâche à intervalle régulier (heures, jours, mois, ...)
+- Chaque utilisateur peut en configurer avec `crontab -e`
+
+```
+10 * 1 * * /chemin/vers/un/script
+```
+
+---
+
+# 11. Automatiser
+
+## Les jobs cron : syntaxe (1/3)
+
+```
+10 * 1 * * /chemin/vers/un/script
+```
+
+- `10` : à la minute 10
+- `*`  :toutes les heures
+- `1` le 1er du mois
+- `*` tous les mois
+- `*` (tous les jours de la semaine)
+
+---
+
+# 11. Automatiser
+
+## Les jobs cron : syntaxe (2/3)
+
+```
+0 8 * * 1-5 /chemin/vers/un/script
+```
+
+- `0` : à la minute 0
+- `8` : à 8h
+- `*` (tous les jours du mois)
+- `*` tous les mois
+- `1-5` tous les jours de travail (lundi à vendredi)
+
+---
+
+# 11. Automatiser
+
+## Les jobs cron : syntaxe (3/4)
+
+```text
+ */10 * * * * /chemin/vers/un/script
+```
+
+- `*/10` : toutes les 10 minutes
+- `*` toutes les heures
+- `*` tous les jours du mois
+- `*` tous les mois
+- `*`  tous les jours de la semaine
+
+---
+
+# 11. Automatiser
+
+## Les jobs cron : syntaxe (4/4)
+
+- `http://crontab.guru/` to the rescue !
+
+---
+
+# 11. Automatiser
+
+## `/etc/crontab` et `/etc/cron.d/`
+
+- Ce sont des fichiers/dossiers de config cron "globaux"
+- Dedans, on specifie aussi l'utilisateur utilisé pour lancer le script :
+
+```
+ # M  H  D M W   User    Command --->
+ */30 *  * * * feed2toot feed2toot -c /etc/feed2toot/feed2toot.ini
+```
+
+---
+
+# 11. Automatiser
+
+## `/etc/cron.hourly`, `daily`, `weekly`, `monthly`
+
+- Ils contiennent directement des scripts qui seront executés automatiquement à certains intervalles
+- Attention
+   - le nom des fichiers dedans ne doit pas avoir d'extensions ...
+   - .. et doit être executable (+x)
 

@@ -17,23 +17,13 @@ class: impact
 - Un système de fichiers
 - Des utilisateurs, des permissions
 - Des Processus
-- Assemblage de commande
-- Écriture de script
-
----
-
-# Rappels
-
-- Utilisez [Tab] !
-- Soyez attentif à ce que vous tapez et à ce que la machine vous renvoie
-
 
 ---
 
 # Objectifs
 
 - installer et gérer une distribution
-- acquérir des notions de réseau et de sécurité
+- acquérir des bases de réseau et de sécurité
 - administrer un serveur à distance
 - configurer et gérer des services
 - déployer un serveur web
@@ -50,48 +40,6 @@ class: impact
 6. Services et sécurité basique d'un serveur
 7. Déployer un site "basique" avec nginx
 8. Automatiser avec `at` et les cron jobs
-9. Déployer une app sur une stack PHP/Mysql
-
----
-
-# Plan (partie avancée)
-
-10. Ajouter, gérer des services systemd
-11. Casser, réparer et monitorer son serveur
-12. Installer un serveur sous YunoHost
-13. Gérer des containers LXC 
-14. Gérer sauvegardes avec Borgbackup
-15. Moar bash scripting ?
-
----
-
-.center[
-![](img/previously.jpg)
-]
-
----
-
-.center[
-![](img/noideawhatimdoing.jpg)
-]
-
----
-
-.center[
-![](img/brainMelting.jpg)
-]
-
----
-
-.center[
-![](img/suckingAtSomething.jpg)
-]
-
----
-
-.center[
-![](img/relax.jpg)
-]
 
 ---
 
@@ -105,54 +53,27 @@ class: impact
 
 # 1. Installer une distribution
 
+Installons un système Linux nous-même ... et au passage, choisissons un environnement graphique (ou bien si vous ne voulez pas choisir : gardez Cinnamon)
+
+---
+
+# 1. Installer une distribution
+
+## Fonctionnement de l'environnement graphique : Xorg
+
+C'est le serveur graphique (qui commence a être remplacée par Wayland ?)
+
+Il fonctionne en client/serveur
+
+## Et un autre morceau : le window manager
+
+Qui s'occupe de toute la gestion des fenêtres (bordures, décoration, redimensionnement, minimisation, vignette, ...)
+
+---
+
 .center[
-... jusqu'ici : pas d'interface graphique !
+![](img/Xorg.png)
 ]
-
----
-
-# 1. Installer une distribution
-
-## Introducing : Xorg
-
-Xorg (qui commence a être remplacée par Wayland ?) est le serveur graphique
-
-.center[
-[](img/xorg.png)
-]
-
----
-
-# 1. Installer une distribution
-
-## Distributions
-
-- Un noyau (Linux)
-- Des programmes (GNU, ...)
-- Des pré-configurations
-- Un gestionnaire de paquet
-- Un (ou des) environnements graphiques (Gnome, KDE, Cinnamon, Mate, ...)
-- Une suite de logiciel intégrée avec l'environnement graphique
-- Des objectifs / une philosophie
-
----
-
-# 1. Installer une distribution
-
-## Linux Mint
-
-- (Choix arbitraire du formateur)
-- Distribution simple, sobre, pas spécialement controversée (?)
-- Profite de la stabilité de Debian et popularité d'Ubuntu 
-
----
-
-# 1. Installer une distribution
-
-## Environnement
-
-- Recommandé : Cinnamon (ou Mate)
-- (mais vous pouvez prendre XFCE, KDE, ... ou partir sur une Ubuntu Gnome Shell ...)
 
 ---
 
@@ -308,6 +229,42 @@ Exemple :
 .center[
 ![](img/grub2.png)
 ]
+
+
+---
+
+# 1. Installer une distribution
+
+## Résumé du boot complet (du Bios à l'interface de login)
+
+.center[
+![](img/boot.png)
+]
+
+---
+
+# 1. Installer une distribution
+
+## Log du boot
+
+- Les logs du boot du kernel (contient aussi par ex. le log de la détection de dispositif USB branchés après le boot, etc...)
+peuvent être trouvés dans `/var/log/dmesg`
+
+---
+
+# 1. Installer une distribution
+
+## Init levels (SysVinit)
+
+- 0 = Shutdown
+- 1 = Single-user mode : Mode for administrative tasks
+- 2 = Multi-user mode, without network interfaces
+- 3 = Multi-user mode with networking
+- 4 = ... not used ...
+- 5 = Multi-user with networking and graphical environment
+- 6 = Reboot
+
+## Mais aujourd'hui : c'est différent avec systemd...
 
 ---
 
@@ -539,6 +496,7 @@ Sous Windows
 
 # 2. Le gestionnaire de paquet
 
+.center[
 *One package to rule them all*
 
 *One package to find them*
@@ -548,6 +506,7 @@ Sous Windows
 *and on the system bind them*
 
 *In the land of GNU/Debian where the penguin lie*
+]
 
 ---
 
@@ -1036,11 +995,11 @@ Par exemple, HTTP :
 
 ## DNS : Domain name server (1/5)
 
-- Retenir des numéros de telephone ou des coordonnées GPS
+- Retenir cinquante numéros de telephone (ou coordonées GPS) par coeur, c'est pas facile
 - On invente l'annuaire et les adresses postales
 - `wikipedia.org -> 91.198.174.192`
 - On peut acheter des noms chez des *registrars* (OVH, Gandi, ...)
-- Composant critique d'Internet (en terme fonctionnel(
+- Composant critique d'Internet (en terme fonctionnel)
 
 ---
 
@@ -1311,7 +1270,7 @@ Voir Edward Snowden en chair et en os, et récupérer la clef avec lui
 
 ## Solution 2 : web of trust
 
-La clef de Edward Snowden a été signé par pleins de journalistes et activitstes indépendant à travers le monde, ice qui diminue le risque d'une falsification
+La clef de Edward Snowden a été signé par pleins de journalistes et activitstes indépendant à travers le monde, ce qui diminue le risque d'une falsification
 
 ---
 
@@ -1322,8 +1281,8 @@ La clef de Edward Snowden a été signé par pleins de journalistes et activitst
 Vous faites confiance à Microsoft et Google (!?), qui certifient avoir vérifié que E. Snowden possède cette clef.
 
 - C'est le principe des autorités de certification utilisé par HTTPS
-- Votre navigateur fait confiance à des clefs prédéfinies correspondant à des organismes (e.g. Google, ...)
-- Le certificat HTTPS contient une signature qui a été produite avec l'une des clefs prédéfinies
+- Votre navigateur fait confiance à des clefs prédéfinies correspondant à des tiers de "confiance" (e.g. Google, ...)
+- Le certificat HTTPS contient une signature qui a été produite avec l'une des clefs de ces tiers de confiance
 - Vous pouvez ainsi faire confiance "par délégation"
 
 ---
@@ -1850,6 +1809,85 @@ findtime = 86400   ; 1 day
 
 ---
 
+# 6 - Services et sécurité
+
+## Sécurité : modèle de menace
+
+- De qui cherche-t-on à se protéger ?
+   - Des acteurs gouvernementaux ? (NSA, Russie, Chine, ...)
+   - Des attaques ciblées ? (DDOS, ransomware, espionnage economique)
+   - Des attaques automatiques ? (bots)
+   - De pannes systèmes ? (c.f. backups, résilience)
+   - Des utilisateurs d'un site ? (injections, abus, ...)
+   - Des collègues ?
+   - ...
+
+---
+
+# 6 - Services et sécurité
+
+## Sécurité : modèle de menace
+
+- Que cherche-t-on à protéger ?
+   - Le front-end ?
+   - L'accès aux serveurs ?
+   - Des informations sur la vie de l'entreprise ?
+   - Les infos personelles des utilisateurs ?
+   - L'intégrité et la résilience d'un système ?
+   - Sa vie privée ? (historique de navigation, geolocalisation)
+   - ...
+
+---
+
+# 6 - Services et sécurité
+
+## Sécurité basique d'une machine (bureau, serveur)
+
+1. Maintenir son système à jour
+2. Minimiser la surface d'attaque
+  - logiciels / apps installées
+  - ports ouverts
+  - permissions des utilisateurs et fichiers
+  - accès physique
+  - ...
+3. Utiliser des mots de passe robustes (ou idéalement des clefs)
+4. Utiliser des protocoles sécurisés
+5. Faire des sauvegardes (3-2-1)
+6. Faire auditer les systèmes + veille sur les CVE
+
+---
+
+# 6 - Services et sécurité
+
+.center[
+![](img/xkcd_password.jpg)
+]
+
+---
+
+# 6 - Services et sécurité
+
+.center[
+![](img/xkcd_security.png)
+]
+
+
+---
+
+# 6 - Services et sécurité
+
+## Exemple de risque de sécurité subtil
+
+Si on lance cette commande : 
+
+```bash
+commande_complexe --argument --password "super_secret"
+```
+
+Le mot de passe `super_secret` sera visible par d'autres utilisateurs dans `ps -ef` ...!
+
+---
+
 class: impact
 
 # 7. Déployer un site "basique" avec nginx
@@ -1890,7 +1928,7 @@ server {
 	listen 80 default_server;
 	listen [::]:80 default_server;
 
-    root /var/www/html;
+    # [...]
 }
 ```
 
@@ -1902,7 +1940,7 @@ server {
 
 ```text
    location / {
-       root /var/www/html/;
+       alias /var/www/html/;
    }
 
    location /blog {
@@ -1920,7 +1958,7 @@ En allant sur `monsite.web/blog`, on accédera aux fichiers dans `/var/www/blog/
 
 ```text
    location / {
-       root /var/www/html/;
+       alias /var/www/html/;
    }
 
    location /blog {

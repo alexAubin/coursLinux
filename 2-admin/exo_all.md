@@ -127,11 +127,11 @@
 # 4 - Notions de cryptographie
 
 - 4.0 - Installer `gpg` si le programme n'est pas déjà présent
-- 4.1 - Générer une clef GPG avec `gpg --full-generate-key`.
-- 4.2 - Récupérer la clef GPG du formateur puis l'importer avec `gpg --import <chemin_vers_la_clef>`. S'assurer que la clef a bien été importée avec `gpg --list-key`.
-- 4.3 - Écrire un court message pour le formateur dans un fichier (par exemple, 'Je fais du chiffrement !') puis chiffrer ce fichier avec `gpg --encrypt --armor <fichier>`.
-- 4.4 - Exportez votre clef publique avec `gpg --armor --export you@example.com > mykey.asc`
-- 4.5 - Envoyer un mail au formateur (éventuellement depuis `throwawaymail.com`) avec le message chiffré **et votre clef publique**.
+- 4.1 - Générer une clef GPG avec `gpg --full-generate-key`. Lors de la création, on peut garder toutes les options par défaut. Pour le nom et email, vous pouvez utilisez de "fausses" informations comme `votreprenom@formationlinux`.
+- 4.2 - Récupérer la clef GPG du formateur puis l'importer avec `gpg --import <chemin_vers_la_clef>`. S'assurer que la clef a bien été importée avec `gpg --list-keys`.
+- 4.3 - Écrire un court message pour le formateur dans un fichier (par exemple, 'Je fais du chiffrement !') puis chiffrer ce fichier avec `gpg --recipient leformateur@example.com --encrypt --armor <fichier>`. Affichez ensuite le contenu de `<fichier>.asc` : il s'agit du message chiffré à destination du formateur !
+- 4.4 - Affichez votre clef publique avec `gpg --armor --export votreprenom@formationlinux`. Il vous faudra la fournir au formateur pour qu'il puisse vous répondre en chiffré !
+- 4.5 - Envoyez depuis yopmail.com, un mail au formateur contenant le message chiffré **et votre clef publique**.
 - 4.6 - Attendre une réponse, et tenter de la déchiffrer avec `gpg --decrypt`.
 
 # 5 - Se connecter et gérer un serveur avec SSH
