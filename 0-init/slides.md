@@ -119,12 +119,12 @@ Formateur
    - (choisir une distro, boot sequence, live CD, partitionnement)
 - 12 - Le gestionnaire de paquet, les outils d'archivage
 
-**Jour 6 ?**
+**Jour 7 ?**
 
 - 13 - Notions de réseaux
 - 14 - Notions de cryptographie et sécurité
 
-**Jour 7 ?**
+**Jour 8 ?**
 
 - 15 - Utiliser SSH pour administrer un serveur à distance
 - 16 - Configurer et gérer des services : serveur web
@@ -135,9 +135,8 @@ Formateur
 
 Pour chaque module :
 - Blabla théorique
+- Publication du support
 - Mise en application pratique sur des exercices
-
-
 
 ---
 
@@ -1822,6 +1821,8 @@ chown barbara:students coursLinux.md  # "Donne" coursLinux.md à barbara et au g
 chown -R barbara /home/alex/dev/      # Change le proprio récursivement !
 ```
 
+(ACHTUNG: si l'on fait un malencontreux `chown -R`, il peut être difficile de revenir en arrière)
+
 ---
 
 # 6. Permissions
@@ -1839,6 +1840,8 @@ chmod g=r   coursLinux.html  # Remplace les permissions du groupe par "juste lec
 chmod o-rwx coursLinux.html  # Enlève toutes les permissions aux "others"
 chmod -R +x ./bin/           # Active le droit d'execution pour tout le monde et pour tous les fichiers dans ./bin/
 ```
+
+(ACHTUNG: si l'on fait un malencontreux `chmod -R`, il peut être difficile de revenir en arrière)
 
 ---
 
@@ -1875,6 +1878,7 @@ chmod 644 coursLinux.html  # Fixe les permissions à rw-r--r--
 chmod 444 coursLinux.html  # Fixe les permissions à r--r--r--
 ```
 
+
 ---
 
 # 6. Permissions
@@ -1905,7 +1909,27 @@ Obtenir comme réponse
 ne signifie pas qu'on a pas les droits de lecture sur le fichier, mais bien que l'on a "juste" pas le droit de l'executer <small>(car ça n'a en fait pas de sens de chercher à l'executer)</small>
 
 
+---
 
+# 6. Permissions
+
+## Permissions "théoriques" vs permissions réelles
+
+Pour pouvoir accéder à `/home/alex/img/pikachu.jpg` j'ai besoin de : 
+
+- Pouvoir entrer (`x`) dans le dossier `/`
+- Pouvoir entrer (`x`) dans le dossier `/home/`
+- Pouvoir entrer (`x`) dans le dossier `/home/alex/`
+- Pouvoir entrer (`x`) dans le dossier `/home/alex/img/`
+- Pouvoir lire (`r`) le fichier `/home/alex/img/pikachu`
+
+---
+
+# 6. Permissions
+
+On peut un peu casser son système si on fait `chmod -x /`
+
+(plus personne n'a le droit de rentrer dans la racine !)
 
 ---
 
@@ -2015,38 +2039,6 @@ top               # Liste les processus actif interactivement
 
 # 7. Processus
 
-## Priorité des processus (1/2)
-
-- Il est possible de régler la priorité d'execution d'un processus
-- "Gentillesse" (*niceness*) entre -20 et 19
-    - -20 : priorité la plus élevée
-    - 19 : priorité la plus basse
-- Seul les process du kernel peuvent être "méchant" 
-    - niceness négative, et donc les + prioritaires
-
----
-
-# 7. Processus
-
-## Priorité des processus (2/2)
-
-```bash
-nice -n <niceness> <commande> # Lancer une commande avec une certaine priorité
-renice <modif> <PID>       # Modifier la priorité d'un process
-```
-
-Exemples :
-```bash
-# Lancer une création d'archive avec une priorité faible
-nice 5 tar -cvzf archive.tar.gz /home/
-# Redéfinir la priorité du processus 9182
-renice +10 9182
-```
-
----
-
-# 7. Processus
-
 ## Gérer les processus interactif
 
 ```bash
@@ -2101,3 +2093,34 @@ pkill -9 java
 4. La commande lancée continue à s'executer
 5. On peut revenir dans la session plus tard avec `screen -r`
 
+---
+
+# 7. Processus
+
+## Priorité des processus (1/2)
+
+- Il est possible de régler la priorité d'execution d'un processus
+- "Gentillesse" (*niceness*) entre -20 et 19
+    - -20 : priorité la plus élevée
+    - 19 : priorité la plus basse
+- Seul les process du kernel peuvent être "méchant" 
+    - niceness négative, et donc les + prioritaires
+
+---
+
+# 7. Processus
+
+## Priorité des processus (2/2)
+
+```bash
+nice -n <niceness> <commande> # Lancer une commande avec une certaine priorité
+renice <modif> <PID>       # Modifier la priorité d'un process
+```
+
+Exemples :
+```bash
+# Lancer une création d'archive avec une priorité faible
+nice 5 tar -cvzf archive.tar.gz /home/
+# Redéfinir la priorité du processus 9182
+renice +10 9182
+```
