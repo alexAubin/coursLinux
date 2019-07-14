@@ -7,6 +7,7 @@ layout: true
 class: impact
 
 # Introduction à Linux
+
 *Become a Command Line Padawan in five days!*
 
 ---
@@ -67,9 +68,9 @@ Formateur
 
 # Logistique
 
-- 9h00 -> 12h00 <small>(pause de 10 min entre 10h et 11h)</small>
+- 9h15 -> 12h15 <small>(pause de 10 min autour de 10h30)</small>
 - Repas
-- 13h00 -> 17h00 <small>(pause de 10 min entre 15h et 16h)</small>
+- 1315 -> 17h15 <small>(pause de 10 min autour de 15h30)</small>
 
 .center[
 (soit 7h00 de formation / jour !)
@@ -93,28 +94,50 @@ Formateur
 **Jour 3 ?**
 
 - 8 - Personnaliser son environnement
-- 9 - Installer une distribution à partir d'une ISO
-- 10 - Le gestionnaire de paquet et outils d'archives
+- 9 - Commandes avancées (redirections, enchainements, pipes, ..)
 
 ---
-
-# Plan de la formation
 
 **Jour 4 ?**
 
-- 11 - Notions de réseaux
-- 12 - Notions de cryptographie et sécurité
-
+- 10 - Scripting bash
+   - variables
+   - interactivité
+   - conditions
+ 
 **Jour 5 ?**
 
-- 13 - Utiliser SSH pour administrer un serveur à distance
-- 14 - Configurer et gérer des services : parefeu et fail2ban
-- 15 - Configurer et gérer des services : serveur web
-- 16 - Automatiser des tâches
+- 10 - Scripting bash
+   - fonctions
+   - boucles
 
 ---
 
-# Evaluation ?
+**Jour 6 ?**
+
+- 11 - Installer Linux
+   - (choisir une distro, boot sequence, live CD, partitionnement)
+- 12 - Le gestionnaire de paquet, les outils d'archivage
+
+**Jour 6 ?**
+
+- 13 - Notions de réseaux
+- 14 - Notions de cryptographie et sécurité
+
+**Jour 7 ?**
+
+- 15 - Utiliser SSH pour administrer un serveur à distance
+- 16 - Configurer et gérer des services : serveur web
+
+---
+
+# Mếthode de travail
+
+Pour chaque module :
+- Blabla théorique
+- Mise en application pratique sur des exercices
+
+
 
 ---
 
@@ -122,15 +145,16 @@ Formateur
 
 - L'informatique technique, c'est compliqué
     - ignorez les cryptonerds qui prétendent que c'est intuitif et trivial
-    - (et désolé si je me laisse emporter!)
-- Soyez patient, méthodique, attentifs !
+    - (et désolé si moi-même je pars trop loin!)
+- Le brute force ne marche pas, il faut être précis / rigoureux...
+- Soyez **patient, méthodique, attentifs** !
 
 **On est là pour apprendre :**
 
-- Trompez-vous ! 
-- Sortez des sentiers battus ! 
-- Cassez des trucs !
+- Trompez-vous !
+- Cassez des trucs ! Sortez des sentiers battus ! 
 - Interagissez, posez des questions !
+
 
 ---
 
@@ -468,7 +492,7 @@ Et bien d'autres : Gentoo, LinuxFromScratch, Fedora, OpenSuse, Slackware, Alpine
 
 ---
 
-# 1. Installer une distribution
+# 0. Les origines de Linux
 
 ## Linux Mint
 
@@ -574,22 +598,30 @@ Modele client / serveur
 
 class: impact
 
-# 2. Prendre en main sa machine et le terminal
+# 2. Premier contact avec le terminal
 
 ---
 
-# 2. Prendre en main sa machine et le terminal
+# 2. Premier contact avec le terminal
 
 ## Installer une machine virtuelle
 
 - Un ordinateur "simulé" dans un ordinateur
     - VirtualBox est un logiciel permettant ce genre de chose
-- Parti pris : Linux Mint avec Cinnamon
+- Une machine virtuelle possède tous les élément d'une vraie machine, mais en virtuelle :
+    - un clavier et une souris virtuelles
+    - un écran virtuel
+    - un disque dur virtuel
+    - de la RAM virtuel
+    - un processeur virtuel
+    - un lecteur CD virtuel
+    - ...
+- Parti pris pour l'OS : Linux Mint avec Cinnamon, et pré-installé
 
 
 ---
 
-# 2. Prendre en main sa machine et le terminal
+# 2. Premier contact avec le terminal
 
 ## Installer une machine virtuelle
 
@@ -599,7 +631,7 @@ class: impact
 
 ---
 
-# 2. Prendre en main sa machine et le terminal
+# 2. Premier contact avec le terminal
 
 ## Installer une machine virtuelle
 
@@ -609,7 +641,19 @@ class: impact
 
 ---
 
-# 2. Prendre en main sa machine et le terminal
+# 2. Premier contact avec le terminal
+
+## Installer une machine virtuelle
+
+OSBoxes : un site qui fourni des images Linux pré-installées
+
+.center[
+![](img/osboxes.png)
+]
+
+---
+
+# 2. Premier contact avec le terminal
 
 ## Installer une machine virtuelle
 
@@ -621,7 +665,7 @@ Télécharger une Linux Mint préinstallée sur OSboxes.org
 
 ---
 
-# 2. Prendre en main sa machine et le terminal
+# 2. Premier contact avec le terminal
 
 ## Installer une machine virtuelle
 
@@ -631,10 +675,11 @@ Télécharger une Linux Mint préinstallée sur OSboxes.org
     - 2048 Mo de RAM devraient suffir
     - Au moment de choisir le disque dur : fournir le fichier VDI de OSboxes / Linux Mint
 - Démarrer la machine et observer les étapes de démarrage
+- Mot de passe : osboxes.org (en QWERTY : osboxes:org)
 
 ---
 
-# 2. Prendre en main sa machine et le terminal
+# 2. Premier contact avec le terminal
 
 ## Se connecter
 
@@ -650,7 +695,7 @@ Debian Stretch <nom_de_machine> tty0
 
 ---
 
-# 2. Prendre en main sa machine et le terminal
+# 2. Premier contact avec le terminal
 
 ## Se connecter
 
@@ -668,7 +713,7 @@ Password: █        # <<<< le mot de passe ne s'affiche pas du tout quand on le
 
 ---
 
-# 2. Prendre en main sa machine et le terminal
+# 2. Premier contact avec le terminal
 
 ## Se connecter
 
@@ -688,7 +733,7 @@ votre_login@machine:~$ █
 
 ---
 
-# 2. Prendre en main sa machine et le terminal
+# 2. Premier contact avec le terminal
 
 ## Premières commandes
 
@@ -713,7 +758,7 @@ votre_login@machine:~$ █
 
 ---
 
-# 2. Prendre en main sa machine et le terminal
+# 2. Premier contact avec le terminal
 
 ## Premières commandes
 
@@ -727,7 +772,7 @@ votre_login@machine:~$ █
 
 ---
 
-# 2. Prendre en main sa machine et le terminal
+# 2. Premier contact avec le terminal
 
 ## Discussion
 
@@ -755,14 +800,28 @@ class: impact
    |     '------------'    '------------'
    |           |                      |
    v           v                      v
-  nom       options              arguments
+  nom      argument 1            argument 2
+           (une option)
 ```
+
+---
+
+
+# 3. La ligne de commande
+
+## Structure d'une commande
+
+- Des **options longues** (classiquement avec `--`) comme `--fullscreen`
+
+- Des **options courtes** correspondantes (classiquement avec `-`) comme `-f`
+
+*(des fois, il y a seulement l'option courte ou seulement l'option longue)*
 
 ---
 
 # 3. La ligne de commande
 
-## Exemples
+## Structure d'une commande
 
 Une commande peut être simple :
 
@@ -775,6 +834,155 @@ ou assez complexe :
 ```
 dnsmasq -x /run/dnsmasq/dnsmasq.pid -u dnsmasq -7 /etc/dnsmasq.d,.dpkg-dist,.dpkg-old,.dpkg-new --local-service
 ```
+
+---
+
+# 3. La ligne de commande
+
+## Effet d'une commande
+
+Certaines commandes affichent des choses : 
+
+```
+alex@shadow~$ ls -l /var/
+total 36
+drwxr-xr-x  2 root root  4096 Jul 11 12:58 backups
+drwxr-xr-x 13 root root  4096 Jul  8 00:28 cache
+drwxr-xr-x 51 root root  4096 Jul  8 00:28 lib
+```
+
+D'autres font des choses sans rien afficher (generalement veut dire que ça a marché) :
+
+```
+alex@shadow:~$ mkdir /var/toto
+alex@shadow:~$
+```
+
+Eventuellement, je valide en réutilisant `ls` pour voir que le dossier a bien été créé
+
+---
+
+# 3. La ligne de commande
+
+## Méthode de travail : le Tai Chi du terminal
+
+- Je recule la tête de mon écran et réfléchi à ce que je veux faire
+
+---
+
+# 3. La ligne de commande
+
+## Méthode de travail : le Tai Chi du terminal
+
+- Je recule la tête de mon écran et réfléchi à ce que je veux faire
+- Je regarde où j'en suis
+
+---
+
+
+# 3. La ligne de commande
+
+## Méthode de travail : le Tai Chi du terminal
+
+
+- Je recule la tête de mon écran et réfléchi à ce que je veux faire
+- Je regarde où j'en suis
+- J'écris ma commande
+
+---
+
+
+# 3. La ligne de commande
+
+## Méthode de travail : le Tai Chi du terminal
+
+
+- Je recule la tête de mon écran et réfléchi à ce que je veux faire
+- Je regarde où j'en suis
+- J'écris ma commande
+- Je **relis attentivement ce que je viens de taper**
+
+---
+
+
+# 3. La ligne de commande
+
+## Méthode de travail : le Tai Chi du terminal
+
+
+- Je recule la tête de mon écran et réfléchi à ce que je veux faire
+- Je regarde où j'en suis
+- J'écris ma commande
+- Je **relis attentivement ce que je viens de taper**
+- J'appuie sur entrée
+
+---
+
+# 3. La ligne de commande
+
+## Méthode de travail : le Tai Chi du terminal
+
+- Je recule la tête de mon écran et réfléchi à ce que je veux faire
+- Je regarde où j'en suis
+- J'écris ma commande
+- Je **relis attentivement ce que je viens de taper**
+- J'appuie sur entrée
+- J'enlève les mains du clavier pour regarder l'effet produit
+
+---
+
+# 3. La ligne de commande
+
+## Méthode de travail : le Tai Chi du terminal
+
+- Je recule la tête de mon écran et réfléchi à ce que je veux faire
+- Je regarde où j'en suis
+- J'écris ma commande
+- Je **relis attentivement ce que je viens de taper**
+- J'appuie sur entrée
+- J'enlève les mains du clavier pour regarder l'effet produit
+- Je **LIS ATTENTIVEMENT et analyse la réponse de la machine** pour valider que c'est ce à quoi je m'attendais
+
+---
+
+# 3. La ligne de commande
+
+## Méthode de travail : le Tai Chi du terminal
+
+- Je recule la tête de mon écran et réfléchi à ce que je veux faire
+- Je regarde où j'en suis
+- J'écris ma commande
+- Je **relis attentivement ce que je viens de taper**
+- J'appuie sur entrée
+- J'enlève les mains du clavier pour regarder l'effet produit
+- Je **LIS ATTENTIVEMENT et analyse la réponse de la machine** pour valider que c'est ce à quoi je m'attendais
+   - Je ne culpabilise pas ni ne désespère si il y a un message d'erreur - c'est normal et arrive à tout le monde tout le temps !
+
+---
+
+# 3. La ligne de commande
+
+## Méthode de travail : le Tai Chi du terminal
+
+- Je recule la tête de mon écran et réfléchi à ce que je veux faire
+- Je regarde où j'en suis
+- J'écris ma commande
+- Je **relis attentivement ce que je viens de taper**
+- J'appuie sur entrée
+- J'enlève les mains du clavier pour regarder l'effet produit
+- Je **LIS ATTENTIVEMENT et analyse la réponse de la machine** pour valider que c'est ce à quoi je m'attendais
+   - Je ne culpabilise pas ni ne désespère si il y a un message d'erreur - c'est normal et arrive à tout le monde tout le temps !
+   - Si je pense que ça a marché, je valide via une autre commande (e.g. verifier avec `ls` que le dossier à bien été créé)
+
+---
+
+# 3. La ligne de commande
+
+.center[
+![](img/liberetonesprit.jpg)
+]
+
+
 
 ---
 
@@ -829,11 +1037,6 @@ ls  *.py      # Liste tous les fichiers du repertoire courant qui se finissent p
 
 - Utiliser `ls` et `cd`, c'est comme naviguer avec un explorateur de fichier graphique !
 
-- Un bon Jedi est toujours être attentif à :
-    - où il est
-    - ce qu'il cherche à faire
-    - ce qu'il tape
-    - ce que la machine renvoie
 
 ---
 
@@ -858,7 +1061,7 @@ man nom_de_commande
 (navigation avec les fleches, `/mot` pour chercher un mot, `q` pour quitter)
 
 
-Ou :
+Ou avec `--help` ou `-h` :
 ```
 nom_de_comande --help
 ```
@@ -922,11 +1125,24 @@ class: impact
 
 # Utilisez [Tab] !
 
+# Utilisez [Tab] !
+
 ---
 
 class: impact
 
 # Utilisez [Tab] !
+
+# Utilisez [Tab] !
+
+# Utilisez [Tab] !
+
+
+---
+
+class: impact
+
+# et LISEZ ATTENTIVEMENT ce que la machine vous raconte !
 
 ---
 
@@ -976,12 +1192,11 @@ class: impact
 
 # 4. Le système de fichier
 
-## Sous UNIX / Linux
+## Sous UNIX / Linux : "Tout est fichier"
 
-"Tout est fichier"
 
 - **fichiers ordinaires** (`-`) : données, configuration, ...
-- **répertoire** (directory, `d`) : gérer l'aborescence, ... 
+- **répertoires** (directory, `d`) : gérer l'aborescence, ... 
 - **spéciaux** : 
     - devices (`c`, `b`) (clavier, souris, disque, ...)
     - sockets (`s`), named pipe (`p`) (communication entre programmes)
@@ -1042,18 +1257,28 @@ coursLinux/
 
 ## Filesystem Hierarchy Standard
 
+.center[
+![](img/filetree.png)
+]
+
+---
+
+# 4. Le système de fichier
+
+## Filesystem Hierarchy Standard
+
 - `/` : racine de toute la hierarchie
 - `/bin/`, `/sbin/` : programmes essentiels (e.g. `ls`)
 - `/boot/` : noyau et fichiers pour amorcer le système
 - `/dev/`, `/sys` : périphériques, drivers 
-- `/etc/` : fichiers de configuration
-- `/home/` : répertoires personnels des utilisateurs
+- `/etc/` : **fichiers de configuration**
+- `/home/` : **répertoires personnels des utilisateurs**
 - `/lib/` : librairies essentielles
 - `/proc/`, `/run` : fichiers du kernel et processus en cours
 - `/root/` : répertoire personnel de `root`
 - `/tmp/` : fichiers temporaires
 - `/usr/` : progr. et librairies "non-essentielles", doc, données partagées
-- `/var/` : fichiers / données variables (e.g. cache, logs, boîtes mails)
+- `/var/` : **fichiers / données variables** (e.g. cache, logs, boîtes mails)
 
 ---
 
@@ -1065,16 +1290,6 @@ coursLinux/
 - Classiquement `/home/<user>/` pour les utilisateurs "normaux"
 - Le home de root est `/root/`
 - D'autres utilisateurs ont des home particulier (`/var/mail/`, ...)
-
----
-
-# 4. Le système de fichier
-
-## Filesystem Hierarchy Standard
-
-.center[
-![](img/filetree.png)
-]
 
 ---
 
@@ -1092,6 +1307,26 @@ Un chemin peut être :
 - Relatif : `../yunohost/script.sh` (depuis `/home/alex/dev/apps/`)
 
 Un chemin relatif n'a de sens que par rapport à un dossier donné... mais est souvent moins long à écrire
+
+---
+
+# 4. Le système de fichier
+
+## Designation des fichiers
+
+- Pour parler d'un dossier ou fichier `toto` **dans le répertoire courant**
+
+```bash
+ls toto
+# ou bien
+ls ./toto
+```
+
+- Pour parler d'un dossier ou fichier `toto` **à la racine**
+
+```bash
+ls /toto
+```
 
 
 ---
@@ -1339,168 +1574,6 @@ rm -r ~/trash          # Supprime tout le dossier ~/trash et son contenu
 - `conf.json` est "le raccourci" : on peut le supprimer sans problème
 - `ynh.txt` est la cible : le supprimer rendra inopérationnel le raccourci
 
----
-
-# 4. Le système de fichier
-
-## Les points de montage
-
-.center[
-![](img/mounpoints.png)
-]
-
----
-
-# 4. Le système de fichier
-
-## Notation des patitions
-
-Les disques partitions sous Linux sont généralement dénommées :
-
-- `/dev/sda` (premier disque)
-   - `/dev/sda1` (première partition de /dev/sda)
-   - `/dev/sda2` (deuxieme partition de /dev/sda)
-- `/dev/sdb` (deuxieme disque)
-   - `/dev/sdb1` (première partition de /dev/sdb)
-   - `/dev/sdb2` (deuxieme partition de /dev/sdb)
-   - `/dev/sdb3` (troisieme partition de /dev/sdb)
-
----
-
-# 4. Le système de fichier
-
-## Outil pour lister les disques, gérer les partions
-
-```bash
-$ fdisk -l
-Disk /dev/sda: 29.8 GiB, 32017047552 bytes, 62533296 sectors
-[...]
-Device       Start      End  Sectors  Size Type
-/dev/sda1     2048  2099199  2097152    1G Linux filesystem
-/dev/sda2  2099200 62524946 60425747 28.8G Linux filesystem
-```
-
-```bash
-$ fdisk /dev/sda
-[editer interactivement le partition de /dev/sda]
-```
-
----
-
-# 4. Le système de fichier
-
-## Outil pour lister les disques, gérer les partions
-
-`parted` et `gparted` (outil graphique très pratique !)
-
----
-
-# 4. Le système de fichier
-
-## Les points de montage
-
-Une partition ou n'importe quel "bidule de stockage" peut être "monté" dans le système de fichier
-- partition d'un disque
-- clef usb
-- image iso
-- stockage distant
-- ...
-
----
-
-# 4. Le système de fichier
-
-## Les points de montage
-
-Les points de montages sont gérés avec `mount`
-
-```bash
-$ mkdir /media/usbkey
-$ mount /dev/sdb1 /media/usbkey
-$ ls /media/usbkey
-# [le contenu de la clef usb s'affiche]
-```
-
----
-
-# 4. Le système de fichier
-
-## Les points de montage
-
-On peut "démonter" un element monté avec `umount`
-
-```bash
-$ umount /media/usbkey
-```
-
----
-
-# 4. Le système de fichier
-
-## Les points de montage : `/etc/fstab`
-
-`/etc/fstab` décrit les systèmes de fichier montés automatiquement au boot
-
-```text
-# <file system>     <mountpoint> <type>  <options>       <dump>  <pass>
-UUID=[id tres long] /            ext4    default         0       1
-UUID=[id tres long] /home/       ext4    defaults        0       2
-```
-
-<small>(historiquement, la premiere colomne contenait `/dev/sdxY`, mais les UUID sont plus robustes)</small>
-
----
-
-# 4. Le système de fichier
-
-## Les points de montage : outils
-
-Juste `mount` permet aussi de lister les différents points de montage
-
-```bash
-$ mount
-[...]
-/dev/sda1 on /boot type ext4 (rw,noatime,discard,data=ordered)
-/dev/sda2 on / type ext4 (rw,noatime,discard,data=ordered)
-/dev/sdb1 on /media/usbkey type ntfs (rw,noatime,discard,data=ordered)
-```
-
----
-
-# 4. Le système de fichier
-
-## Les points de montage : outils
-
-Il existe aussi `df` :
-
-```bash
-$ df -h
-Filesystem      Size  Used Avail Use% Mounted on
-dev             2.8G     0  2.8G   0% /dev
-run             2.8G  1.1M  2.8G   1% /run
-/dev/dm-0        29G   22G  5.0G  82% /
-tmpfs           2.8G   22M  2.8G   1% /dev/shm
-tmpfs           2.8G  1.9M  2.8G   1% /tmp
-/dev/sda1       976M  105M  804M  12% /boot
-tmpfs           567M   16K  567M   1% /run/user/1000
-/dev/sdb1       3.9G  105M  3.7M   3% /media/usbkey
-```
-
----
-
-# 4. Le système de fichier
-
-## Les points de montage : outils
-
-Et aussi `lsblk` : 
-
-```bash
-$ lsblk
-NAME          MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINT
-sda             8:0    0 29.8G  0 disk
-├─sda1          8:1    0    1G  0 part  /boot
-└─sda2          8:2    0 28.8G  0 part  /
-```
 
 ---
 
@@ -1598,6 +1671,8 @@ Exemples :
 - `students`
 - `usb`
 - `power`
+
+N.B : lorsqu'on ajoute un utilisateur à un groupe, il doit se reloguer pour que le changement soit propagé...
 
 ---
 

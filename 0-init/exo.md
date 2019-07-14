@@ -1,4 +1,4 @@
-# Feuille d'exercices
+# Le terminal et l'écosystème Linux
 
 ### 0. Création de la machine
 
@@ -14,9 +14,10 @@
 - Observer le démarrage de la machine
 - Au lieu de se connecter depuis l'interface graphique, utiliser l'interface tty (faire Ctrl+Alt+F2 ou F3, F4, ...)
 - Se logger depuis le tty
-   - login: osboxes.org
-   - password: osboxes.org
-   - (attention, il se peut que le clavier soit configuré en qwerty, on pourra y remédier sous l'interface graphique)
+   - login: `osboxes.org`
+   - password: `osboxes.org`
+   - (attention ! Généralement le clavier est en qwerty sur l'écran de login, dans ce cas le password se tape `osboxes:org`)
+- Une fois revenu sur le bureau vous pouvez remédier au problème de clavier en allant dans le "Menu démarrer", taper Keyboard, section Layouts, puis ajouter le clavier Français (Azerty). Après quoi un petit drapeau américain apparaît en bas à droite. En cliquant dessus, on peut choisir la disposition française pour le clavier.
 
 ### 2. Premier contact avec la ligne de commande commandes
 
@@ -28,7 +29,6 @@
 - Taper `ls` puis *Entrée* et observer
 - Taper `ls -l` puis *Entrée* et observer
 - Taper `echo 'Je suis dans la matrice'` puis *Entrée* et observer
-
  
 ### 3. La ligne de commande
 
@@ -126,17 +126,4 @@ documents/
 - 7.11 - Comment pouvez-vous tuer d'un seul coup tous les processus `openssl` ?
 - 7.12 - Lancez une session screen puis une commande longue dans cette session, comme par exemple `sleep 30`. Détachez la session puis ré-attachez-la depuis un autre tty.
 - 7.13 - Dans une autre console, identifiez via `ps` le PID de la session screen et tentez de tuer ce processus.
-
-### 8. Personnaliser son environnement
-
-- 8.1 - Personnaliser l'apparence de votre invite de commande (syntaxe, couleurs) en modifiant la variable PS1.
-- 8.2 - Ajouter la personnalisation de l'invite à votre `.bashrc` et propagez ces changements sur vos shells ouverts.
-- 8.3 - Ajouter aussi un message de bienvenue comme "May the source be with you" qui s'affichera à chaque ouverture d'un shell.
-- 8.4 - Changer le .bashrc de root pour que son invite de commande soit en rouge !
-- 8.5 - S'assurer que vous disposez de l'alias `ll` (pour `ls -l`), et que `--color=auto` est activé implicitement lorsque vous utilisez `ls`.
-- 8.6 - Créer des alias `suls` et `sucat` qui permettent de lister les fichiers d'un dossier, ou d'afficher le contenu d'un fichier en activant automatiquement `sudo`. Tester ces alias en tapant `suls /root` et `sucat /etc/shadow` en tant que padawan.
-- 8.7 - Créer un alias `r2d2` qui permet d'ouvrir un shell en tant que `r2d2` avec `sudo` et `su`.
-- 8.8 - Se renseigner sur `LS_COLORS` et personnaliser cette variable.
-- 8.9 - En utilisant `echo`, comment faire pour faire en sorte que la commande 'ls' retourne systématiquement 'J'ai pas envie' au lieu de son comportement normal ?
-
 
