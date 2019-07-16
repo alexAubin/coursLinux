@@ -1616,13 +1616,14 @@ alex:x:1000:1000:Zee Aleks:/home/alex:/bin/bash
 
 ## root
 
-- `uid=0`, `gid=0`
-- Dieu sur la machine
+- Dieu sur la machine, `uid=0`, `gid=0`
 - **With great power comes great responsabilities**
     - Si un attaquant devient root, l'OS est entièrement compromis (à jamais)
 
+.center[
 ![](img/iamroot.jpg)
 ![](img/heistheone.png)
+]
 
 ---
 
@@ -1631,9 +1632,10 @@ alex:x:1000:1000:Zee Aleks:/home/alex:/bin/bash
 ## Passer root (ou changer d'utilisateur)
 
 ```bash
-su          # Demande à ouvrir un shell en tant que root
-su barbara  # Demande à ouvrir un shell en tant que barbara
-exit        # Quitter un shell
+su                  # Demande à ouvrir un shell en tant que root
+su barbara          # Demande à ouvrir un shell en tant que barbara
+su -c "ls /root/"   # Executer 'ls /root/' en tant que root (de manière ephemere)
+exit                # Quitter un shell
 ```
 
 ---
@@ -1652,9 +1654,21 @@ sudo su             # Ouvrir un shell root via sudo...
 ```
 
 - Suivant la commande demandée, le mot de passe n'est pas le même...
-   - su : mot de passe root
-   - sudo : mot de passe utilisateur
+   - `su` : mot de passe root
+   - `sudo` : mot de passe utilisateur
 
+---
+
+# 5. Utilisateurs et groupes
+
+## `su` vs `sudo`
+
+- Generalement, on essaye de ne pas rester en root constamment.
+   - `sudo` permet de faire juste une commande en root, ponctuellement
+- On peut avoir plusieurs personnes partageant des droits d'administrateur
+   - avec `sudo`, pas besoin de se mettre d'accord sur un mot de passe commun
+- `sudo` permet aussi de garder une historique "par utilisateur / être humain" de qui à fait quoi sur la machine
+   - (utile pour les audits de sécurité)
 
 ---
 
@@ -1665,8 +1679,9 @@ sudo su             # Ouvrir un shell root via sudo...
 - Chaque user à un groupe associé qui possède le même nom
 - Des groupes supplémentaires peuvent être créés
 - Ils permettent ensuite de gérer d'accorder des permissions spécifiques
+- Ils sont indexés dans le fichier `/etc/group` (similaire à `/etc/passwd`)
 
-Exemples :
+Exemples de groupes qui pourraient exister:
 - `students`
 - `usb`
 - `power`
@@ -2030,8 +2045,8 @@ Exemple de `ps -ef --forest`
 Et aussi :
 ```bash
 top               # Liste les processus actif interactivement
-  -> [shift]+M    #    trie en fonction de l'utilisation CPU
-  -> [shift]+P    #    trie en fonction de l'utilisation RAM
+  -> [shift]+M    #    trie en fonction de l'utilisation RAM
+  -> [shift]+P    #    trie en fonction de l'utilisation CPU
   -> q            # Quitte
 ```
 
@@ -2120,7 +2135,7 @@ renice <modif> <PID>       # Modifier la priorité d'un process
 Exemples :
 ```bash
 # Lancer une création d'archive avec une priorité faible
-nice 5 tar -cvzf archive.tar.gz /home/
+nice -n 5 tar -cvzf archive.tar.gz /home/
 # Redéfinir la priorité du processus 9182
 renice +10 9182
 ```

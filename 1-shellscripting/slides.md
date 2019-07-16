@@ -63,9 +63,15 @@ USER, USERNAME : nom d'utilisateur
 Exemple :
 
 ```
-HOME=/tmp/ 
+HOME=/usr/cache/ 
 ```
 
+## Afficher une variable
+
+```
+$ echo $HOME
+/usr/cache/
+```
 
 ---
 
@@ -108,12 +114,27 @@ TERM=rxvt-unicode-256color
 (Syntaxe absolument abominable :'( !)
 
 ```
-echo -e "\[\033[31m\]Ceci est en rouge\[\033[0m\]"
-echo -e "\[\033[32m\]Ceci est en vert\[\033[0m\]"
-echo -e "\[\033[33m\]Ceci est en jaune\[\033[0m\]"
-echo -e "\[\033[7m\]Ceci est surligné\[\033[0m\]"
-echo -e "\[\033[31;7m\]Ceci est surligné en rouge\[\033[0m\]"
+echo -e "\033[31mCeci est en rouge\033[0m"
+echo -e "\033[32mCeci est en vert\033[0m"
+echo -e "\033[33mCeci est en jaune\033[0m"
+echo -e "\033[7mCeci est surligné\033[0m"
+echo -e "\033[31;1;7;6mCeci est surligné rouge gras surligné clignotant\033[0m"
 ```
+
+Couleurs : 30 à 38
+Effets : 0 à 7
+
+---
+
+# 8. Personnaliser son environnement
+
+## PS1 en couleur ...
+
+```
+PS1="\[\033[31;1;7;6m\]\u\[\033[0m\]@\h:\w$ "
+```
+
+N.B. : pour les couleurs dans le PS1, ne pas oublier d'ajouter des `\[` et `\]` autour des machines pour les couleurs ... sinon le terminal buggera à moitié...
 
 ---
 
@@ -214,7 +235,7 @@ Exemples
 ```bash
 ls -la ~/ > tous_mes_fichiers.txt  # Sauvegarde la liste de tous les fichiers dans le home
 echo "manger" >> todo.txt          # Ajoute "manger" a la liste des choses à faire
-wc < "une grande phrase"           # Compte le nomde de mot d'une chaine
+wc <<< "une grande phrase"           # Compte le nomde de mot d'une chaine
 ```
 
 ---
@@ -278,11 +299,9 @@ Executer plusieurs commandes à la suite :
 - `cmd1; cmd2` : execute `cmd1` puis `cmd2`
 - `cmd1 && cmd2` : execute `cmd1` puis `cmd2` mais seulement si `cmd1` reussie !
 - `cmd1 || cmd2` : execute `cmd1` puis `cmd2` mais seulement si `cmd1` a échoué
-- `cmd1 && (cmd2; cmd3)` : "groupe" `cmd2` et `cmd3` ensemble
+- `cmd1 && { cmd2; cmd3; }` : "groupe" `cmd2` et `cmd3` ensemble (attention à la syntaxe !!)
 
-Exercice en live :
-
-que fait `cmd1 && cmd2 || cmd3`
+Que fait `cmd1 && cmd2 || cmd3` ?
 
 ---
 
@@ -521,7 +540,8 @@ find /etc -name "*.service"
 find /var/log -mmin 5
 ```
 
----
+
+----
 
 class: impact
 
@@ -1497,4 +1517,3 @@ job 6 at Thu Oct 11 20:22:00 2018
 - Attention
    - le nom des fichiers dedans ne doit pas avoir d'extensions ...
    - .. et doit être executable (+x)
-
