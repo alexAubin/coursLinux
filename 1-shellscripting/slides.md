@@ -975,7 +975,7 @@ Les conditions permettent d'adapter l'execution d'un programme en fonction de ca
 ```bash
 NB_TERMINAUX_OUVERTS=$(who | wc -l)
 
-if [[ "$NB_TERMINAUX_OUVERTS" -ge "2" ]]
+if [[ "$NB_TERMINAUX_OUVERTS" -ge "5" ]]
 then
    echo "Il y a pleins de terminaux ouverts sur cette machine !"
 else
