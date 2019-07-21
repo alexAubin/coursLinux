@@ -1,6 +1,6 @@
-# Administration Linux - feuille d'exercice n.2
+# Administration Linux
 
-# 1 - Installer Linux
+## 1 - Installer Linux
 
 - 1.1 - Rendez vous sur le site de Linux Mint. Choisissez un environnement graphique et télécharger l'ISO correspondante. (Si vous souhaitez utiliser KDE, il vous faudra aller chercher la version 18.3)
 - 1.2 - (Optionnel, mais recommandé pour plus de sécurité) Pendant que l'image télécharge, trouvez le programme `sha256sum.exe` (demander au formateur). Ouvrez une console sous Windows (Menu démarrer > taper 'cmd' pour trouver 'Invite de commande') puis lancez le programme `sha256sum.exe` sur le fichier `.iso` téléchargé précedemment. Comparez la somme de contrôle obtenue avec celle disponible sur le site de Linux Mint.
@@ -22,9 +22,7 @@
     - choisissez le fuseau horaire, puis un nom d'utilisateur, de machine, et un mot de passe.
     - lancez l'installation et prenez une pause, buvez un café, ou regardez la vidéo youtube "The UNIX operating system" et laissez Brian Kernighan vous parler de l'élégance des pipes !
 - 1.7 - Redémarrez la machine et logguez-vous. Mettez-vous à l'aise et prenez vos marques dans votre nouvel environnement :
-    - choisissez un nouveau fond d'écran, naviguez dans les fichiers, testez le menu démarrer
-    - choisissez un thème de couleur pour le terminal (Edition > Preferences > Couleurs)
-    - personnalisez (ou pas) votre PS1 et vos alias
+    - choisissez un nouveau fond d'écran, naviguez dans les fichiers, testez le menu démarrer, changez le thème de couleur du bureau ou du terminal (Edition > Preferences > Couleurs), personnalisez (ou pas) votre PS1 et vos alias ...
     - testez le copier-coller dans la console. Vous pouvez utiliser clic droit puis "Copier" et "Coller", ou bien Ctrl+Shift+C et Ctrl+Shift+V, ou bien sélectionner du texte et utiliser le clic du milieu de la souris.
     - tapez quelques commandes et tentez de maîtriser des raccourcis comme Ctrl+R, Ctrl+A/E, Ctrl+U/K
     - (éventuellement, testez et configurer un éditeur de texte graphique comme `xed`, `atom`, ...)
@@ -32,10 +30,9 @@
 - 1.9 - Au bureau, un collègue vous informe que vous aurez besoin d'une partition de type NTFS sur votre disque, pour pouvoir communiquer avec un OS de type Microsoft. Vous décidez alors d'ajuster le partitionnement de votre disque. Or, pour redimensionner une partition, celle-ci ne dois pas être en cours d'utilisation. Nous allons donc éteindre la machine et redémarrer sur le Live CD, dont les utilitaires vont nous permettre de redimensionner et créer une nouvelle partition.
     - Relancez votre machine, de nouveau avec l'ISO dans le lecteur CD virtuel
     - Depuis la live CD, lancez le programme "Gparted" depuis le "Menu Démarrer"
-    - Redimensionnez la partition correspondant à /home pour la réduire de 1 Go
+    - Redimensionnez la partition correspondant à `/home/` pour la réduire de 1 Go
     - Créez une nouvelle partition de type ntfs prenant le 1 Go désormais libre
-    - Validez les changements
-    - Redémarrez le système
+    - Validez les changements, et redémarrez le système
 - De retour sur votre bureau, :
     - Vérifier qu'une nouvelle partition ntfs est effectivement présente via `lsblk -f`
     - Créez un dossier `windows` dans `/media/` puis montez manuellement la nouvelle partition sur `/media/windows`. (Vérifiez le résultat avec `lsblk` et `df -h`)
@@ -44,18 +41,18 @@
 ### Exercices avancés
 
 - Inspectez l'arbre des processus avec `ps -ef --forest` et identifiez le serveur graphique `Xorg`. Que se passe-t-il si vous tentez de killer ce processus ?
-- Si vous avez une clef USB, trouvez de quoi flasher l'ISO depuis Windows (par exemple, Etcher ou Unetbootin) puis tentez de démarrer votre machine physique sur la live USB (n'installez pas Linux Mint sur la machine physique !!)
 - De retour dans la machine virtuelle, arrangez-vous pour affichez GRUB pendant le démarrage puis appuyez sur "e" pour modifier les instructions de démarrage. À la fin de la commande "linux", ajoutez `init=/bin/bash` puis poursuivez le démarrage. Que se passe-t-il ?
+- Si vous avez une clef USB, trouvez de quoi flasher l'ISO depuis Windows (par exemple, Etcher ou Unetbootin) puis tentez de démarrer votre machine physique sur la live USB (n'installez pas Linux Mint sur la machine physique !!)
 
 
-# 2 - Le gestionnaire de paquet (et les archives)
+## 2 - Le gestionnaire de paquet (et les archives)
 
 ### Gestionnaire de paquet
 
 - 1.11 Suite à l'installation de votre système, vous voulez vous assurer qu'il est à jour.
    - Lancez la commande `apt update`. Quels dépôts sont contactés pendant cette opération ?
    - À l'aide de `apt list --upgradable`, identifiez si `firefox`, `libreoffice`, `linux-firmware` et `apt` peuvent être mis à jour - et identifiez l'ancienne version et la nouvelle version.
-   - Lancez la mise à jour avec `apt dist-upgrade`. Pendant le déroulement de la mise à jour, identifiez les trois parties clefs du déroulement : liste des tâches et validation par l'utilisateur, téléchargement des paquets, et installation/configuration.
+   - Lancez la mise à jour avec `apt full-upgrade`. Pendant le déroulement de la mise à jour, identifiez les trois parties clefs du déroulement : liste des tâches et validation par l'utilisateur, téléchargement des paquets, et installation/configuration.
 - 1.12 - Cherchez avec `apt search` si le programme `sl` est disponible. (Utiliser `grep` pour vous simplifiez la tâche). À quoi sert ce programme ? Quelles sont ses dépendances ? (Vous pourrez vous aider de `apt show`). Finalement, installez ce programme en prêtant attention aux autres paquets qui seront installés en même temps.
 - 1.13 - Même chose pour le programme `lolcat`
 - 1.14 - Même chose pour le programme `nyancat` - mais cette fois, trouvez un moyen de télécharger le `.deb` directement depuis le site de debian qui référence les paquets, puis installez ce `.deb` avec `dpkg -i`. (Pour ce faire, taper par exemple `nyancat package debian` dans un moteur de recherche. Une fois arrivé sur la bonne page, vous trouverez une section 'Download' en bas. Parmis les architectures proposées, prendre `amd64`.)
@@ -89,9 +86,7 @@
 - Trouvez où télécharger le `.deb` du paquet `nyancat` depuis `ftp.debian.org`
 - (Très avancé) Renseignez-vous sur `equivs` et créez un package virtuel `lolstuff` qui dépend de `sl`, `lolcat` et `nyancat`
 
-
-
-# 3 - Notions de réseau
+## 3 - Notions de réseau
 
 ### IP locale, globale, pings
 
@@ -104,7 +99,7 @@
      - Testez de pinger la gateway des VM depuis les VM ... et depuis Windows
      - Testez de pinger la gateway de l'hôte Windows depuis Windows ... et depuis les VM
 - 3.6 - Essayez de pinguer les machines de vos voisins / camarades. Demandez-leur leur IP : êtes-vous capable de pinguer leur machine Windows ? Leur machines virtuelles ? Tentez de lister les IPs présentent sur le réseau local en tapant `arp -a` dans une invite de commande sur l'hôte Windows.
-- 3.7 - Dans la configuration de votre machine virtuelle, passez l'interface réseau en mode 'Bridge' (ou 'Pont') plutôt que NAT. Désactivez ensuite la connection filaire pour forcer la VM à se reconnecter au réseau. Quelle est la nouvelle adresse IP ? Refaites quelques-un des tests précédents. Tentez de scanner les IP du réseau avec `sudo arp-scan --localnet`. Êtes-vous capable de pinguer les machines de vos voisins ?
+- 3.7 - Dans la configuration de votre machine virtuelle, passez l'interface réseau en mode 'Bridge' (ou 'Pont') plutôt que NAT. Désactivez ensuite la connexion filaire pour forcer la VM à se reconnecter au réseau. Quelle est la nouvelle adresse IP ? Refaites quelques-un des tests précédents. Tentez de scanner les IP du réseau avec `sudo arp-scan --localnet`. Êtes-vous capable de pinguer les machines de vos voisins ?
 - 3.8 - Arrivez-vous à pinger `89.234.141.68` ? Utilisez `whois` pour identifier l'entité propriétaire de cette IP.
 - 3.9 - (Avancé) Tentez des `traceroute` vers l'IP d'un voisin, vers wikipedia.org, google.com, yunohost.org et yoloswag.team.
 
@@ -122,7 +117,7 @@
 - 3.16 - (Avancé) Analysez où sont envoyées les requêtes DNS (port 53) avec Wireshark. En déduire quel est le résolveur DNS utilisée par le système. Remplacez le contenu du `/etc/resolv.conf` par `nameserver 89.234.141.68` et refaites des requêtes DNS. Confirmez avec `wireshark` que ces requêtes sont bien envoyées vers le nouveau résolveur.
 
 
-# 4 - Notions de cryptographie
+## 4 - Notions de cryptographie
 
 - 4.0 - Installer `gpg` si le programme n'est pas déjà présent
 - 4.1 - Générer une clef GPG avec `gpg --full-generate-key`. Lors de la création, on peut garder toutes les options par défaut. Pour le nom et email, vous pouvez utilisez de "fausses" informations comme `votreprenom@formationlinux`.
@@ -140,40 +135,40 @@ gpg --armor --export votreprenom@formationlinux
 - 4.5 - Envoyez depuis `yopmail.com`, un mail au formateur contenant le message chiffré **et votre clef publique**.
 - 4.6 - Attendre une réponse, et tenter de la déchiffrer avec `gpg --decrypt`.
 
-# 5 - Se connecter et gérer un serveur avec SSH
+## 5 - Se connecter et gérer un serveur avec SSH
 
-- 10.1 - Pingez votre serveur, connectez-vous dessus en root (si possible en vérifiant la fingerprint du serveur) et **changer le mot de passe** ! (Choisir un mot de passe un minimum robuste : il sera mis à l'épreuve !!!). Dans une autre console, constater qu'il y a maintenant une entrée correspondant à votre serveur dans `~/.ssh/known_hosts`.
-- 10.2 - Dans votre sessions SSH, familiarisez-vous avec le système : 
+- 5.1 - Pingez votre serveur, connectez-vous dessus en root (si possible en vérifiant la fingerprint du serveur) et **changer le mot de passe** ! (Choisir un mot de passe un minimum robuste : il sera mis à l'épreuve !!!). Dans une autre console, constater qu'il y a maintenant une entrée correspondant à votre serveur dans `~/.ssh/known_hosts`.
+- 5.2 - **Sur votre serveur**, familiarisez-vous avec le système : 
     - de quelle distribution s'agit-il ? (`lsb_release -a` ou regarder `/etc/os-release`)
     - quelle est la configuration en terme de CPU, de RAM, et d'espace disque ? (`cat /proc/cpuinfo`, `free -h` et `df -h`)
     - quelle est son adresse IP locale et globale ?
-- 10.3 - Donnez un nom à votre machine avec `hostnamectl set-hostname <un_nom>`. (Attention, ce nom est purement cosmétique et interne à la machine. Il ne s'agit pas d'un vrai nom de domaine résolvable et accessible par n'importe qui sur internet, comme celui qui sera configuré à la question 10.8)
-- 10.4 - Créer un utilisateur destiné à être utilisé plutôt que de se connecter en root. 
+- 5.3 - **Sur votre serveur** : donnez un nom à votre machine avec `hostnamectl set-hostname <un_nom>`. (Attention, ce nom est purement cosmétique et interne à la machine. Il ne s'agit pas d'un vrai nom de domaine résolvable et accessible par n'importe qui sur internet, comme celui qui sera configuré à la question 10.8)
+- 5.4 - **Sur votre serveur** : créez un utilisateur destiné à être utilisé plutôt que de se connecter en root. 
     - Créez-lui un répertoire personnel et donnez-lui les permissions dessus. 
     - Définissez-lui un mot de passe. 
     - Ajoutez-le au groupe `ssh`.
     - Assurez-vous qu'il a le droit d'utiliser `sudo`.
-- 10.5 - Connectez-vous en ssh avec le nouvel utilisateur. Personnalisez (ou pas) le PS1, les alias, et votre .bashrc en général. Créez quelques fichiers de test pour confirmer que vous avez le droit d'écrire dans votre home.
-- 10.6 - Ajoutons maintenant une vrai clef SSH. Depuis votre machine de bureau (Mint) :
+- 5.5 - **Depuis votre machine de bureau (VM Mint)** : connectez-vous en ssh sur votre serveur avec le nouvel utilisateur. Personnalisez (ou pas) le PS1, les alias, et votre .bashrc en général. Créez quelques fichiers de test pour confirmer que vous avez le droit d'écrire dans votre home.
+- 5.6 - **Depuis votre machine de bureau (VM Mint)** : ajoutons maintenant une vrai clef SSH : 
     - générez une clef SSH pour votre utilisateur avec `ssh-keygen -t rsa -b 4096 -C "un_commentaire"`;
     - identifiez le fichier correspondant à la clef publique créé (generalement `~/.ssh/un_nom.pub`) ;
-    - utilisez `ssh-copy-id -i clef_publique user@machine` ;
+    - utilisez `ssh-copy-id -i clef_publique user@machine` pour copiez et activer la clef sur votre serveur ;
     - (notez que sur le serveur, il y a maintenant une ligne dans `~/.ssh/authorized_keys`)
     - tentez de vous connecter à votre utilisateur en utilisant désormais la clef (`ssh -i clef_privee user@machine`)
-- 10.7 - Depuis votre machine de bureau (Mint), configurez `~/.ssh/config` avec ce template. Vous devriez ensuite être en mesure de pouvoir vous connecter à votre machine simplement en tapant `ssh nom_de_votre_machine`
+- 5.7 - **Depuis votre machine de bureau (VM Mint)**, configurez `~/.ssh/config` avec ce modèle de fichier. Vous devriez ensuite être en mesure de pouvoir vous connecter à votre machine simplement en tapant `ssh nom_de_votre_machine`
 ```bash
 Host nom_de_votre_machine
     User votre_utilisateur
     Hostname ip_de_votre_machine
     IdentityFile chemin_vers_clef_privee
 ```
-- 10.8 - Définissons maintenant un vrai nom de domaine "public" pour cette machine :
-    - allez sur `netlib.re` et se connecter avec les identifiants fourni par le formateur ;
+- 5.8 - Définissons maintenant un vrai nom de domaine "public" pour votre serveur, de sorte qu'il soit contactable facilement par n'importe quel être humain connecté à Internet :
+    - aller sur `netlib.re` et se connecter avec les identifiants fourni par le formateur ;
     - créer un *nouveau* nom de domaine (en `.netlib.re` ou `.codelib.re`). (Ignorez les nom déjà créé, ce sont ceux de vos camarades !) ;
-    - une fois créé, cliquez sur le bouton 'Details' puis (en bas) ajoutez un nouvel enregistrement de type 'A' avec comme nom '@' et comme valeur l'IP globale(!) de votre serveur ;
+    - une fois créé, cliquer sur le bouton 'Details' puis (en bas) ajouter un nouvel enregistrement de type 'A' avec comme nom '@' et comme valeur l'IP globale(!) de votre serveur ;
     - de retour dans une console, tentez de résoudre et pinger le nom de domaine à l'aide de `host` et `ping` ;
     - modifiez votre `~/.ssh/config` pour remplacer l'ip de la machine par son domaine, puis tentez de vous reconnecter en SSH.
-- 10.9 - Depuis votre machine de bureau (Mint), récupérez sur internet quelques images de chat ou de poney et mettez-les dans un dossier. Utilisez `scp` pour envoyer ce dossier sur le serveur.
+- 5.9 - Depuis votre machine de bureau (Mint), récupérez sur internet quelques images de chat ou de poney et mettez-les dans un dossier. Utilisez `scp` pour envoyer ce dossier sur le serveur.
 
 ### Exercices avancés
 
@@ -181,45 +176,16 @@ Host nom_de_votre_machine
 - Utilisez `sshfs` pour monter le home de votre utilisateur dans un dossier de votre répertoire personnel.
 - Utilisez `ssh -D` pour créer un tunnel avec votre serveur, et configurez Firefox pour utiliser ce tunnel pour se connecter à Internet. Confirmez que les changements fonctionnent en vérifiant quelle semble être votre IP globale depuis Firefox.
 
-# 6 - Services et sécurité basique d'un serveur
-
-- 6.1 - Sur votre serveur, identifiez le processus `sshd` dans la liste des processus, et vérifiez le status du service "sshd".
-- 6.2 - Interdisons à root de se logguer en ssh en utilisant un mot de passe. Pour ce faire, :
-    - ouvrir le fichier `/etc/ssh/sshd_config` et changer la valeur de `PermitRootLogin` de `yes` à `prohibit-password`. (Attention à ne pas faire d'erreur de syntaxe !). Dans un contexte réel, nous aurions directement mis ce paramètre à `no`, mais le formateur a besoin de pouvoir encore se connecter en root via un clef - nous desactivons donc ici juste le login par mot de passe !
-    - recharger ensuite le service `ssh` à l'aide de `systemctl reload sshd`
-    - refaire un `systemctl status sshd` pour confirmer que le service a bien été rechargé
-    - connaissant le mot de passe, tentez depuis un autre terminal d'ouvrir une nouvelle connexion ssh en root. Y arrivez-vous ? Est-ce normal ?
-- 6.3 - Étudiez le fichier de log `/var/log/auth.log`, et notamment les lignes concernant `sshd`. 
-    - à quoi correspondent ces lignes ? 
-    - à l'aide de `whois`, renseignez-vous sur quelques-une des IP liée à des tentatives de connections échouées - et en particulier celles avec des IP ne correspondant pas au centre de formation.
-- 6.4 - Installons un service qui bloquera ces tentatives répétées de brute-forcer le mot de passe. Fail2ban est un tel service qui analyse en permanence certains fichier de log pour déclencher automatiquement des actions (e.g. bannir une ip pour un certain temps)
-    - installez le programme / service `fail2ban` ;
-    - vérifiez qu'il existe désormais un service `fail2ban` actif ;
-    - étudiez le fichier `/etc/fail2ban/jail.conf` et en particulier à quoi correspondent les réglages `bantime`, `findtime` et `maxretry` ;
-    - étudiez le contenu de `/var/log/fail2ban.log` ;
-    - modifiez les paramètres de `bantime`, `findtime` et `maxretry`. Par exemple, diminuez `maxretry` à 3 et augmentez `findtime` à 1800 ;
-    - rechargez le service avec `systemctl reload fail2ban`
-    - demandez à un camarade d'essayer de se connecter (en vain, et sans connaitre le mot de passe) à votre serveur **depuis son serveur à lui/elle** (_pas depuis le centre de formation !_). Observer avec lui/elle ce qui se produit dans sa console et dans le fichier de log `/var/log/fail2ban.log`
-- 6.5 - Finalement, installons un firewall nommé `ufw` pour contrôler explicitement quels ports sont ouverts
-    - installer `ufw` ;
-    - vérifier que le firewall est pour le moment inactif avec `ufw status` ;
-    - par défaut, autorisons toutes les connections sortantes mais interdisons toutes connection entrante. Pour cela, utiliser `ufw default deny incoming` et `ufw default allow outgoing` ;
-    - autorisons le cas particulier de ssh, en terme de connection entrante : `ufw allow ssh` (ou plus explicitement si vous le souhaitez : `ufw allow 22/tcp` !) ;
-    - activer le firewall avec `ufw enable` et vérifier le status avec `ufw status verbose`. 
-- 6.6 - Est-ce une bonne idée de stopper le service `sshd` ?
-
-# 7 - Installer et configurer un serveur web
+## 7 - Installer et configurer un serveur web
 
 - 7.1 - Installer `nginx` puis vérifier que le service tourne bien avec `systemctl status nginx`. On pourra aussi utiliser `ps -ef --forest` pour constater qu'un processus nginx tourne bien, ainsi que `netstat -tulpn` pour constater qu'il écoute bien sur le port 80.
 - 7.2 - Tester d'accéder à votre serveur depuis un navigateur web. Que se passe-t-il ? En déduire qu'il faut taper `ufw allow 80/tcp` - puis retenter l'opération. Comparez la page alors obtenue au fichier se trouvant dans `/var/www/html/`.
 - 7.3 - Nous voudrions maintenant servir notre propre contenu web plutôt que l'exemple de nginx. Créer un dossier `mywebsite` dans `/var/www/` et à l'intérier, créer un fichier `index.html` qui contient par exemple :
-
 ```html
 <html>
 Hello world !
 </html>
 ```
-
 Ensuite, modifier le fichier `/etc/nginx/sites-enabled/default` :  trouvez l'instruction à modifier pour servir le dossier `/var/www/mywebsite/` plutôt que `/var/www/html/`. Vérifiez ensuite que vos changements ne causent pas de problèmes grâce à `nginx -t`, puis si tout est ok, recharger le service avec `systemctl reload nginx`. Arrivez-vous maintenant à accéder à votre page web ?
 - 7.4 - Modifier votre page web pour inclure une image (se renseigner sur la balise HTML `<img>`). Par exemple, des images de chatons peuvent être trouvées sur `https://placekitten.com/` et téléchargée sur le serveur à l'aide de la commande `wget`.
 - 7.5 - Rendez-vous dans `/var/log/nginx/` et lancer une surveillance du log `access.log` à l'aide de `tail -f access.log`. Depuis votre navigateur, rechargez plusieurs fois la page de votre site et étudiez les lignes qui apparaissent dans votre console.
@@ -241,7 +207,7 @@ Une telle installation implique typiquement les étapes suivantes :
 - test et finalisation de l'installation
 
 Les instructions suivantes ne viennent pas de `/dev/urandom` : elles ont été
-récupérée depuis le site officiel de Nextcloud (et aussi du script
+récupérées depuis le site officiel de Nextcloud (et aussi du script
 d'installation de l'app YunoHost !).
 
 - 8.1 - Télécharger l'archive de la dernière version de Nextcloud (c.f. lien

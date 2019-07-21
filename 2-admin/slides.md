@@ -1,4 +1,4 @@
-title: Shell Scripting
+title: Linux administration
 class: animation-fade
 layout: true
 
@@ -10,23 +10,41 @@ class: impact
 
 ---
 
-# L'ecosystème Linux
-
-- Système d'exploitation
-- Interagir avec le système en ligne de commande
-- Un système de fichiers
-- Des utilisateurs, des permissions
-- Des Processus
+.center[
+![](img/previously.jpg)
+]
 
 ---
 
-# Objectifs
+# Previously on Games of Codes
+
+- Découverte de Linux
+- La ligne de commande
+- Des fichiers
+- Des utilisateurs et des permissions
+- Des processus
+- Assembler des commandes
+- Écriture de script
+
+---
+
+# Rappels
+
+.center[
+### Utilisez [Tab], ↑ ↓, et Ctrl+A/E !
+
+### Soyez attentif à ce que vous tapez et à ce que la machine vous renvoie
+]
+
+---
+
+# Cette semaine
 
 - installer et gérer une distribution
 - acquérir des bases de réseau et de sécurité
 - administrer un serveur à distance
 - configurer et gérer des services
-- déployer un serveur web
+- déployer un serveur web / des apps web
 
 ---
 
@@ -39,7 +57,7 @@ class: impact
 5. Se connecter et gérer un serveur avec SSH
 6. Services et sécurité basique d'un serveur
 7. Déployer un site "basique" avec nginx
-8. Automatiser avec `at` et les cron jobs
+8. Déployer une "vrai" app : Nextcloud ?
 
 ---
 
@@ -147,6 +165,7 @@ Qui s'occupe de toute la gestion des fenêtres (bordures, décoration, redimensi
 - Système entièrement chargé dans la RAM (performances moindres)
 - Destiné à tester / faire une démo du système et à l'installer
 - Permet aussi d'avoir accès à certains outils
+- Généralement sous forme d'un fichier `.iso`
 
 ---
 
@@ -290,10 +309,10 @@ peuvent être trouvés dans `/var/log/dmesg`
 
 # 1. Installer une distribution
 
-## Les points de montage
+## Notation des patitions
 
 .center[
-![](img/mounpoints.png)
+![](img/parts.png)
 ]
 
 ---
@@ -334,11 +353,22 @@ Device       Start      End  Sectors  Size Type
 ## Les points de montage
 
 Une partition ou n'importe quel "bidule de stockage" peut être "monté" dans le système de fichier
-- parittion
+- partition
 - clef usb
 - image iso
 - stockage distant
 - ...
+
+---
+
+# 1. Installer une distribution
+
+## Les points de montage
+
+.center[
+![](img/mounpoints.png)
+]
+
 
 ---
 
@@ -425,7 +455,7 @@ tmpfs           567M   16K  567M   1% /run/user/1000
 
 ## Les points de montage : outils
 
-Et aussi `lsblk` : 
+Et aussi `lsblk` :
 
 ```bash
 $ lsblk
@@ -439,7 +469,7 @@ sda             8:0    0 29.8G  0 disk
 
 class: impact
 
-# 2. Le gestionnaire de paquet 
+# 2. Le gestionnaire de paquet
 
 ### (et les archives)
 
@@ -455,6 +485,8 @@ Historiquement, c'est très compliqué d'installer un programme :
 - il faut télécharger et compiler les dépendances
 - qui requiert elles-mêmes des dépendances ...
 
+### Paquet =~ programmes ou librairies
+
 ---
 
 # 2. Le gestionnaire de paquet
@@ -469,13 +501,12 @@ Historiquement, c'est très compliqué d'installer un programme :
 
 # 2. Le gestionnaire de paquet
 
-Paquet ~ programmes ou librairies
+## Le gestionnaire de paquet c'est :
 
-Le gestionnaire de paquet c'est :
 - La "clef de voute" d'une distribution ?
-- un **système unifié pour installer** des paquets ...  ;
-- ... **et les mettre à jour !** ;
-- le tout en gérant les dépendances et les conflits ;
+- un **système unifié pour installer** des paquets ...
+- ... **et les mettre à jour !**
+- le tout en gérant les dépendances et les conflits
 - et via une commaunauté qui s'assure que les logiciels ne font pas n'importe quoi.
 
 ---
@@ -514,16 +545,14 @@ Sous Windows
 
 ## Sous Debian
 
-Format `.deb`
-
 `apt` : couche "haut niveau"
-- dépot, 
-- authentification, 
-- ... 
+- dépot,
+- authentification,
+- ...
 
 `dpkg` : couche "bas niveau"
 - gestion des dépendances,
-- installation du paquet,
+- installation du paquet (`.deb`),
 - ...
 
 ---
@@ -542,9 +571,12 @@ Format `.deb`
 
 ## Utilisation de `apt`
 
-- `apt install <package>` : télécharge et installe le paquet et tout son arbre de dépendances
-- `apt remove <package>` : désinstaller le paquet (et les paquet dont il dépends !)
-- `apt autoremove` : supprime les paquets qui ne sont plus nécessaires
+- `apt install <package>`
+    - télécharge et installe le paquet et tout son arbre de dépendances
+- `apt remove <package>`
+    - désinstaller le paquet (et les paquet dont il dépends !)
+- `apt autoremove`
+    - supprime les paquets qui ne sont plus nécessaires
 
 ---
 
@@ -557,7 +589,7 @@ Un programme, et des fichiers (dossier `debian/`) qui décrivent le paquet :
 - `install` : liste des fichiers et leur destination
 - `changelog` : un historique de l'evolution du paquet
 - `rules` : des trucs techniques pour compiler le paquet
-- `postinst`, `prerm`, ... : des scripts à lancer quand le paquet est installé, désinstallé, ...
+- `postinst`, `prerm`, ... : des scripts lancés quand le paquet est installé, désinstallé, ...
 
 ---
 
@@ -565,9 +597,20 @@ Un programme, et des fichiers (dossier `debian/`) qui décrivent le paquet :
 
 ## Mettre à jour les paquets
 
-- `apt update` : récupère la liste des paquets depuis les dépots
-- `apt dist-upgrade` : calcule et lance la mise à jour de tous les paquets
-- (`apt upgrade` : mise à jour "safe", sans installer/supprimer de nouveaux paquets)
+- `apt update`
+   - récupère la liste des paquets depuis les dépots
+- `apt full-upgrade`
+   - calcule et lance la mise à jour de tous les paquets
+   - (anciennement appelé : `apt dist-upgrade`)
+- Moins utilisé : `apt upgrade`
+   - mise à jour "safe", sans installer/supprimer de nouveaux paquets
+   - en général, `full-upgrade` est okay
+
+---
+
+# 2. Le gestionnaire de paquet
+
+N.B. : pour les moldus dans la vraie vie, il y a des interfaces graphiques pour gérer tout ça sans ligne de commande, mais ici on présente les détails techniques
 
 ---
 
@@ -584,6 +627,7 @@ deb http://ftp.debian.fr/debian/ stretch main contrib
 
 - `stretch` est le nom de la distribution
 - `main` et `contrib` sont des composantes à utiliser
+- le protocole est `http` ... l'authenticité des paquets est géré par un autre mécanisme (GPG)
 
 ---
 
@@ -609,11 +653,11 @@ Les versions tournent tous les ~2 ans environ
 
 Basé sur les personnages de Toy Story
 
-- 7, `wheezy` (oldoldstable)
-- 8, `jessie` (oldstable)
-- 9, `stretch` (stable, depuis juin 2017)
-- 10, `buster` (testing, deviendra stable vers juin 2019)
-- 11, `bullseye`
+- 7, `wheezy` (oldoldoldstable)
+- 8, `jessie` (oldoldstable)
+- 9, `stretch` (oldstable, depuis juillet 2019)
+- 10, `buster` (stable, depuis juillet 2019)
+- 11, `bullseye` (testing, deviendra stable vers juin 2021)
 - 12, `bookworm`
 
 ---
@@ -630,7 +674,7 @@ Basé sur les personnages de Toy Story
 
 ## Naviguez dans les paquets debian en ligne
 
-https://packages.debian.org/search
+`https://packages.debian.org/search`
 
 .center[
 ![](img/debianpackagesite.png)
@@ -771,7 +815,7 @@ Tout ce qui permet la communication entre les machines (et les programmes)
 
 ```bash
 $ ip a
-1: lo: <LOOPBACK,UP,LOWER_UP> 
+1: lo: <LOOPBACK,UP,LOWER_UP>
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
 2: enp0s25: <NO-CARRIER,BROADCAST,MULTICAST,UP>
     link/ether 33:0e:d8:3f:65:7e
@@ -804,7 +848,7 @@ $ ip a
 enp3s0: <BROADCAST,MULTICAST,UP,LOWER_UP>
  link/ether 40:8d:5c:f3:3e:35
  inet 91.225.41.29/32 scope global enp3s0
- inet6 2a04:7202:8008:60c0::1/56 scope global 
+ inet6 2a04:7202:8008:60c0::1/56 scope global
 ```
 
 Voir aussi : `ifconfig` (deprecated) et `ipconfig` (sous windows!)
@@ -947,13 +991,13 @@ Le client est celui qui demande le service
 
 ## Modèle client/serveur : `netstat`
 
-`netstat -tulpn` permet de lister les programmes qui écoutent et attendent 
+`netstat -tulpn` permet de lister les programmes qui écoutent et attendent
 
 ```bash
  > netstat -tulpn | grep LISTEN | grep "80\|25"
-tcp     0.0.0.0:80  LISTEN      28634/nginx: master 
-tcp     0.0.0.0:25  LISTEN      1331/master         
-tcp6    :::80       LISTEN      28634/nginx: master 
+tcp     0.0.0.0:80  LISTEN      28634/nginx: master
+tcp     0.0.0.0:25  LISTEN      1331/master
+tcp6    :::80       LISTEN      28634/nginx: master
 tcp6    :::25       LISTEN      1331/master
 ```
 
@@ -982,7 +1026,7 @@ tcp6    :::25       LISTEN      1331/master
 
 ## Protocoles (2/2)
 
-Par exemple, HTTP : 
+Par exemple, HTTP :
 - On envoie `GET /` et on reçoit 200 + la page d'acceuil
 - On envoie `GET /chaton.jpg` et on reçoit 200 + une image (si elle existe)
 - On envoie `GET /meaningoflife.txt` et on reçoit 404 (si la page n'existe pas)
@@ -1136,7 +1180,7 @@ ff02::2 ip6-allrouters
 ## Réseau local et NAT (5/6)
 
 La situation se complexifie avec Virtualbox :
-- Typiquement Virtualbox créé un NAT à l'intérieur de votre machine 
+- Typiquement Virtualbox créé un NAT à l'intérieur de votre machine
 - Les différentes VM ont alors des adresses en 10.0.x.y
 
 ---
@@ -1169,7 +1213,7 @@ Protéger des messages (confidentialité, authenticité, intégrité) en s’aid
 
 ## Exemple de chiffrement symétrique
 
-Historique : le nombre de César 
+Historique : le nombre de César
 - un algoritme : décalage des lettres dans l'alphabet
 - un secret / une clef (par exemple : 3)
 - pour déchiffrer : opération inverse triviale
@@ -1185,7 +1229,7 @@ Olqxa f'hvw vbpsdwrfkh
 
 ## Chiffrement asymétrique
 
-Pas d'équivalent classique ... 
+Pas d'équivalent classique ...
 - imaginer un sorte de nombre de César où l'on chiffre en décalant de 3 ...
 - ... mais pour déchiffrer, il faut faire -12 !
 
@@ -1254,7 +1298,7 @@ Les mathématiques permettent de générer un couple de clef (A, B) :
 - Comment s'assurer que c'est la vraie bonne clef ?
 - (Spoiler alert : vous ne pouvez apriori pas...)
 
-Problème général de sécurité : il est difficile de s'assurer de l'authenticité initiale de la clef publique 
+Problème général de sécurité : il est difficile de s'assurer de l'authenticité initiale de la clef publique
 
 ---
 
@@ -1416,7 +1460,7 @@ VPS = une VM dans un datacenter
 $ ssh admin@ynh-forge.netlib.re
 The authenticity of host 'ynh-forge.netlib.re (46.101.221.117)' can't be established.
 RSA key fingerprint is SHA256:CuPd7AtmqS0UE6DwDDG68hQ+qIT2tQqZqm8pfo2oBE8.
-Are you sure you want to continue connecting (yes/no)? █ 
+Are you sure you want to continue connecting (yes/no)? █
 ```
 
 ---
@@ -1450,10 +1494,10 @@ RSA key fingerprint is SHA256:CuPd7AtmqS0UE6DwDDG68hQ+qIT2tQqZqm8pfo2oBE8.
 Are you sure you want to continue connecting (yes/no)? yes
 Warning: Permanently added 'ynh-forge.netlib.re' (RSA) to the list of known hosts.
 Debian GNU/Linux 9
-admin@ynh-forge.netlib.re's password: 
+admin@ynh-forge.netlib.re's password:
 
 Last login: Thu Oct  4 08:52:07 2018 from 90.63.229.46
-admin@ynh-forge:~$ █ 
+admin@ynh-forge:~$ █
 ```
 
 ---
@@ -1520,7 +1564,7 @@ SHA256:ZcAKHVtTXUPz3ipqia4i+soRHZQ4tYsDGfc5ieEGWcY "Clef pour la formation"
 
 2 - Configurer la clef sur le serveur
 
-- soit *depuis le client* avec 
+- soit *depuis le client* avec
 
 ```
 ssh-copy-id -i chemin/vers/la/clef user@machine
@@ -1582,9 +1626,17 @@ Host jaimelecafe
 
 # 5. SSH et les serveurs
 
+.center[
+![](img/sneakyfoxssh.jpg)
+]
+
+---
+
+# 5. SSH et les serveurs
+
 ## SCP : copier des fichiers
 
-`scp <source> <destination>` permet de copier des fichiers entre le client et le serveur 
+`scp <source> <destination>` permet de copier des fichiers entre le client et le serveur
 - Le chemin d'un fichier distant s'écrit `machine:/chemin/vers/fichier`
 - ou (avec un user) : `utilisateur@une.machine.com:/chemin/vers/ficier`
 
@@ -1738,7 +1790,7 @@ Par exemple : `journalctl -u ssh`
 
 ## Protéger contre le brute-force : `fail2ban`
 
-- Fail2ban analyse automatiquement les logs 
+- Fail2ban analyse automatiquement les logs
 - Cherche / détecte des activités suspectes connues
     - Par exemple : une IP qui essaye des mots de passe
 - Déclenche une action ... comme bannir l'IP pour un certain temps
@@ -1878,7 +1930,7 @@ findtime = 86400   ; 1 day
 
 ## Exemple de risque de sécurité subtil
 
-Si on lance cette commande : 
+Si on lance cette commande :
 
 ```bash
 commande_complexe --argument --password "super_secret"
@@ -2046,7 +2098,7 @@ $ cat script.sh | ssh machine
 
 ```bash
 # En interactif
-$ at 5:00 PM     
+$ at 5:00 PM
 warning: commands will be executed using /bin/sh
 at> reboot
 job 5 at Fri Oct 12 17:00:00 2018
@@ -2054,13 +2106,13 @@ job 5 at Fri Oct 12 17:00:00 2018
 
 ```bash
 # Avec un script
-$ at now + 30 minutes -f mettre_a_jour.sh 
+$ at now + 30 minutes -f mettre_a_jour.sh
 job 6 at Thu Oct 11 20:22:00 2018
 ```
 
 ---
 
-# 8. Automatiser 
+# 8. Automatiser
 
 ## Les jobs cron
 
