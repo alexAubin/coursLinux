@@ -779,8 +779,10 @@ Tout ce qui permet la communication entre les machines (et les programmes)
 
 # 3. Notions de réseau
 
-- DNS : domaine, résolution, ...
-- Protocoles, HTTP, modèle client/serveur
+## Un empilement d'abstractions / protocoles
+
+- Des programmes (modèle client / serveur)
+- Des protocoles : HTTP, DNS (domaine, resolution)
 - TCP : ports, NAT
 - IP : adresses, routage, DHCP
 - Physique : interfaces réseau
@@ -975,14 +977,14 @@ nc -zv ynh-forge.netlib.re 53
 
 ## Modèle client/serveur
 
-Un serveur (au sens logiciel) est un programme. Comme un serveur dans un bar (!) :
-- il **écoute** et attends qu'on lui demande un service
+Un **serveur** (au sens logiciel) est un programme. Comme un serveur dans un bar (!) :
+- il **écoute** et attends qu'on lui demande un **service** en suivant **un protocole**
 - par exemple : fournir la page d'acceuil d'un site
 - le serveur écoute sur *un port*  : par exemple : 80
 
-Le client est celui qui demande le service
-- il toque à la porte
-- transmet sa demande
+Le **client** est celui qui demande le service selon **le protocole**
+- il toque à la bonne porte
+- explique sa demande
 - le serveur lui réponds (on espère)
 
 ---
@@ -1057,7 +1059,6 @@ Par exemple, HTTP :
     - 9.9.9.9, un nouveau service qui "respecte la vie privée"
     - 89.234.141.66, le resolveur de ARN
     - 208.67.222.222, OpenDNS
-
 - **Choix critique pour la vie privée !!**
 - Generalement, vous utilisez (malgré vous) le resolveur de votre FAI, ou bien celui de Google
 

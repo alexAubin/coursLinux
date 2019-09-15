@@ -58,7 +58,7 @@ $ php occ maintenance:install \
      --admin-user    "admin"     --admin-pass    "password"
 ```
 
-- 1.5 - Il nous aussi définir le domaine derrière lequel Nextcloud est hébergé :
+- 1.5 - Il nous faut aussi définir le domaine derrière lequel Nextcloud est hébergé :
 éditez le fichier `config/config.php` de Nextcloud, et rajoutez votre nom de
 domaine dans les "trusted domains". Ajoutez également le paramètre
 `overwriteprotocol` avec la valeur `http`. (Pour ces deux manipulations, il
