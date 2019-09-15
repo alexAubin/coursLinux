@@ -797,10 +797,10 @@ Tout ce qui permet la communication entre les machines (et les programmes)
 
 # 3. Notions de réseau
 
-## Couche physique (1/2)
+## Couche physique, interfaces (1/3)
 
 - Ethernet, wifi, 4G, ...
-- Votre ordinateur dispose d'**interface réseau**
+- Votre ordinateur dispose d'**interfaces réseau**
 - Elles permettent de communiquer sur un support (cable, onde)
 - Chaque interface réseau possède une **adresse MAC**
 - Il existe typiquement une interface `lo` (loopback, la boucle locale - 127.0.0.1)
@@ -809,10 +809,21 @@ Tout ce qui permet la communication entre les machines (et les programmes)
 
 # 3. Notions de réseau
 
-## Couche physique (2/2)
+## Couche physique, interfaces (2/3)
+
+- Les interfaces sont configurées grâce aux fichiers `/etc/network/interfaces` et `/etc/network/interfaces.d/*`
+    - Par exemple, pour configurer le DHCP ou des adresses IP fixes
+    - Généneralement, pas besoin d'y toucher sauf si l'on est dans un contexte particulier
+- Il existe aussi diverses options du kernel (e.g. pour désactiver l'IPv6, bridges, ...)
+
+---
+
+# 3. Notions de réseau
+
+## Couche physique, interfaces (2/3)
 
 - `ip a` permet d'obtenir des informations sur les interfaces
-- Historiquement, les noms étaient "simple" : eth0, wlan0, ...
+- Historiquement, les noms étaient "simple" : `eth0`, `eth1`, `wlan0`, ...
 - Aujourd'hui les noms sont un peu plus complexes / arbitraires
 
 ```bash

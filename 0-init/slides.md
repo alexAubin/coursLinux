@@ -66,11 +66,11 @@ Formateur
 
 ---
 
-# Logistique
+# Horaires
 
-- 9h15 -> 12h15 <small>(pause de 10 min autour de 10h30)</small>
+- 9h00 -> 12h00 <small>(pause de 10 min autour de 10h30)</small>
 - Repas
-- 1315 -> 17h15 <small>(pause de 10 min autour de 15h30)</small>
+- 13h00 -> 17h00 <small>(pause de 10 min autour de 15h30)</small>
 
 .center[
 (soit 7h00 de formation / jour !)
@@ -84,7 +84,7 @@ Formateur
 
 - 0, 1 - Historique, introduction, rappels
 - 2, 3 - Prise en main du terminal et de la ligne de commande
-- 4 - Le système de fichier
+- 4 - Le système de fichiers
 
 **Jour 2 ?**
 
@@ -131,7 +131,7 @@ Formateur
 
 ---
 
-# Mếthode de travail
+# Méthode de travail
 
 Pour chaque module :
 - Blabla théorique
@@ -147,6 +147,7 @@ Pour chaque module :
     - (et désolé si moi-même je pars trop loin!)
 - Le brute force ne marche pas, il faut être précis / rigoureux...
 - Soyez **patient, méthodique, attentifs** !
+- **Ne laissez pas l'écran vous aspirer** !
 
 **On est là pour apprendre :**
 
@@ -493,7 +494,7 @@ Et bien d'autres : Gentoo, LinuxFromScratch, Fedora, OpenSuse, Slackware, Alpine
 
 # 0. Les origines de Linux
 
-## Linux Mint
+## Environnement de travail : Linux Mint
 
 - (Choix arbitraire du formateur)
 - Distribution simple, sobre, pas spécialement controversée (?)
@@ -858,6 +859,19 @@ alex@shadow:~$
 ```
 
 Eventuellement, je valide en réutilisant `ls` pour voir que le dossier a bien été créé
+
+---
+
+# 3. La ligne de commande
+
+## Mais monsieur, les commandes il faut toute les apprendre par coeur ...?
+
+- Il y en a des milliers (et on peut créer les siennes)
+- Chacune peut avoir des dizaines d'options combinables entre elles
+- Il ne s'agit pas de connaitre les commandes par coeur mais plutôt
+    - d'avoir une vue d'ensemble des possibilités
+    - de savoir aller chercher et apprendre de nouvelles commandes si besoin
+    - savoir être méthodique et débugger les erreurs du quotidien (typo, ...)
 
 ---
 
@@ -1668,7 +1682,8 @@ sudo su             # Ouvrir un shell root via sudo...
 - On peut avoir plusieurs personnes partageant des droits d'administrateur
    - avec `sudo`, pas besoin de se mettre d'accord sur un mot de passe commun
 - `sudo` permet aussi de garder une historique "par utilisateur / être humain" de qui à fait quoi sur la machine
-   - (utile pour les audits de sécurité)
+   - chaque commande effectuée avec `sudo` est logguée dans `/var/log/auth.log`
+   - utile pour les audits de sécurité
 
 ---
 
