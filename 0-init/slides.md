@@ -68,13 +68,18 @@ Formateur
 
 # Horaires
 
-- 9h00 -> 12h00 <small>(pause de 10 min autour de 10h30)</small>
+- 9h00 -> 12h30 <small>(pause de 10 min autour de 10h30)</small>
 - Repas
-- 13h00 -> 17h00 <small>(pause de 10 min autour de 15h30)</small>
+- 13h30 -> 17h00 <small>(pause de 10 min autour de 15h30)</small>
 
 .center[
 (soit 7h00 de formation / jour !)
 ]
+
+# Signature de présence
+
+# Évaluation(s) (?)
+
 
 ---
 
@@ -149,10 +154,11 @@ Pour chaque module :
 - Soyez **patient, méthodique, attentifs** !
 - **Ne laissez pas l'écran vous aspirer** !
 
-**On est là pour apprendre :**
+## On est là pour apprendre
 
-- Trompez-vous !
-- Cassez des trucs ! Sortez des sentiers battus ! 
+- Réussir les exo importe peu, il faut **comprendre ce que vous faites** !
+- Apprendre plus que de la théorie (posture, savoir se dépatouiller...)
+- Prenez le temps de vous tromper (et de comprendre pourquoi)
 - Interagissez, posez des questions !
 
 
@@ -675,7 +681,7 @@ Télécharger une Linux Mint préinstallée sur OSboxes.org
     - 2048 Mo de RAM devraient suffir
     - Au moment de choisir le disque dur : fournir le fichier VDI de OSboxes / Linux Mint
 - Démarrer la machine et observer les étapes de démarrage
-- Mot de passe : osboxes.org (en QWERTY : osboxes:org)
+- Mot de passe : `ilovelinux`
 
 ---
 
@@ -782,6 +788,17 @@ votre_login@machine:~$ █
 - Des commandes comme dans "passer commande"
 - Certaines affichent des choses, d'autres changent des états
 - Vous pouvez ouvrir d'autres TTy / consoles avec Ctrl+Alt+F1, F2, F3, ..
+
+---
+
+# 2. Premier contact avec le terminal
+
+## Origine historique : le tty (teletype)
+
+.center[
+![](img/tty1.jpg)
+![](img/tty2.jpg)
+]
 
 ---
 
