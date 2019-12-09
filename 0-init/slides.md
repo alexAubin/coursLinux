@@ -1607,6 +1607,17 @@ rm -r ~/trash          # Supprime tout le dossier ~/trash et son contenu
 
 ---
 
+# 4. Le système de fichier
+
+## symlink vs. hardlink
+
+- On croise plus souvent des symlinks que des hardlinks (les symlinks sont + intuitifs)
+- On peut avoir des symlinks de répertoires (à la différence des hardlinks)
+    - Attention tout de même à certains comportements étrange (`..` en étant à l'intérieur d'un symlink)
+- On peut avoir des symlinks entre des filesystem différents ! (à la différence des hardlinks)
+
+---
+
 class: impact
 
 # 5. Utilisateurs et groupes
