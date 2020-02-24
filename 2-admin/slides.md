@@ -197,14 +197,12 @@ Qui s'occupe de toute la gestion des fenêtres (bordures, décoration, redimensi
 
 # 1. Installer une distribution
 
-## Plan de partitionnement
+## Plan de partitionnement (exemple!)
 
-Exemple :
 - 300 Mo pour `/boot/` en ext4
 - 12 Go pour `/` en ext4
 - 3 Go pour `/home/` en ext4
-- Le reste en swap
-    - le swap, c'est une extension "lente" de la RAM
+- Le reste en swap (une extension "lente" de la RAM)
 
 .center[
 ![](img/install3.png)
@@ -969,7 +967,6 @@ $ nc -zv 44.112.42.13 22
 Connection to 44.112.42.13 22 port [tcp/ssh] succeeded!
 ```
 
-nc -zv ynh-forge.netlib.re 53
 ---
 
 # 3. Notions de réseau

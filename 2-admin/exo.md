@@ -56,11 +56,12 @@
 - 1.12 - Cherchez avec `apt search` si le programme `sl` est disponible. (Utiliser `grep` pour vous simplifiez la tâche). À quoi sert ce programme ? Quelles sont ses dépendances ? (Vous pourrez vous aider de `apt show`). Finalement, installez ce programme en prêtant attention aux autres paquets qui seront installés en même temps.
 - 1.13 - Même chose pour le programme `lolcat`
 - 1.14 - Même chose pour le programme `nyancat` - mais cette fois, trouvez un moyen de télécharger le `.deb` directement depuis le site de debian qui référence les paquets, puis installez ce `.deb` avec `dpkg -i`. (Pour ce faire, taper par exemple `nyancat package debian` dans un moteur de recherche. Une fois arrivé sur la bonne page, vous trouverez une section 'Download' en bas. Parmis les architectures proposées, prendre `amd64`.)
-- 1.15 - Parfois, il est nécessaire d'ajouter un nouveau dépôt pour installer un programme (parce qu'il n'est pas disponible, ou bien parce qu'il n'est pas entièrement à jour dans la distribution utilisée). Ici, nous prendrons l'exemple de `mongodb` (un logiciel pour gérer des bases NoSQL) dont la version 4 n'est disponible que via un dépôt précis maintenu par les auteurs de mongodb.
+- 1.15 - Parfois, il est nécessaire d'ajouter un nouveau dépôt pour installer un programme (parce qu'il n'est pas disponible, ou bien parce qu'il n'est pas entièrement à jour dans la distribution utilisée). Ici, nous prendrons l'exemple de `mongodb` (un logiciel pour gérer des bases NoSQL) dont la version 4.2 n'est disponible que via un dépôt précis maintenu par les auteurs de mongodb.
     - Regarder avec `apt search` et `apt show` (et `grep` !) si le paquet `mongodb` est disponible et quelle est la version installable. 
-    - Ajouter un nouveau fichier (par exemple `mongodb.list`) dans `/etc/apt/sources.list.d` avec une unique ligne : `deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse`
+    - Ajouter un nouveau fichier (par exemple `mongodb.list`) dans `/etc/apt/sources.list.d` avec une unique ligne : `deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse`
     - Faire `apt update`. Que se passe-t-il ? Quels serveurs votre machine a-t-elle essayer de contacter ? Pourquoi cela produit-il une erreur ?
-    - Ajoutez la clef d'authentification des paquets avec `apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4` (demander au formateur de mettre en ligne cet identifiant pour ne pas avoir à le retaper à la main).
+    - Ajoutez la clef d'authentification des paquets avec `wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+` (demander au formateur de mettre en ligne cet identifiant pour ne pas avoir à le retaper à la main).
     - Refaire `apt update`. Est-ce que ça fonctionne ?
     - Regarder avec `apt search` et `apt show` (et `grep` !) si le paquet `mongodb-org` est disponible et quelle est la version installable.
     - Installer le paquet. Depuis où a-t-il été téléchargé ?
