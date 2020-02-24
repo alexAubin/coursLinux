@@ -1114,6 +1114,19 @@ alex@shadow:~$
 - [Ctrl]+C est à utiliser avec parcimonie ! Interrompre certaines commande peut causer des problèmes...
 - (N.B. : [Ctrl]+C / [Ctrl]+V ne fais pas copier/coller dans la console !)
 
+
+---
+
+# 3. La ligne de commande
+
+## Copier-coller dans le terminal
+
+(Dans tous les cas, on commence par selectionner le texte avec la souris)
+
+- Méthode 1. Clic droit "copier", clic droit "coller"
+- Méthode 2. Ctrl + Insert, Shift + Insert
+- Méthode 3. Clic du milieu
+
 ---
 
 # 3. La ligne de commande
