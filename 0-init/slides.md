@@ -85,54 +85,75 @@ Formateur
 
 # Plan de la formation
 
-**Jour 1 ?**
+**Jour 1 ?** / Bases de Linux
 
-- 0, 1 - Historique, introduction, rappels
+- 0, 1 - Historique, introduction, rappels, setup initial
 - 2, 3 - Prise en main du terminal et de la ligne de commande
 - 4 - Le système de fichiers
 
-**Jour 2 ?**
+**Jour 2 ?** / Bases de Linux
 
 - 5, 6 - Utilisateurs, groupes et permissions
 - 7 -  Les processus
 
-**Jour 3 ?**
+**Jour 3 ?** / Bases de Linux
 
 - 8 - Personnaliser son environnement
 - 9 - Commandes avancées (redirections, enchainements, pipes, ..)
 
 ---
 
-**Jour 4 ?**
-
-- 10 - Scripting bash
-   - variables
-   - interactivité
-   - conditions
- 
-**Jour 5 ?**
-
-- 10 - Scripting bash
-   - fonctions
-   - boucles
-
----
-
-**Jour 6 ?**
+**Jour 4 ?** / Administrer Linux
 
 - 11 - Installer Linux
    - (choisir une distro, boot sequence, live CD, partitionnement)
 - 12 - Le gestionnaire de paquet, les outils d'archivage
 
-**Jour 7 ?**
+**Jour 5 ?** / Reseau
 
 - 13 - Notions de réseaux
 - 14 - Notions de cryptographie et sécurité
 
-**Jour 8 ?**
+**Jour 6 ?** / Administrer Linux + réseau
 
-- 15 - Utiliser SSH pour administrer un serveur à distance
-- 16 - Configurer et gérer des services : serveur web
+- 15 - Mettre en place un serveur, utiliser SSH
+- 16 - Services, systemd, sécurité basique d'un serveur (firewall, fail2ban)
+
+---
+
+**Jour 7 ?** / Administrer Linux + réseau
+
+- 17 - Configurer un serveur web : nginx
+- 18 - Déployer une "vraie" application PHP/Mysql : Nextcloud
+- Créer un service systemd ?
+
+**Jour 8 ?** / Administrer Linux + réseau
+
+- LXC ?
+- HTTPS ?
+- Etude d'un serveur "complet" ?
+
+---
+
+**Jour 9 ?** / Scripting bash, automatisation
+
+- Scripting bash
+   - variables
+   - interactivité
+   - conditions
+
+**Jour 10 ?** / Scripting bash, automatisation
+
+- Scripting bash
+   - fonctions
+   - boucles
+
+**Jour 11 ?** / Scripting bash, automatisation
+
+- Cron jobs
+- Regex ?
+- TP d'application
+
 
 ---
 

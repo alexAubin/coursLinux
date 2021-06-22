@@ -759,31 +759,58 @@ class: impact
 
 # 3. Notions de réseau
 
-## "Réseau"
-
-Tout ce qui permet la communication entre les machines (et les programmes)
-
----
-
-# 3. Notions de réseau
-
 ## Objectifs
 
 - Comprendre et savoir se représenter les différentes couches
 - Savoir faire quelques des tests "de base"
 - ... et les commandes associées
 
+.center[
+![](img/formationreseau.jpg)
+]
+
 ---
 
 # 3. Notions de réseau
 
-## Un empilement d'abstractions / protocoles
+## Modele OSI
 
-- Des programmes (modèle client / serveur)
-- Des protocoles : HTTP, DNS (domaine, resolution)
-- TCP : ports, NAT
-- IP : adresses, routage, DHCP
-- Physique : interfaces réseau
+.center[
+![](img/modele_OSI.png)
+]
+
+---
+
+# 3. Notions de réseau
+
+## Modele OSI
+
+.center[
+![](img/osi2.jpg)
+]
+
+
+
+---
+
+# 3. Notions de réseau
+
+## Modele OSI "simplifié": le modèle TCP/IP
+
+- Application
+- Transport (TCP)
+- Internet (IP)
+- Accès réseau (Ethernet, cables, ondes, ...)
+
+---
+
+# 3. Notions de réseau
+
+## Encapsulation des données
+
+.center[
+![](img/encapsulation.png)
+]
 
 ---
 
@@ -795,34 +822,104 @@ Tout ce qui permet la communication entre les machines (et les programmes)
 
 # 3. Notions de réseau
 
-## Couche physique, interfaces (1/3)
+## Exemple de réseau
 
-- Ethernet, wifi, 4G, ...
-- Votre ordinateur dispose d'**interfaces réseau**
-- Elles permettent de communiquer sur un support (cable, onde)
-- Chaque interface réseau possède une **adresse MAC**
-- Il existe typiquement une interface `lo` (loopback, la boucle locale - 127.0.0.1)
+.center[
+![](img/network_1.png)
+]
+
 
 ---
 
 # 3. Notions de réseau
 
-## Couche physique, interfaces (2/3)
+## Couche 1 : cable RJ45 / paires torsadées
+
+.center[
+![](img/rj45.jpg)
+![](img/twisted_pair.jpg)
+]
+
+- Différentes catégories de cable : CAT 5, 6, 7, (8)
+
+
+---
+
+# 3. Notions de réseau
+
+## Couche 1 : WiFi / 4G/5G
+
+.center[
+![](img/antenne_wifi.jpg)
+![](img/4g5g.png)
+]
+
+- WiFi 2.4 GHz ou 5 GHz
+
+---
+
+# 3. Notions de réseau
+
+## Couche 1 : fibre optique
+
+.center[
+![](img/rj45.jpg)
+![](img/twisted_pair.jpg)
+]
+
+- Différentes catégories de cable : CAT 5, 6, 7, (8)
+
+---
+
+# 3. Notions de réseau
+
+## Couche 2 : Ethernet
+
+- Protocole pour transmettre l'information sur le médium physique
+- Adresse MAC, par ex. `4c:96:0b:7d:d3:1a`
+- Les ordinateurs disposent de cartes d'interface ethernet (filaire, wifi)
+- (Ethernet s'applique **aussi** au WiFi)
+
+.center[
+![](img/etherner_card.jpg)
+]
+
+.center[
+![](img/trame_ethernet.png)
+]
+
+---
+
+# 3. Notions de réseau
+
+## Couche 2 : Ethernet
+
+- Les `switch` permettent de connecter plusieurs machines pour créer segment
+- Un `switch` est "conscient" de la notion d'adresse ethernet
+- Un `bridge` permet de "fusionner" plusieurs LAN ensemble
+
+.center[
+![](img/switch.jpeg)
+![](img/bridge.jpeg)
+]
+
+.center[
+![](img/bridge.png)
+]
+
+
+---
+
+# 3. Notions de réseau
+
+## Couche 2 : les interfaces dans Linux
 
 - Les interfaces sont configurées grâce aux fichiers `/etc/network/interfaces` et `/etc/network/interfaces.d/*`
-    - Par exemple, pour configurer le DHCP ou des adresses IP fixes
-    - Généneralement, pas besoin d'y toucher sauf si l'on est dans un contexte particulier
-- Il existe aussi diverses options du kernel (e.g. pour désactiver l'IPv6, bridges, ...)
-
----
-
-# 3. Notions de réseau
-
-## Couche physique, interfaces (2/3)
-
 - `ip a` permet d'obtenir des informations sur les interfaces
 - Historiquement, les noms étaient "simple" : `eth0`, `eth1`, `wlan0`, ...
 - Aujourd'hui les noms sont un peu plus complexes / arbitraires
+- Il existe toujours une interface `lo` (loopback, la boucle locale - 127.0.0.1)
+- Il peut y'avoir d'autres interfaces ou bridges "virtuelles" (contexte de conteneur, etc..)
 
 ```bash
 $ ip a
@@ -838,15 +935,122 @@ $ ip a
 
 # 3. Notions de réseau
 
-## IP : Internet Protocol (1/2)
+TODO: blocks réservé, 127.0.0.1 vs 0.0.0.0, IP typique
 
+TODO: discussion VPN, proxy
+TODO: zeroconf, bonjour protocol
+TODO: securité : firewall, fail2ban, ...
+
+## Couche 3 : IP
+
+- IP pour *Internet Protocol*
 - IP fait parler **des machines** !
+    - .. et permet de relier plusieurs réseaux, potentiellement au fonctionnement différent
 - Protocole de routage des paquets
 - "Best-effort", non fiable !
-- Les routeurs discutent entre eux pour optimiser l'acheminement
-- Les adresses sont comme des numéros de telephone, ou des positions GPS
-   - IPv4, par exemple 92.93.127.10   (4.3 milliards d'adresse)
-   - IPv6, par exemple 2a04:7260:9088:6c00::1 (10^38 addresses)
+- Les routeurs, les facteurs d'internet
+    - par ex. votre box internet
+    - Routeur != Switch, un routeur "comprends" les adresses et protocole IP
+    - Capable de discuter entre eux pour optimiser l'acheminement
+
+---
+
+# 3. Notions de réseau
+
+## Couche 3 : IP
+
+- Internet, c'est avant-tout une INTERconnexion d'opérateurs réseaux (NET)
+- Ex: le réseau de l'opérateur Proxad
+
+.center[
+![proxad.png]
+]
+
+---
+
+## Couche 3 : IP
+
+- Internet, c'est avant-tout une INTERconnexion d'opérateurs réseaux (NET)
+- Les opérateurs (AS) s'interconnectent (peering) dans des IXP (internet exchange point)
+- Croissance "organique" du réseau
+
+.center[
+![inteconnect_network.png]
+]
+
+---
+
+# 3. Notions de réseau
+
+## Couche 3 : IP
+
+- Système d'adressage d'IPv4
+    - addresses codées sur 32 bits (4 nombres entre 0 et 255)
+    - par exemple `92.93.127.10`
+    - "seulement" 4.3 milliards d'adresses ! (pénurie)
+
+.center[
+![](img/IPv4_frame.png)
+]
+
+---
+
+# 3. Notions de réseau
+
+## Couche 3 : IP
+
+- Distribution des addresses IP gérées par des ONG (IANA, RIR, LIR, ISP, ...)
+
+.center[
+![](RIP_LIR_etc.png)
+]
+
+---
+
+# 3. Notions de réseau
+
+## Couche 3 : IP
+
+- Notion de plage d'IP, réseau, masques de sous-réseau, notation CIDR
+    - une adresse IP est composée d'une partie "réseau" (préfixe) et d'une partie "hote"
+    - par exemple `192.65.196.0/23` est un bloc de 512 IP attribué au CERN
+    - `/23` signifie que les 23 premiers bits constituent la partie réseau
+    - Il reste donc 32-23=9 bits pour la partie hote, soit 2^9 = 512 IP
+    - Les masques "typiques" sont `/8`, `/16`, `/24` et `/32`
+
+---
+
+# 3. Notions de réseau
+
+## Couche 3 : IP
+
+- Certains blocs d'IP sont réservés à certains usages
+    - Loopback
+        - `127.0.0.0\8` (c.f. typiquement `127.0.0.1`)
+    - Réseau locaux (private network)
+        - `192.168.0.0/16`
+        - `10.0.0.0/8`
+        - `172.16.0.0/12` 
+    - Autres : c.f. https://en.wikipedia.org/wiki/Reserved_IP_addresses
+
+---
+
+# 3. Notions de réseau
+
+## Et l'IPv6 ?
+
+- Existe depuis 1998 (sigh)
+- Incompatible avec IPv4 : période de transition "dual-stack"
+- Addresses codées sur 128 bits (soit 2^94 fois plus d'adresses que IPv4 -> 10^38 addresses)
+   - Par exemple, `2a04:7260:9088:6c00:0044:0000:0000:0001`
+   - En IPv6, on peut simplifier les `0` et juste écrire: `2a04:7260:9088:6c00:44::1`
+   - L'équivalent de `127.0.0.1` est `::1`
+   - L'équivalent de `192.168.0.0/16` est `fc00::/10`
+   - En IPv6, Les masques vont jusqu'à `/128`
+   - En IPv6, il est courant en tant qu'end-user de recevoir tout un préfixe, comme par exemple un `/56`
+- Certains commandes ont un équivalent "v6" (par ex. `ping6`) et/ou une option `-6` (par ex. `ping -6`)
+    - pour les URLs, le `:` conflicte avec la notation des ports, il faut alors écrire l'IP entre crochet
+    - par ex: `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/`
 
 ---
 
@@ -880,6 +1084,8 @@ PING 91.198.174.192 (91.198.174.192) 56(84) bytes of data.
 2 packets transmitted, 2 received, 0% packet loss, time 3ms
 rtt min/avg/max/mdev = 51.475/58.394/65.313/6.919 ms
 ```
+
+Note: `ping` utilise le protocole `ICMP` qui a lieu au niveau de la couche 3
 
 ---
 
@@ -935,6 +1141,7 @@ $ traceroute 91.198.174.192
 - TCP fourni un "tuyau de communication" entre deux programmes
 - Notion de 'port'
 - Analogie avec les différents "departement" à l'intérieur d'une entreprise
+- Une connexion entre deux programme est caractérisé par **deux** couples (IP:port) 
 - Par exemple : votre navigateur web (port 56723) qui discute qui discute avec le serveur web (port 80)
     - côté A : 183.92.18.6:56723 (un navigateur web)
     - côté B : 91.198.174.192:80 (un serveur web)
@@ -1019,7 +1226,7 @@ tcp6    :::25       LISTEN      1331/master
 
 - Un protocole = une façon de discuter entre programmes
 - Conçus pour une finalité particulière
-- Ont généralement un port "par défaut" / conventionnel
+- Ont généralement un port "par défaut" / conventionnel (c.f. `/etc/services`)
    - 80/http : le web (des "vitrines" pour montrer et naviguer dans du contenu)
    - 443/https : le web (mais en chiffré)
    - 25/smtp : le mail (pour relayer les courriers électroniques)
@@ -1047,6 +1254,36 @@ Par exemple, HTTP :
 
 # 3. Notions de réseau
 
+## Le web
+
+- Le web, ce n'est par Internet
+- Le web est construit grace au language HTML, généralement transporté par HTTP
+- "Web" désigne la "toile" créée par les lignes hypertexte, une fonctionnalité introduite par HTTP 
+
+
+---
+
+# 3. Notions de réseau
+
+## Le web
+
+- Dans le modèle OSI:
+    - 7 Application: votre navigateur, un site Web
+    - 6 Présentation: HTML, CSS, JS, PNG, ...
+    - 5 Session: HTTP / HTTPs
+    - 4 TCP
+    - 3 IP
+    - 2 (liaison)
+    - 1 (physique)
+- Le web, ce n'est par Internet
+- Le web est construit grace au language HTML, généralement transporté par HTTP
+- "Web" désigne la "toile" créée par les lignes hypertexte, une fonctionnalité introduite par HTTP 
+
+
+---
+
+# 3. Notions de réseau
+
 ## DNS : Domain name server (1/5)
 
 - Retenir cinquante numéros de telephone (ou coordonées GPS) par coeur, c'est pas facile
@@ -1054,6 +1291,7 @@ Par exemple, HTTP :
 - `wikipedia.org -> 91.198.174.192`
 - On peut acheter des noms chez des *registrars* (OVH, Gandi, ...)
 - Composant critique d'Internet (en terme fonctionnel)
+- Fonctionne en UDP et (et pas en TCP)
 
 ---
 
@@ -1147,15 +1385,18 @@ ff02::2 ip6-allrouters
 
 # 3. Notions de réseau
 
-## Réseau local et NAT (1/6)
+## Réseau local, DHCP, NAT (1/6)
 
 - En pratique, on est peu souvent "directement" connecté à internet
     - MachinBox
     - Routeur de l'entreprise
 - Pas assez d'IPv4 pour tout le monde
     - nécessité de sous-réseaux "domestique" / des réseau "local"
-    - basé sur les NAT
-    - typiquement avec des IP en 192.168.x.y ou 10.0.x.y
+    - basé sur les NAT (network address translation)
+- Quand je me connecte au réseau:
+    - mon appareil demande au routeur une IP, suivant le protocole DHCP <small>(dynamic host configuration protocol)</small>
+    - le routeur a un range d'IP qu'il peut attribuer, typiquement quelque chose comme `192.168.0.0/24`
+    - DHCP permet aussi de configurer certains paramètres, comme le résolveur DNS à utiliser
 
 ---
 
@@ -1173,9 +1414,8 @@ ff02::2 ip6-allrouters
 
 # 3. Notions de réseau
 
-## Réseau local et NAT (4/6)
+## Réseau local, DHCP, NAT (4/6)
 
-- C'est le routeur qui m'attribue une IP via le DHCP
 - Le routeur agit comme "gateway" (la "passerelle" vers les internets)
     - (c.f. `ip route`, et la route par défaut)
 - Depuis l'extérieur du réseau local, il n'est pas possible de parler "simplement" à une machine
@@ -1186,7 +1426,7 @@ ff02::2 ip6-allrouters
 
 # 3. Notions de réseau
 
-## Réseau local et NAT (5/6)
+## Réseau local, DHCP, NAT (5/6)
 
 La situation se complexifie avec Virtualbox :
 - Typiquement Virtualbox créé un NAT à l'intérieur de votre machine
@@ -1203,6 +1443,8 @@ La situation se complexifie avec Virtualbox :
 class: impact
 
 # 4. Notions de cryptographie
+
+TODO: x509, certificats, Let's Encrypt, Acme challenge
 
 ---
 

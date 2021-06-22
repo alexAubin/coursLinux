@@ -76,8 +76,8 @@
 - 1.22 - Recommencez mais en produisant une version compressée directement
 - 1.23 - En fouillant dans les options de `tar`, trouvez un moyen de lister le contenu de l'archive
 - 1.24 - Créez un dossier `test_extract` dans `/tmp/`, déplacez l'archive dans ce dossier puis décompressez-là dedans.
-- 1.25 - En reprenant le `.deb` du programme `nyancat` de la question 1.14, utilisez `ar` et `tar` pour décompresser le `.deb` jusqu'à trouver le fichier de controle debian, ainsi que l'executable contenu dans le paquet.
-- 1.26 - Trouvez un ou des fichiers `.gz` dans `/var/log` (ou ailleurs ?) et cherchez comment combiner `cat` et `gzip` pour lire le contenu de ce fichier sans créer de nouveau fichier.
+- 1.25 - (Avancé) En reprenant le `.deb` du programme `nyancat` de la question 1.14, utilisez `ar` et `tar` pour décompresser le `.deb` jusqu'à trouver le fichier de controle debian, ainsi que l'executable contenu dans le paquet.
+- 1.26 - (Avancé) Trouvez un ou des fichiers `.gz` dans `/var/log` (ou ailleurs ?) et cherchez comment combiner `cat` et `gzip` pour lire le contenu de ce fichier sans créer de nouveau fichier.
 
 ### Exercices avancés
 
@@ -117,24 +117,6 @@
 - 3.15 - Dans votre fichier `/etc/hosts`, ajoutez une ligne `127.0.0.1 google.fr`. Quel effet cela produit-il ? Et si vous ajoutez `92.92.115.142` à la place ?
 - 3.16 - (Avancé) Analysez où sont envoyées les requêtes DNS (port 53) avec Wireshark. En déduire quel est le résolveur DNS utilisée par le système. Remplacez le contenu du `/etc/resolv.conf` par `nameserver 89.234.141.68` et refaites des requêtes DNS. Confirmez avec `wireshark` que ces requêtes sont bien envoyées vers le nouveau résolveur.
 
-
-## 4 - Notions de cryptographie
-
-- 4.0 - Installer `gpg` si le programme n'est pas déjà présent
-- 4.1 - Générer une clef GPG avec `gpg --full-generate-key`. Lors de la création, on peut garder toutes les options par défaut. Pour le nom et email, vous pouvez utilisez de "fausses" informations comme `votreprenom@formationlinux`.
-- 4.2 - Récupérer la clef GPG du formateur puis l'importer avec `gpg --import <chemin_vers_la_clef>`. S'assurer que la clef a bien été importée avec `gpg --list-keys`.
-- 4.3 - Écrire un court message pour le formateur dans un fichier (par exemple, 'Je fais du chiffrement !') puis chiffrer ce fichier avec 
-```bash
-gpg --recipient leformateur@example.com --encrypt --armor <fichier>
-```
-Affichez ensuite le contenu de `<fichier>.asc` : il s'agit du message chiffré à destination du formateur !
-- 4.4 - Affichez votre clef publique avec 
-```bash
-gpg --armor --export votreprenom@formationlinux
-```
-**Il vous faudra la fournir au formateur pour qu'il puisse vous répondre en chiffré !**
-- 4.5 - Envoyez depuis `yopmail.com`, un mail au formateur contenant le message chiffré **et votre clef publique**.
-- 4.6 - Attendre une réponse, et tenter de la déchiffrer avec `gpg --decrypt`.
 
 ## 5 - Se connecter et gérer un serveur avec SSH
 
