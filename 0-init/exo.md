@@ -5,12 +5,14 @@
 - Installer Virtualbox, puis créer une nouvelle machine virtuelle
    - choisissez comme type Linux / Other-Linux (64 bit)
    - 2048 Mo de RAM devraient suffir
-   - au moment de spécifier le disque dur virtuel, utiliser l'image de disque fournie par le formateur
+   - au moment de spécifier le disque dur virtuel, utiliser l'image de disque provenant de OSboxes.org
 
 ### 1. Démarrer et se logguer
 
 - Démarrer la machine et *observer* son démarrage
-- Se logger avec l'utilisateur `padawan` et le mot de passe `ilovelinux`
+- L'user par défaut est `osboxes.org` et le mot de passe `osboxes.org`. Malheureusement, le clavier est en Quwerty par défaut, et le mot de passe deviens (en azerty : `osboxes:org`
+- Une fois loggué, configurez la langue et la disposition du clavier en Francais/Azerty. Vous trouverez cette configuration dans le "Menu démarrer" > Keyboads, puis '+' pour ajouter la disposition de clavier. Enfin, supprimez la disposition Qwerty avec le '-'.
+- Ajoutez un nouvel utilisateur au système nommé `padawan`, avec le mot de passe de votre choix, puis re-logguez vous avec cet utilisateur.
 - Pour que l'écran de la machine virtuelle (VM) s'adapte automatiquement et joliment à la taille de l'écran, il vous faut utiliser le menu "Périphériques" (tout en haut de l'écran), puis, en bas du menu, "Insérer le CD des add-ons invités". Ensuite, accepter d'executer le CD dans Linux Mint. Un terminal s'ouvre automatiquement pour installer des logiciels. Une fois terminé, redémarrer la machine, et l'écran devrait s'adapter automatiquement à la taille de la fenêtre.
 
 ### 2. Premier contact avec la ligne de commande commandes
@@ -30,46 +32,52 @@
 - **3.2** - Y'a-t-il des fichiers cachés dans votre répertoire personnel ?
 - **3.3** - Quand a été modifié le fichier `/etc/shadow` ?
 - **3.4** - Identifiez à quoi sert l'option `-h` de la commande `ls` via son `man`.
-- 3.5 - Identifiez ce que fait la commande `sleep` via son `man`.
-- **3.6** - Lancer `sleep 30` et arrêter l'execution de la commande avant qu'elle ne se termine.
-- **3.7** - Pour vous entraîner à utiliser [Tab] et ↑, tentez le plus rapidement possible et en utilisant le moins de touches possible de lister successivement le contenu des dossiers `/usr`, `/usr/share`, `/usr/share/man` et `/usr/share/man/man1`.
-- 3.8 - Se renseigner sur ce que font `date` et `cal`
-- 3.9 - Afficher le calendrier pour l'année 2019, puis juste le mois de Février 2019
-- **3.10** - Se renseigner sur ce que fait la commande `free`, et interpreter la sortie de `free -h`
-- **3.11** - Se renseigner sur ce que fait la commande `ping` et interpreter la sortie de `ping 8.8.8.8`
+- **3.5** - Cherchez une option de `ls` qui permet de trier les fichiers par date de modification
+- **3.6** - Identifiez ce que fait la commande `sleep` via son `man`.
+- **3.7** - Lancer `sleep 30` et arrêter l'execution de la commande avant qu'elle ne se termine.
+- **3.8** - Pour vous entraîner à utiliser [Tab] et ↑, tentez le plus rapidement possible et en utilisant le moins de touches possible de lister successivement le contenu des dossiers `/usr`, `/usr/share`, `/usr/share/man` et `/usr/share/man/man1`.
+- 3.9 - Se renseigner sur ce que font `date` et `cal`
+- 3.10 - Afficher le calendrier pour l'année 2022, puis juste le mois de Février 2022
+- **3.11** - Se renseigner sur ce que fait la commande `free`, et interpreter la sortie de `free -h`
+- **3.12** - Se renseigner sur ce que fait la commande `ping` et interpreter la sortie de `ping 8.8.8.8`
 
 ### 4. Le système de fichier 
 
 - **4.1** - En utilisant `mkdir` et `touch`, créez dans votre répertoire personnel l'arborescence suivante :
 
 ```bash
-documents/
-├── descriptions_des_commandes/
-│   ├── ls.txt
-│   ├── cd.txt
-│   └── pwd.txt
-├── img/
-│   ├── pikachu.jpg
-│   └── carapuce.jpg
-└── coursLinux.pdf
+~/
+└── documents/
+    ├── coursLinux.pdf
+    └── une_grande_maison/
+        ├── cuisine/
+        │   ├── placard1/
+        │   └── placard2/
+        ├── chambre1/
+        └── chambre2/
+            └── bureau/
+                ├── presentation.txt
+                └── ma_collection/
+                    ├── pikachu.jpg
+                    └── carapuce.jpg
 ```
 
-- **4.2** - Remplissez `ls.txt`, `cd.txt` et `pwd.txt` avec du texte en utilisant `nano` (par exemple, résumez l'utilité de la commande et ses options / cas d'usage). Vérifiez que le contenu de ces fichiers a bien été modifié à l'aide de `cat`.
+- **4.2** - Remplissez `presentation.txt` avec quelques lignes sur vous (votre nom, d'où vous venez, ...) en utilisant `nano`. Vérifiez que le contenu du fichier a bien été pris en compte en l'affichant avec `cat`.
 - 4.3 - Affichez le contenu du fichier `/etc/os-release`
-- **4.4** - Aller dans `~/documents/descriptions_des_commandes` puis, *en utilisant uniquement des chemins relatifs* et en vous aidant de la touche [Tab], déplacez-vous successivement vers :
-    - `~/documents/img`
+- **4.4** - Aller dans `~/documents/une_grande_maison` puis, *en utilisant uniquement des chemins relatifs* et en vous aidant de la touche [Tab], déplacez-vous successivement vers :
+    - `~/documents/une_grande_maison/chambre2/bureau/`
     - `/usr/share/doc/`
-    - `~/.nano`
-    - `~/documents/img`
+    - `~/.local/`
+    - `~/documents/une_grande_maison`
 - 4.5 - Affichez le contenu de `/etc/motd` et `/etc/login.defs`
 - **4.6** - En utilisant `less`, checher `LOGIN_TIMEOUT` dans le fichier `/etc/login.defs`. Même chose, mais cette fois en utilisant `nano`.
 - 4.7 - Utilisez une commande pour compter le nombre de ligne de `/etc/login.defs` ?
-- **4.8** - Créez le fichier `dracaufeu.jpg` dans le dossier `~/documents/descriptions_des_commandes/`... Vous réalisez ensuite que vous auriez voulu mettre ce fichier dans `~/documents/img` ! Utilisez alors la commande `mv` pour déplacer `dracaufeu.jpg` vers le bon dossier.
-- 4.9 - Renommez `~/documents/img` en `~/documents/pokemons`
+- **4.8** - Créez le fichier `dracaufeu.jpg` dans le dossier `cuisine/placard2/`... Vous réalisez ensuite que vous auriez voulu mettre ce fichier dans `ma_collection/` ! Utilisez alors la commande `mv` pour déplacer `dracaufeu.jpg` vers le bon dossier.
+- 4.9 - Renommez `ma_collection/` en `ma_collection_de_pokemons/`
 - 4.10 - Créez un nouveau dossier `~/mybins` et copiez dedans les fichier `/bin/ls` et `/bin/pwd`.
-- **4.11** - Créez un dossier `~/bkp/` et créer une copie de `~/documents/descriptions_des_commandes` qui s'apelle `~/bkp/cmd_bkp`
-- 4.12 - Supprimez `~/bkp/cmd_bkp/pwd.txt`
-- **4.13** - Supprimez tout le dossier `~/bkp/` récursivement
+- **4.11** - Créez un dossier `~/bkp/` et créer une copie de `ma_collection_de_pokemons` dans un nouveau dossier `~/sauvegardes/`
+- 4.12 - Supprimez le fichier `dracaufeu.jpg` de la collection
+- **4.13** - Supprimez tout le dossier `~/sauvegardes/` récursivement
 - **4.14** - Inspectez les sorties de `df -h` et `lsblk`
 - 4.15 - Tentez de supprimer `/etc/passwd` (en tant que `padawan` !)
 - 4.16 - Tentez de redimensionner une partition à l'aide de `gparted`
@@ -102,6 +110,8 @@ documents/
 - 6.10 - Créez des fichier `beep.wav`, `boop.wav` et `blop.wav` que seul `r2d2` peut executer.
 - 6.11 - Êtes-vous capable de créer un dossier qui contient des fichiers qu'il est possible de lire, mais pas de lister ?
 - 6.12 - En tant qu'utilisateur `padawan`, arrivez-vous à donner un de vos fichier à `r2d2` ?
+- 6.13 - Utilisez `setfacl` pour autoriser le groupe `droid` à lister et rentrer dans votre home. Confirmez l'effet attendu, d'une part avec `ls -l` et `getfacl`, et d'autre part depuis un shell en étant connecté en tant que `r2d2`
+- 6.14 - Même chose, mais cette fois-ci donnez le droit de list et rentrer dans `/home/r2d2` à l'user(!) `padawan`.
 
 ### 7. Processus
 

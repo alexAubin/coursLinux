@@ -42,16 +42,18 @@ class: impact
 
 .col-4[.center[
 Ingénieur/Physicien
-</br>
+
+![](img/cern.png)
 </br>
 ![](img/particles.jpg)
 ]]
 
 .col-4[.center[
-Dev / hacktiviste?
+Dev / adminsys / ...
 
-![](img/hackstub.jpg)
-![](img/yunohost.jpg)
+![](img/yunohost.png)
+![](img/arn.png)
+![](img/odoo.png)
 ]]
 
 .col-4[.center[
@@ -76,10 +78,18 @@ Formateur
 (soit 7h00 de formation / jour !)
 ]
 
-# Signature de présence
+# Signatures de présence
 
-# Évaluation(s) (?)
+# Situation sanitaire
 
+# Évaluations (?)
+
+
+---
+
+# Plan du cursus
+
+# Autres formateurs / référents 
 
 ---
 
@@ -87,7 +97,7 @@ Formateur
 
 **Jour 1 ?** / Bases de Linux
 
-- 0, 1 - Historique, introduction, rappels, setup initial
+- 1 - Historique, introduction, rappels, setup initial
 - 2, 3 - Prise en main du terminal et de la ligne de commande
 - 4 - Le système de fichiers
 
@@ -129,6 +139,7 @@ Formateur
 
 **Jour 8 ?** / Administrer Linux + réseau
 
+- Savoir débugger un système cassé ?
 - LXC ?
 - HTTPS ?
 - Etude d'un serveur "complet" ?
@@ -159,17 +170,23 @@ Formateur
 
 # Méthode de travail
 
-Pour chaque module :
-- Blabla théorique
-- Publication du support
-- Mise en application pratique sur des exercices
+- Alternance théorie / pratique
+- Publication du contenu au fur et à mesure 
+    - sur **https://dismorphia.info/documents/formationLinux**
+- Travail dans une machine virtuelle
+- Setup avec Guacamole pour les stagiaires à distance
+
+# Objectifs
+
+- Vous fournir des bases solides
+- Vous transmettre une forme d'enthousiasme
 
 ---
 
 # Disclaimers
 
 - L'informatique technique, c'est compliqué
-    - ignorez les cryptonerds qui prétendent que c'est intuitif et trivial
+    - ignorez les turboonerds qui prétendent que c'est intuitif et trivial
     - (et désolé si moi-même je pars trop loin!)
 - Le brute force ne marche pas, il faut être précis / rigoureux...
 - Soyez **patient, méthodique, attentifs** !
@@ -182,18 +199,17 @@ Pour chaque module :
 - Prenez le temps de vous tromper (et de comprendre pourquoi)
 - Interagissez, posez des questions !
 
-
 ---
 
 class: impact
 
-# 0. Les origines de (GNU/)Linux 
+# 1. Les origines de (GNU/)Linux 
 
 ## (ou plus largement de l'informatique contemporaine)
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## La préhistoire de l'informatique
 
@@ -207,7 +223,7 @@ class: impact
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## 1970 : PDP-7
 
@@ -215,9 +231,22 @@ class: impact
 ![](img/pdp7.jpg)
 ]
 
+
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
+
+## 1970 : (old computer?)
+
+.center[
+![](img/old_computer.jpg)
+]
+
+
+
+---
+
+# 1. Les origines de Linux
 
 ## 1970 : UNIX
 
@@ -234,7 +263,7 @@ class: impact
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## 1970 : UNIX
 
@@ -244,7 +273,7 @@ class: impact
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## 1975 : Le langage C
 
@@ -258,7 +287,7 @@ class: impact
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## 1970~1985 : Les débuts d'Internet
 
@@ -269,7 +298,7 @@ class: impact
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## 1970~1985 : Les débuts d'Internet
 
@@ -280,7 +309,7 @@ class: impact
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## 1970~1985 : Les débuts d'Internet
 
@@ -294,7 +323,7 @@ class: impact
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## 1980 : Culture hacker, logiciel libre
 
@@ -308,7 +337,7 @@ class: impact
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## 1980 : Culture hacker, logiciel libre
 
@@ -326,7 +355,7 @@ class: impact
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## 1990 : Création de Linux
 
@@ -339,7 +368,7 @@ class: impact
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## 1990 : Création de Linux
 
@@ -354,7 +383,7 @@ class: impact
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## 1990 : Et en fait, Linux se développe...
 
@@ -368,7 +397,7 @@ class: impact
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 .center[
 ... L'informatique et Internet se démocratisent ...
@@ -381,7 +410,7 @@ En très résumé :
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## L'informatique contemporaine
 
@@ -396,7 +425,40 @@ En très résumé :
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
+
+## Architecture d'un ordinateur
+
+.center[
+![](img/computer.png)
+]
+
+
+---
+
+# 1. Les origines de Linux
+
+## Le rôle d'un système d'exploitation
+
+.center[
+![](img/systemedexploitation.jpg)
+]
+
+---
+
+# 1. Les origines de Linux
+
+## Le rôle d'un système d'exploitation
+
+- permet aux users d'exploiter les ressources
+- sais communiquer avec le hardware
+- créer des abstractions pour les programmes (e.g. fichiers)
+- partage le temps de calcul entre les programmes
+- s'assure que les opérations demandées sont légales
+
+---
+
+# 1. Les origines de Linux
 
 ## Linux aujourd'hui
 
@@ -408,7 +470,7 @@ En très résumé :
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## Les distributions
 
@@ -425,7 +487,7 @@ Un ensemble de programmes "packagés", préconfigurés, intégré pour un usage 
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## Les distributions
 
@@ -435,8 +497,9 @@ Un ensemble de programmes "packagés", préconfigurés, intégré pour un usage 
 ![](img/centos.png)
 ![](img/arch.png)
 ![](img/kali.png)
-![](img/android.jpg)
+![](img/android.png)
 ![](img/yunohost.png)
+![](img/kubernetes.png)
 
 - **Debian** : réputé très stable, typiquement utilisé pour les serveurs
 - **Ubuntu, Mint** : grand public
@@ -445,10 +508,11 @@ Un ensemble de programmes "packagés", préconfigurés, intégré pour un usage 
 - **Kali Linux** : orientée sécurité et pentesting
 - **Android** : pour l'embarqué (téléphone, tablette)
 - **YunoHost** : auto-hébergement grand-public
+- **Kubernetes** / k8s : devops, déploiement et orchestration de flotte de conteneur
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## Les distributions
 
@@ -457,7 +521,7 @@ Et bien d'autres : Gentoo, LinuxFromScratch, Fedora, OpenSuse, Slackware, Alpine
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## Linux, les environnement
 
@@ -469,7 +533,7 @@ Et bien d'autres : Gentoo, LinuxFromScratch, Fedora, OpenSuse, Slackware, Alpine
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## Linux, les environnements (Gnome)
 
@@ -479,7 +543,7 @@ Et bien d'autres : Gentoo, LinuxFromScratch, Fedora, OpenSuse, Slackware, Alpine
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## Linux, les environnements (KDE)
 
@@ -489,7 +553,7 @@ Et bien d'autres : Gentoo, LinuxFromScratch, Fedora, OpenSuse, Slackware, Alpine
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## Linux, les environnements (Cinnamon)
 
@@ -499,7 +563,7 @@ Et bien d'autres : Gentoo, LinuxFromScratch, Fedora, OpenSuse, Slackware, Alpine
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## Linux, les environnements (XFCE)
 
@@ -509,7 +573,7 @@ Et bien d'autres : Gentoo, LinuxFromScratch, Fedora, OpenSuse, Slackware, Alpine
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## Linux, les environnements (Awesome)
 
@@ -519,107 +583,13 @@ Et bien d'autres : Gentoo, LinuxFromScratch, Fedora, OpenSuse, Slackware, Alpine
 
 ---
 
-# 0. Les origines de Linux
+# 1. Les origines de Linux
 
 ## Environnement de travail : Linux Mint
 
 - (Choix arbitraire du formateur)
 - Distribution simple, sobre, pas spécialement controversée (?)
 - Profite de la stabilité de Debian et de l'accessibilité d'Ubuntu 
-
----
-
-class: impact
-
-# 1. Rappels sur l'informatique
-
----
-
-class: impact
-
-# « Informatique »
-
----
-
-class: impact
-
-# L'ordinateur comme outil universel
-
-Votre laptop doit être pour vous ce que le sabre laser est au Jedi
-
----
-
-# 1. Rappels sur l'informatique
-
-## Architecture d'un ordinateur
-
-.center[
-![](img/computer.png)
-]
-
----
-
-# 1. Rappels sur l'informatique
-
-## Le rôle d'un OS
-
-User
-Programs
-Operating System
-Hardware
-
-L'OS :
-- sais communiquer avec le hardware pour exploiter les ressources
-- créer des abstractions pour les programmes (e.g. fichiers)
-- partage le temps de calcul entre les programmes
-- s'assure que les opérations demandées sont légales
-
----
-
-# 1. Rappels sur l'informatique
-
-## Architecture d'Internet
-
-- Décentralisé / distribué / "organique"
-- Intelligence à l'extérieur
-
-.center[
-![](img/internet.jpg)
-]
-
----
-
-# 1. Rappels sur l'informatique
-
-## Architecture d'Internet
-
-- IP : routage des paquets "au mieux"
-- TCP : tunnel fiable pour communiquer (IP+accusés de réception)
-
----
-
-# 1. Rappels sur l'informatique
-
-## Architecture d'Internet
-
-Le web : un protocole parmis d'autre pour échanger de l'information, dans un format précis (pages web)
-Le mail : un autre protocole(s) pour échanger de l'information, dans un autre format (les courriers)
-
-Autres protocoles : DNS, SSH, IRC, torrent, ...
-
----
-
-# 1. Rappels sur l'informatique
-
-## Architecture d'Internet
-
-- Programmes
-- Protocole
-- TCP
-- IP
-- Cables
-
-Modele client / serveur
 
 ---
 
@@ -1077,7 +1047,6 @@ ls  -a        # (ou --all) Liste les fichiers (y compris cachés)
 ls  -l        # Avec des détails (type, permissions, proprio, date de modif)
 ls  -t        # Trie par date de modification
 ls  -h        # (ou --human-readable) Tailles lisibles comme '24K' ou '3G'
-ls  *.py      # Liste tous les fichiers du repertoire courant qui se finissent par `.py`
 ```
 
 (on peut combiner les options et arguments)
@@ -1088,6 +1057,26 @@ ls  *.py      # Liste tous les fichiers du repertoire courant qui se finissent p
 
 - Utiliser `ls` et `cd`, c'est comme naviguer avec un explorateur de fichier graphique !
 
+---
+
+# 3. La ligne de commande
+
+## Les caractères spéciaux
+
+```
+ls *.py        # Liste tous les fichiers du repertoire courant finissant par .py
+ls *.py *.png} # Liste tous les fichiers du repertoire courant finissant par .py ou *.png
+ls *.{py,png}  # Liste tous les fichiers du repertoire courant finissant par .py ou *.png
+```
+
+- `*` corresponds à un "joker" / wildcard, et est interprété comme "n'importe quelle suite de caractère" 
+- utile pour spécifier "tous les fichiers qui suivent un même format"
+- **l'expansion survient *avant* que la commande soit éxécutée et se fait par rapport aux fichiers du dossier courant**
+- Par ex: 
+    - Si le dossier contient les fichiers `foo.py` et `bar.py`
+    - ... alors taper `ls *.py` équivaut à taper `ls foo.py bar.py`
+    - ... et taper juste `*` équivant à taper `foo.py bar.py`
+    - ... et on peut écrire `ls '*.py'` pour parler d'un fichier qui s'apelle littéralement `*.py`
 
 ---
 
@@ -1109,7 +1098,7 @@ ls  *.py      # Liste tous les fichiers du repertoire courant qui se finissent p
 ```
 man nom_de_commande
 ```
-(navigation avec les fleches, `/mot` pour chercher un mot, `q` pour quitter)
+(mode paginateur: navigation avec les fleches, `/mot` pour chercher un mot, `q` pour quitter)
 
 
 Ou avec `--help` ou `-h` :
@@ -1250,7 +1239,36 @@ class: impact
 - **EXT3**, **EXT4** : système typiquement utilisé par Linux (Ubuntu, Mint, ...)
 - *HFS+* : système utilisé par MacOS
 - *TMPFS* : système de fichier pour gérer des fichiers temporaires (`/tmp/`)
-- *ZTFS*, *BRTFS*, *Tahoe-LAFS*, *FUSE*, *IPFS*, ...
+
+---
+
+# 4. Le système de fichier
+
+## Quelques systèmes de fichier "avancés"
+
+- **ZFS**
+    - snapshots
+    - haute dispo
+    - gestion RAID, auto-réparation, diverses optimisations
+- **BTRFS** / "better FS"
+    - similaire à zfs, mais la peinture est encore fraiche
+- **LVM** (gestionnaire de volumes logiques)
+    - snapshots
+    - gestion flexible des partitions "à chaud"
+    - fusion de plusieurs disques
+- **RAID *n* **
+    - un ensemble de schema d'architecture de disque pour créer de la redondance en cas de perte de disque
+    - données copiées sur plusieurs disques (grappe)
+
+---
+
+# 4. Le système de fichier
+
+## Quelques systèmes de fichier exotiques(?) / autre
+
+- *Tahoe-LAFS*
+- *FUSE*
+- *IPFS*
 
 ---
 
@@ -1259,10 +1277,10 @@ class: impact
 ## Sous UNIX / Linux : "Tout est fichier"
 
 
-- **fichiers ordinaires** (`-`) : données, configuration, ...
+- **fichiers ordinaires** (`-`) : données, configuration, ... texte ou binaire
 - **répertoires** (directory, `d`) : gérer l'aborescence, ... 
 - **spéciaux** : 
-    - devices (`c`, `b`) (clavier, souris, disque, ...)
+    - `block` et `char` (`b`, `c`) (clavier, souris, disque, ...)
     - sockets (`s`), named pipe (`p`) (communication entre programmes)
     - links (`l`) ('alias' de fichiers, ~comme les raccourcis sous Windows)
 
@@ -1520,6 +1538,16 @@ less /usr/share/doc/nano/nano.html       # Regarder interactivement le fichier
 
 # 4. Le système de fichier
 
+## Manipuler des fichiers : `cat`, `head`, `tail`
+
+.center[
+![](img/cat.jpeg)
+]
+
+---
+
+# 4. Le système de fichier
+
 ## Manipuler des fichiers (3/4)
 
 - `touch <fichier>` : créer un nouveau fichier, et/ou modifie sa date de modification
@@ -1528,7 +1556,7 @@ less /usr/share/doc/nano/nano.html       # Regarder interactivement le fichier
     - [Ctrl]+X pour enregistrer+quitter
     - [Ctrl]+W pour chercher
     - [Alt]+Y pour activer la coloration syntaxique 
-- `vim <fichier>` : alternative à nano
+- `vi` ou `vim <fichier>` : alternative à nano
     - plus puissant (mais plus complexe)
 
 ---
@@ -2019,9 +2047,33 @@ Pour pouvoir accéder à `/home/alex/img/pikachu.jpg` j'ai besoin de :
 
 # 6. Permissions
 
+## Permissions "théoriques" vs permissions réelles
+
+Une commande pour lister toutes les permissions sur un chemin: `namei -l`
+
+```shell
+$ namei -l ~/img/pikachu.jpg
+f: /home/alex/img/pikachu.jpg
+drwxr-xr-x root root /
+drwxr-xr-x root root home
+drwxr-x--- alex alex alex
+drwxr-xr-x alex alex img
+-rw-r--r-- alex alex pikachu.jpg
+```
+
+---
+
+# 6. Permissions
+
 On peut un peu casser son système si on fait `chmod -x /`
 
 (plus personne n'a le droit de rentrer dans la racine !)
+
+---
+
+# 6. Permissions
+
+## Permissions avancées : les ACL
 
 ---
 
