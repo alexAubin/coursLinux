@@ -755,6 +755,8 @@ class: impact
 
 # 3. Notions de réseau
 
+## en 60 slides !
+
 ---
 
 # 3. Notions de réseau
@@ -773,11 +775,13 @@ class: impact
 
 # 3. Notions de réseau
 
-## Modele OSI
+## Notions essentielles à acquérir
 
-.center[
-![](img/modele_OSI.png)
-]
+- Comprendre ce qu'est une IP
+- Comprendre ce qu'est un port
+- Comprendre ce qu'est un client et un serveur (au sens logiciel) 
+- Comprendre ce qu'est un nom de domaine
+- Comprendre ce qu'il se passe sous le capot lorsque vous visitez une page web
 
 ---
 
@@ -785,11 +789,24 @@ class: impact
 
 ## Modele OSI
 
+- Un empilement de couches
+- Est là pour structurer la complexité du réseau
+- Similaire au système : créer des abstractions
+    - pour ne pas avoir à se soucier de ce qui se passe dans les couches "basses"
+    - pour l'interopérabilité
+- Chaque parti sur Internet implémente ces couches
+
+---
+
 .center[
-![](img/osi2.jpg)
+![](img/modele_OSI.png)
 ]
 
+---
 
+.center[
+![](img/osi2.jpeg)
+]
 
 ---
 
@@ -847,14 +864,25 @@ class: impact
 
 # 3. Notions de réseau
 
-## Couche 1 : WiFi / 4G/5G
+## Couche 1 : WiFi
 
 .center[
 ![](img/antenne_wifi.jpg)
-![](img/4g5g.png)
 ]
 
-- WiFi 2.4 GHz ou 5 GHz
+- 2.4 GHz vs. 5 GHz
+    - 2.4 GHz : meilleure portée, mais moins rapide, peu de canaux
+    - 5 GHz : moins bonne portée, mais plus rapide, plus de canaux 
+
+---
+
+# 3. Notions de réseau
+
+## Couche 1 : 4G/5G
+
+.center[
+![](img/4g5g.png)
+]
 
 ---
 
@@ -863,11 +891,20 @@ class: impact
 ## Couche 1 : fibre optique
 
 .center[
-![](img/rj45.jpg)
-![](img/twisted_pair.jpg)
+![](img/fibreoptique.jpg)
+![](img/fibreoptique2.png)
 ]
 
-- Différentes catégories de cable : CAT 5, 6, 7, (8)
+---
+
+# 3. Notions de réseau
+
+## Couche 1 : liaisons intercontinentales
+
+.center[
+![](img/cableocean.jpg)
+]
+
 
 ---
 
@@ -881,10 +918,7 @@ class: impact
 - (Ethernet s'applique **aussi** au WiFi)
 
 .center[
-![](img/etherner_card.jpg)
-]
-
-.center[
+![](img/ethernet_card.png)
 ![](img/trame_ethernet.png)
 ]
 
@@ -896,14 +930,21 @@ class: impact
 
 - Les `switch` permettent de connecter plusieurs machines pour créer segment
 - Un `switch` est "conscient" de la notion d'adresse ethernet
-- Un `bridge` permet de "fusionner" plusieurs LAN ensemble
 
 .center[
 ![](img/switch.jpeg)
-![](img/bridge.jpeg)
 ]
 
+---
+
+# 3. Notions de réseau
+
+## Couche 2 : Ethernet
+
+- Un `bridge` permet de "fusionner" plusieurs LAN ensemble
+
 .center[
+![](img/bridge.jpeg)
 ![](img/bridge.png)
 ]
 
@@ -916,10 +957,17 @@ class: impact
 
 - Les interfaces sont configurées grâce aux fichiers `/etc/network/interfaces` et `/etc/network/interfaces.d/*`
 - `ip a` permet d'obtenir des informations sur les interfaces
-- Historiquement, les noms étaient "simple" : `eth0`, `eth1`, `wlan0`, ...
-- Aujourd'hui les noms sont un peu plus complexes / arbitraires
-- Il existe toujours une interface `lo` (loopback, la boucle locale - 127.0.0.1)
-- Il peut y'avoir d'autres interfaces ou bridges "virtuelles" (contexte de conteneur, etc..)
+    - Historiquement, les noms étaient "simple" : `eth0`, `eth1`, `wlan0`, ...
+    - Aujourd'hui les noms sont un peu plus complexes / arbitraires
+    - Il existe toujours une interface `lo` (loopback, la boucle locale - 127.0.0.1)
+    - Il peut y'avoir d'autres interfaces ou bridges "virtuelles" (contexte de conteneur, etc..)
+
+---
+
+# 3. Notions de réseau
+
+## Couche 2 : les interfaces dans Linux
+
 
 ```bash
 $ ip a
@@ -933,25 +981,27 @@ $ ip a
 
 ---
 
-# 3. Notions de réseau
-
-TODO: blocks réservé, 127.0.0.1 vs 0.0.0.0, IP typique
+# TODO
 
 TODO: discussion VPN, proxy
 TODO: zeroconf, bonjour protocol
 TODO: securité : firewall, fail2ban, ...
 
+---
+
+# 3. Notions de réseau
+
 ## Couche 3 : IP
 
 - IP pour *Internet Protocol*
 - IP fait parler **des machines** !
-    - .. et permet de relier plusieurs réseaux, potentiellement au fonctionnement différent
+    - .. et permet de relier plusieurs réseaux, qui potentiellement ont des fonctionnements différents
 - Protocole de routage des paquets
-- "Best-effort", non fiable !
+    - "Best-effort", non fiable !
 - Les routeurs, les facteurs d'internet
     - par ex. votre box internet
     - Routeur != Switch, un routeur "comprends" les adresses et protocole IP
-    - Capable de discuter entre eux pour optimiser l'acheminement
+    - Capable de discuter entre eux pour optimiser l'acheminement (BGP)
 
 ---
 
@@ -963,31 +1013,36 @@ TODO: securité : firewall, fail2ban, ...
 - Ex: le réseau de l'opérateur Proxad
 
 .center[
-![proxad.png]
+![](img/proxad.png)
 ]
 
 ---
 
 ## Couche 3 : IP
 
-- Internet, c'est avant-tout une INTERconnexion d'opérateurs réseaux (NET)
-- Les opérateurs (AS) s'interconnectent (peering) dans des IXP (internet exchange point)
+- Les opérateurs (AS) s'interconnectent (peering) dans des IXP
 - Croissance "organique" du réseau
 
 .center[
-![inteconnect_network.png]
+![](img/interconnect_network.png)
 ]
+
 
 ---
 
 # 3. Notions de réseau
 
-## Couche 3 : IP
+## Couche 3 : IP : système d'adressage (IPv4) 
 
-- Système d'adressage d'IPv4
-    - addresses codées sur 32 bits (4 nombres entre 0 et 255)
-    - par exemple `92.93.127.10`
-    - "seulement" 4.3 milliards d'adresses ! (pénurie)
+- addresses codées sur 32 bits (4 nombres entre 0 et 255)
+- par exemple `92.93.127.10`
+- "seulement" 4.3 milliards d'adresses ! (pénurie)
+
+---
+
+# 3. Notions de réseau
+
+## Couche 3 : IP : IPv4 frame / paquet
 
 .center[
 ![](img/IPv4_frame.png)
@@ -1002,8 +1057,21 @@ TODO: securité : firewall, fail2ban, ...
 - Distribution des addresses IP gérées par des ONG (IANA, RIR, LIR, ISP, ...)
 
 .center[
-![](RIP_LIR_etc.png)
+![](img/RIP_LIR_etc.png)
 ]
+
+---
+
+# 3. Notions de réseau
+
+## Couche 3 : IP
+
+- Distribution des addresses IP gérées par des ONG (IANA, RIR, LIR, ISP, ...)
+
+.center[
+![](img/RIP_LIR_etc2.png)
+]
+
 
 ---
 
@@ -1025,8 +1093,8 @@ TODO: securité : firewall, fail2ban, ...
 ## Couche 3 : IP
 
 - Certains blocs d'IP sont réservés à certains usages
-    - Loopback
-        - `127.0.0.0\8` (c.f. typiquement `127.0.0.1`)
+    - Loopback (interne à la machine)
+        - `127.0.0.0/8` (c.f. typiquement `127.0.0.1`)
     - Réseau locaux (private network)
         - `192.168.0.0/16`
         - `10.0.0.0/8`
@@ -1037,17 +1105,24 @@ TODO: securité : firewall, fail2ban, ...
 
 # 3. Notions de réseau
 
-## Et l'IPv6 ?
+## Couche 3 : Et l'IPv6 ?
 
-- Existe depuis 1998 (sigh)
-- Incompatible avec IPv4 : période de transition "dual-stack"
 - Addresses codées sur 128 bits (soit 2^94 fois plus d'adresses que IPv4 -> 10^38 addresses)
    - Par exemple, `2a04:7260:9088:6c00:0044:0000:0000:0001`
    - En IPv6, on peut simplifier les `0` et juste écrire: `2a04:7260:9088:6c00:44::1`
    - L'équivalent de `127.0.0.1` est `::1`
    - L'équivalent de `192.168.0.0/16` est `fc00::/10`
-   - En IPv6, Les masques vont jusqu'à `/128`
-   - En IPv6, il est courant en tant qu'end-user de recevoir tout un préfixe, comme par exemple un `/56`
+   - Les masques vont jusqu'à `/128`
+- Beaucoup plus commun d'avoir directement un IP "globale" pour chaque machine, "directement" exposée sur le "vrai" internet
+    - ... voir même un préfixe, comme par exemple un `/56`
+   
+
+---
+
+# 3. Notions de réseau
+
+## Couche 3 : Et l'IPv6 ?
+
 - Certains commandes ont un équivalent "v6" (par ex. `ping6`) et/ou une option `-6` (par ex. `ping -6`)
     - pour les URLs, le `:` conflicte avec la notation des ports, il faut alors écrire l'IP entre crochet
     - par ex: `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/`
@@ -1056,7 +1131,20 @@ TODO: securité : firewall, fail2ban, ...
 
 # 3. Notions de réseau
 
-## IP : Internet Protocol (2/2)
+## Couche 3 : Et l'IPv6 ?
+
+- Existe depuis 1998 (sigh)
+- Incompatible avec IPv4
+    - période de transition "dual-stack"
+    - problème d'oeuf et la poule / pas d'offre = pas de demande, etc
+
+---
+
+# 3. Notions de réseau
+
+## Couche 3 : commandes essentielles
+
+`ip a` affiche les interfaces (et IPv4 et v6 associées)
 
 ```bash
 $ ip a
@@ -1072,7 +1160,9 @@ Voir aussi : `ifconfig` (deprecated) et `ipconfig` (sous windows!)
 
 # 3. Notions de réseau
 
-## IP : `ping` teste la connexion entre deux machines
+## Couche 3 : commandes essentielles
+
+`ping` teste la connexion entre deux machines
 
 ```bash
 $ ping 91.198.174.192
@@ -1085,13 +1175,15 @@ PING 91.198.174.192 (91.198.174.192) 56(84) bytes of data.
 rtt min/avg/max/mdev = 51.475/58.394/65.313/6.919 ms
 ```
 
-Note: `ping` utilise le protocole `ICMP` qui a lieu au niveau de la couche 3
+Note: `ping` utilise le protocole `ICMP` qui a lieu au niveau de la couche 3 (ou 4 ?)
 
 ---
 
 # 3. Notions de réseau
 
-## IP : `whois` pour obtenir des infos sur le(s) proprio(s) d'une ip
+## Couche 3 : commandes essentielles
+
+`whois` pour obtenir des infos sur le(s) proprio(s) d'une ip
 
 ```
 $ whois 91.198.174.192
@@ -1107,7 +1199,9 @@ mnt-by:         WIKIMEDIA-MNT
 
 # 3. Notions de réseau
 
-## IP : `traceroute` permet d'étudier la route prise par les paquets
+## Couche 3 : commandes essentielles
+
+`traceroute` permet d'étudier la route prise par les paquets
 
 ```bash
 $ traceroute 91.198.174.192
@@ -1126,9 +1220,13 @@ $ traceroute 91.198.174.192
 
 # 3. Notions de réseau
 
-## TCP : Transmission Control Protocol (1/2)
+## Couche 4 : TCP
 
+- TCP pour Transmission Control Protocol (1/2)
+- TCP est un protocole parmis d'autres qui ont lieu sur la couche 4
+    - typiquement, il y a aussi UDP ...
 - TCP fait communiquer **des programmes**
+    - il y a une mise en place explicite d'un tuyau de communication
 - Découpage des messages en petits paquets pour IP
 - Fiabilité avec des accusés de réception / renvois
 
@@ -1136,11 +1234,12 @@ $ traceroute 91.198.174.192
 
 # 3. Notions de réseau
 
-## TCP : Transmission Control Protocol (2/2)
+## Couche 4 : Notion de port
 
 - TCP fourni un "tuyau de communication" entre deux programmes
-- Notion de 'port'
-- Analogie avec les différents "departement" à l'intérieur d'une entreprise
+- Notion de 'port' : un nombre entre 1 et 65536 (2^16)
+    - Analogie avec les différents "departement" à l'intérieur d'une entreprise
+    - plusieurs programmes sur une même machine peuvent vouloir communiquer avec un même programme sur une machine distante, donc l'addresse IP ne suffit pas pour spécifier l'expéditeur / destinataire
 - Une connexion entre deux programme est caractérisé par **deux** couples (IP:port) 
 - Par exemple : votre navigateur web (port 56723) qui discute qui discute avec le serveur web (port 80)
     - côté A : 183.92.18.6:56723 (un navigateur web)
@@ -1150,7 +1249,9 @@ $ traceroute 91.198.174.192
 
 # 3. Notions de réseau
 
-## TCP : `lsof -i` pour lister les connexions active
+## Couche 4 : commandes essentielles
+
+`lsof -i` pour lister les connexions active
 
 ```bash
 $ lsof -i
@@ -1165,7 +1266,7 @@ waterfox  12193 alex IPv4 shadow.local:32580->cybre.space:https (ESTABLISHED)
 
 # 3. Notions de réseau
 
-## TCP : `nc -zv` pour tester si un port est ouvert
+## Couche 4 : commandes essentielles
 
 ACHTUNG : ne pas abuser de cela..
 
@@ -1178,19 +1279,23 @@ Connection to 44.112.42.13 22 port [tcp/ssh] succeeded!
 
 # 3. Notions de réseau
 
-## TCP : `tcpdump` pour regarder l'activité sur le réseau
+## Couche 4 : commandes essentielles
+
+`tcpdump` pour regarder l'activité sur le réseau
 
 ---
 
 # 3. Notions de réseau
 
-## TCP : et aussi : `wireshark`
+## Couche 4 : commandes essentielles
+
+`wireshark`, similaire à tcpdump, mais beaucoup plus puissant, et en interface graphique
 
 ---
 
 # 3. Notions de réseau
 
-## Modèle client/serveur
+## Couche 5+ : Modèle client/serveur
 
 Un **serveur** (au sens logiciel) est un programme. Comme un serveur dans un bar (!) :
 - il **écoute** et attends qu'on lui demande un **service** en suivant **un protocole**
@@ -1206,23 +1311,23 @@ Le **client** est celui qui demande le service selon **le protocole**
 
 # 3. Notions de réseau
 
-## Modèle client/serveur : `netstat`
+## Couche 5+ : `netstat`
 
 `netstat -tulpn` permet de lister les programmes qui écoutent et attendent
 
 ```bash
  > netstat -tulpn | grep LISTEN | grep "80\|25"
-tcp     0.0.0.0:80  LISTEN      28634/nginx: master
-tcp     0.0.0.0:25  LISTEN      1331/master
-tcp6    :::80       LISTEN      28634/nginx: master
-tcp6    :::25       LISTEN      1331/master
+tcp     0.0.0.0:80  LISTEN   28634/nginx: master
+tcp     0.0.0.0:25  LISTEN   1331/master # <- postfix, un serveur mail
+tcp6    :::80       LISTEN   28634/nginx: master
+tcp6    :::25       LISTEN   1331/master # <- postfix, un serveur mail
 ```
 
 ---
 
 # 3. Notions de réseau
 
-## Protocoles (1/2)
+## Couche 5+ : notion de protocole
 
 - Un protocole = une façon de discuter entre programmes
 - Conçus pour une finalité particulière
@@ -1241,24 +1346,24 @@ tcp6    :::25       LISTEN      1331/master
 
 # 3. Notions de réseau
 
-## Protocoles (2/2)
+## Couche 5+ : HTTP
 
-Par exemple, HTTP :
+- On ouvre un socket TCP avec le serveur distant
 - On envoie `GET /` et on reçoit 200 + la page d'acceuil
 - On envoie `GET /chaton.jpg` et on reçoit 200 + une image (si elle existe)
 - On envoie `GET /meaningoflife.txt` et on reçoit 404 (si la page n'existe pas)
-- On peut ajouter des Headers aux requetes (c.f. debugger firefox)
+- On peut ajouter des Headers aux requetes et réponses (c.f. debugger firefox)
 - Il existe d'autres requetes : POST, PUT, DELETE, ...
 
 ---
 
 # 3. Notions de réseau
 
-## Le web
+## Couche 5+ : Le web
 
 - Le web, ce n'est par Internet
 - Le web est construit grace au language HTML, généralement transporté par HTTP
-- "Web" désigne la "toile" créée par les lignes hypertexte, une fonctionnalité introduite par HTTP 
+- "Web" désigne la "toile" créée par les liens hypertextes, une fonctionnalité introduite par HTML 
 
 
 ---
@@ -1268,17 +1373,13 @@ Par exemple, HTTP :
 ## Le web
 
 - Dans le modèle OSI:
-    - 7 Application: votre navigateur, un site Web
+    - 7 Application: votre onglet dans le navigateur, une application web
     - 6 Présentation: HTML, CSS, JS, PNG, ...
     - 5 Session: HTTP / HTTPs
     - 4 TCP
     - 3 IP
     - 2 (liaison)
     - 1 (physique)
-- Le web, ce n'est par Internet
-- Le web est construit grace au language HTML, généralement transporté par HTTP
-- "Web" désigne la "toile" créée par les lignes hypertexte, une fonctionnalité introduite par HTTP 
-
 
 ---
 

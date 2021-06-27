@@ -118,6 +118,24 @@
 - 3.16 - (Avancé) Analysez où sont envoyées les requêtes DNS (port 53) avec Wireshark. En déduire quel est le résolveur DNS utilisée par le système. Remplacez le contenu du `/etc/resolv.conf` par `nameserver 89.234.141.68` et refaites des requêtes DNS. Confirmez avec `wireshark` que ces requêtes sont bien envoyées vers le nouveau résolveur.
 
 
+## 4 - Notions de cryptographie
+
+- 4.0 - Installer `gpg` si le programme n'est pas déjà présent
+- 4.1 - Générer une clef GPG avec `gpg --full-generate-key`. Lors de la création, on peut garder toutes les options par défaut. Pour le nom et email, vous pouvez utilisez de "fausses" informations comme `votreprenom@formationlinux`.
+- 4.2 - Récupérer la clef GPG du formateur puis l'importer avec `gpg --import <chemin_vers_la_clef>`. S'assurer que la clef a bien été importée avec `gpg --list-keys`.
+- 4.3 - Écrire un court message pour le formateur dans un fichier (par exemple, 'Je fais du chiffrement !') puis chiffrer ce fichier avec 
+```bash
+gpg --recipient leformateur@example.com --encrypt --armor <fichier>
+```
+Affichez ensuite le contenu de `<fichier>.asc` : il s'agit du message chiffré à destination du formateur !
+- 4.4 - Affichez votre clef publique avec 
+```bash
+gpg --armor --export votreprenom@formationlinux
+```
+**Il vous faudra la fournir au formateur pour qu'il puisse vous répondre en chiffré !**
+- 4.5 - Envoyez depuis `yopmail.com`, un mail au formateur contenant le message chiffré **et votre clef publique**.
+- 4.6 - Attendre une réponse, et tenter de la déchiffrer avec `gpg --decrypt`.
+
 ## 5 - Se connecter et gérer un serveur avec SSH
 
 - 5.1 - Pingez votre serveur, connectez-vous dessus en root (si possible en vérifiant la fingerprint du serveur) et **changer le mot de passe** ! (Choisir un mot de passe un minimum robuste : il sera mis à l'épreuve !!!). Dans une autre console, constater qu'il y a maintenant une entrée correspondant à votre serveur dans `~/.ssh/known_hosts`.

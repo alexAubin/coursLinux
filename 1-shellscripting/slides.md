@@ -540,13 +540,6 @@ find /etc -name "*.service"
 find /var/log -mmin 5
 ```
 
-
-----
-
-class: impact
-
-# 10. Bash scripts
-
 ---
 
 class: impact
