@@ -128,6 +128,11 @@ Qui s'occupe de toute la gestion des fenêtres (bordures, décoration, redimensi
 ![](img/checksum.png)
 ]
 
+#### Sous Linux: `sha256sum <fichier>` directement disponible
+
+#### Sous Windows: ... il faut trouver un `sha256sum.exe`
+
+
 ---
 
 # 1. Installer une distribution
@@ -271,7 +276,7 @@ peuvent être trouvés dans `/var/log/dmesg`
 
 # 1. Installer une distribution
 
-## Init levels (SysVinit)
+## Init levels / Run levels
 
 - 0 = Shutdown
 - 1 = Single-user mode : Mode for administrative tasks
@@ -281,7 +286,7 @@ peuvent être trouvés dans `/var/log/dmesg`
 - 5 = Multi-user with networking and graphical environment
 - 6 = Reboot
 
-## Mais aujourd'hui : c'est différent avec systemd...
+### Sous SysVinit, choses à lancées décrites dans /etc/rc.d/rcX.d/... mais aujourd'hui : c'est différent avec systemd...
 
 ---
 
@@ -465,6 +470,16 @@ sda             8:0    0 29.8G  0 disk
 
 ---
 
+# 1. Installer une distribution
+
+## Autres configurations du système (avec systemd)
+
+- `hostnamectl` 
+- `timedatectl`
+- `localectl`
+
+---
+
 class: impact
 
 # 2. Le gestionnaire de paquet
@@ -559,7 +574,7 @@ Sous Windows
 
 ## Parenthèse sur `apt-get`
 
-- Historiquement, `apt-get` (et `apt-cache`, `apt-mark`, ..) étaientt utilisés
+- Historiquement, `apt-get` (et `apt-cache`, `apt-mark`, ..) étaient utilisés
 - Syntaxe inutilement complexe ?
 - `apt` fourni une meilleur interface (UI et UX)
 
@@ -575,6 +590,15 @@ Sous Windows
     - désinstaller le paquet (et les paquet dont il dépends !)
 - `apt autoremove`
     - supprime les paquets qui ne sont plus nécessaires
+
+---
+
+# 2. Le gestionnaire de paquet
+
+.center[
+![](img/aptinstallooffice.png)
+]
+
 
 ---
 
@@ -623,7 +647,7 @@ Exemple :
 deb http://ftp.debian.fr/debian/ stretch main contrib
 ```
 
-- `stretch` est le nom de la distribution
+- `stretch` est le nom actuel de la distribution
 - `main` et `contrib` sont des composantes à utiliser
 - le protocole est `http` ... l'authenticité des paquets est géré par un autre mécanisme (GPG)
 
@@ -641,7 +665,7 @@ Debian vise un système libre et très stable
 
 Les versions tournent tous les ~2 ans environ
 - l'ancienne `testing` devient la nouvelle `stable`
-- le passage de version peut être un peu douloureux ...
+- le passage de version peut être un peu douloureux ... (quoiqu'en vrai c'est de + en + smooth)
 
 ---
 
@@ -654,9 +678,9 @@ Basé sur les personnages de Toy Story
 - 7, `wheezy` (oldoldoldstable)
 - 8, `jessie` (oldoldstable)
 - 9, `stretch` (oldstable, depuis juillet 2019)
-- 10, `buster` (stable, depuis juillet 2019)
-- 11, `bullseye` (testing, deviendra stable vers juin 2021)
-- 12, `bookworm`
+- 10, `buster` **(stable, depuis juillet 2019)**
+- 11, `bullseye` (testing, deviendra stable fin juillet 2021)
+- 12, `bookworm` (future testing, stable en été 2023 ?)
 
 ---
 
@@ -687,6 +711,21 @@ Basé sur les personnages de Toy Story
 - Un intermédiaire entre stabilité et nouveauté
 - Fournissent des paquets venant de `testing` en `stable`
 - À utiliser avec prudence
+
+## En pratique ...
+
+- Si on a besoin de dépendances récentes, on les installe généralement avec le gestionnaire de paquet correspondant au language de notre app : `pip`, `npm`, `composer`, `carton`, `gem`, ... 
+
+
+---
+
+# 2. Le gestionnaire de paquet
+
+## Et les autres distributions ?
+
+- Redhat/Centos : `yum install <pkg>`, `yum search <keyword>`, `yum makecache`, `yum update`, ...
+
+- Archlinux : `pacman -S <pkg>`, `-Ss <keyword>`, `-Syu`, ...
 
 ---
 
@@ -782,6 +821,16 @@ class: impact
 - Comprendre ce qu'est un client et un serveur (au sens logiciel) 
 - Comprendre ce qu'est un nom de domaine
 - Comprendre ce qu'il se passe sous le capot lorsque vous visitez une page web
+
+---
+
+# 3. Notions de réseau
+
+## Teh interntez
+
+.center[
+![](img/serieoftube.jpg)
+]
 
 ---
 
@@ -953,6 +1002,15 @@ class: impact
 
 # 3. Notions de réseau
 
+## Couche 2 : Ethernet
+
+Qu'est-ce qu'un VLAN ?
+
+
+---
+
+# 3. Notions de réseau
+
 ## Couche 2 : les interfaces dans Linux
 
 - Les interfaces sont configurées grâce aux fichiers `/etc/network/interfaces` et `/etc/network/interfaces.d/*`
@@ -978,14 +1036,6 @@ $ ip a
 3: wlp3s0: <BROADCAST,MULTICAST,UP,LOWER_UP>
     link/ether 68:a6:2d:9f:ad:07
 ```
-
----
-
-# TODO
-
-TODO: discussion VPN, proxy
-TODO: zeroconf, bonjour protocol
-TODO: securité : firewall, fail2ban, ...
 
 ---
 
@@ -1541,11 +1591,16 @@ La situation se complexifie avec Virtualbox :
 
 ---
 
+# Discussion : VPNs, proxys
+
+# Discussion : firewalls, iptables
+
+
+---
+
 class: impact
 
 # 4. Notions de cryptographie
-
-TODO: x509, certificats, Let's Encrypt, Acme challenge
 
 ---
 
@@ -1680,6 +1735,10 @@ Vous faites confiance à Microsoft et Google (!?), qui certifient avoir vérifi�
 - Votre navigateur fait confiance à des clefs prédéfinies correspondant à des tiers de "confiance" (e.g. Google, ...)
 - Le certificat HTTPS contient une signature qui a été produite avec l'une des clefs de ces tiers de confiance
 - Vous pouvez ainsi faire confiance "par délégation"
+
+---
+
+### Discussion : x509, certificats, Let's Encrypt, Acme challenge
 
 ---
 
