@@ -1591,10 +1591,35 @@ La situation se complexifie avec Virtualbox :
 
 ---
 
-# Discussion : VPNs, proxys
+# 3. Notions de réseau
 
-# Discussion : firewalls, iptables
+## Et les VPNs, késaco ?
 
+.center[
+![](img/vpn.png)
+]
+
+---
+
+# 3. Notions de réseau
+
+## Et les VPNs, késaco ?
+
+- Virtual Private Network
+- Il s'agit de faire "comme si" on était connecté depuis un autre endroit
+
+Plusieurs utilités possibles:
+- accéder à des services accessibles seulement au sein d'un réseau privé (par ex. entreprise)
+- forcer une communication à être chiffrée
+- "anonymiser" ses requêtes (partager une IP commune avec pleins de gens)
+- contourner des géo-restrictions
+- ...
+
+---
+
+# 3. Notions de réseau
+
+## Autres notions : proxys, firewall
 
 ---
 
@@ -1738,7 +1763,15 @@ Vous faites confiance à Microsoft et Google (!?), qui certifient avoir vérifi�
 
 ---
 
-### Discussion : x509, certificats, Let's Encrypt, Acme challenge
+# 4. Notions de cryptographie
+
+## Applications
+
+- HTTPS (SSL/TLS, x509)
+- SSH
+- Emails chiffrés
+- Signature des paquets dans APT
+- ...
 
 ---
 
