@@ -26,7 +26,6 @@ class: impact
 - Gérer des services
 - Notions de sécurité
 - Installer un serveur web
-- Automatiser des tâches avec des jobs Cron
 
 ---
 
@@ -78,43 +77,6 @@ class: impact
 ![](img/7.png)
 ]
 
----
-
-.center[
-![](img/8.png)
-]
-
----
-
-# Objectifs de ces trois derniers jours
-
-- Consolider la manipulation de la CLI, de SSH
-- ... et la compréhension du réseau, des services
-- Vous montrer d'autres possibilités dans l'écosystème d'un serveur
-    - PHP / Mysql
-    - LXC
-    - Ecosystème "complet" avec YunoHost
-- Amorcer l'aspect 'DevOps' (transition avec toutes les autres technos de la formation !)
-
----
-
-# Plan
-
-- 0 - (Finir monitoring.html ?)
-- 1 - Déployer une application PHP/Mysql
-- (1.5 - Investiguer des problèmes)
-- 2 - Introduction aux LXC
-- 3 - Introduction à YunoHost
-
----
-
-# Ce dont je ne parlerais pas
-
-- Créer des services systemd
-- HTTPS / Certificats SSL...
-- Gérer des sauvegardes
-- Vim
-- ...?
 
 ---
 
@@ -129,7 +91,7 @@ class: impact
 - Jusqu'ici : des pages statiques !
 
 .center[
-![](img/8.png)
+![](img/7.png)
 ]
 
 ---
@@ -163,6 +125,7 @@ Comment créer des pages "dynamiques", par exemple :
 ## Historiquement / classiquement : PHP
 
 - Le serveur web transmet la requête à un programme / daemon PHP
+- (Basé sur FastCGI, pas exactement un reverse-proxy)
 - PHP interprête le code et genere la réponse
 - .. et renvoie la réponse à nginx qui la renvoie au client
 - PHP est la "Gateway" dans le contexte de Nginx
@@ -667,53 +630,302 @@ ou bien : `yunohost app install zerobin`
 
 class: impact
 
-# Notes finales
+# Ingénierie d'infrastructure
 
 ---
 
+# Ingénierie d'infrastructure
+
+## Problématiques qui émergent lorsque l'infrastructure ou le nombre d'user grandi
+
+- Haute disponibilité
+- Redondance, sauvegarde
+- Quel bottleneck (goulot d'étranglement)
+    - Storage I/O ? (interactions avec le stockage)
+    - Requests I/O ? (gestion des demandes)
+    - Computing power ? (gestion des calculs)
+
+---
+
+# Ingénierie d'infrastructure
+
+## Storage engineering
+
+- Lorsque le besoin grandit : nécessité de séparer la partie OS/application de la partie stockage
+- Exemples de technique:
+    - NAS
+    - SAN
+    - RAID
+    - Tiering
+    - ...
+
+---
+
+# Ingénierie d'infrastructure
+
+## Storage engineering : NAS
+
+- NAS (network attached storage)
+- Un (unique?) périphérique branché au réseau dont la fonction est de s'occuper de la partie stockage des données
+- Le NAS s'occupe de la partie système de fichier
+- Plusieurs OSs peuvent se connecter sur ce stockage et interagir avec
+- Ex. : un espace de partage de documents dans une entreprise
+
+---
+
+# Ingénierie d'infrastructure
+
+## Storage engineering : NAS
+
 .center[
-![](img/aplause.gif)
+![](img/synology.png)
+]
+
+---
+
+# Ingénierie d'infrastructure
+
+## Storage engineering : SAN
+
+- SAN (storage area network)
+- Un réseau de périphériques de stockage
+- ... connectés sur les machines pour faire "comme si" les disques étaient branchés directement sur la machine
+- Accès au niveau "block" : c'est à la machine de gérer l'aspect système de fichier
+- Performance + redondance
+
+---
+
+# Ingénierie d'infrastructure
+
+## Storage engineering : SAN
+
+.center[
+![](img/san.png)
+]
+
+---
+
+# Ingénierie d'infrastructure
+
+## Storage engineering : SAN
+
+.center[
+![](img/san.jpg)
+]
+
+
+---
+
+# Ingénierie d'infrastructure
+
+## Storage engineering : RAID
+
+- RAID (Redudant Array of Inexpensive Disks)
+- Un ensemble d'architecture de stockage pour gérer la redondance, disponibilité, performance, ou capacité
+- Géré au niveau software ou hardware
+- On parle de "grappe" de disque
+
+.center[
+![](img/raid.jpg)
+]
+
+---
+
+# Ingénierie d'infrastructure
+
+## Storage engineering : RAID
+
+- RAID 0 (striping) :
+    - les morceaux d'un fichier sont répartis entre les disques
+    - pas d'augmentation de redondance, mais augmentation de la performance
+        - (lecture/écriture sur plusieurs disques en parallèle)
+
+.center[
+![](img/striping.png)
+]
+
+---
+
+# Ingénierie d'infrastructure
+
+## Storage engineering : RAID
+
+- RAID 1 (mirror) : 
+    - copie des données sur chaque disques (bottleneck = slowest drive)
+    - lecture sur n'importe lequel des disques
+    - ajouter un disque augmente la redondance mais pas la capacité
+
+.center[
+![](img/raid1.png)
+]
+
+---
+
+# Ingénierie d'infrastructure
+
+## Storage engineering : RAID
+
+- RAID 10 (1+0) : stripping + mirroring
+    - nécessite au moins 4 disques
+    - performance + redondance
+    - jusqu'à 50% de perte de disque (tant qu'un disque + son miroir n'est pas perdu)
+
+.center[
+![](img/raid10.png)
+]
+
+---
+
+# Ingénierie d'infrastructure
+
+## Storage engineering : RAID
+
+- RAID 5 :
+    - nécessite au moins 3 disques
+    - information répartie entre les disques
+    - tradeoff capacité/redondance : une seule perte de disque tolérée 
+
+.center[
+![](img/raid5.png)
+]
+
+---
+
+# Ingénierie d'infrastructure
+
+## Storage engineering : RAID
+
+- RAID 6 :
+    - nécessite au moins 4 disques
+    - information répartie entre les disques
+    - tradeoff capacité/redondance : jusqu'à deux pertes de disque tolérée 
+
+
+.center[
+![](img/raid6.png)
+]
+
+---
+
+# Ingénierie d'infrastructure
+
+## Storage engineering : tiering
+
+- Optimiser la disponibilité des données et leur coût de stockage, en fonction de la demande
+
+.center[
+![](img/tiering2.png)
 ]
 
 ---
 
 .center[
-![](img/fantastic.gif)
+![](img/tiering.png)
 ]
+
+---
+
+# Ingénierie d'infrastructure
+
+## Traffic engineering
+
+- Lorsque le nombre d'user grandit : besoin d'optimiser le traitement des requêtes
+- Exemple de quelques techniques:
+    - caching, zipping
+    - load balancing
+    - DNS round robin
+    - CDN
+
+---
+
+# Ingénierie d'infrastructure
+
+## Traffic engineering : caching, compression
+
+- Caching
+    - par ex. côté client: le navigateur garde en mémoire certaine image pour ne pas les re-demander à chaque requête
+
+- Compression (e.g. avec gzip)
+    - compression des données statiques textuels (`.html`, `.js`, `.css`, ...)
+    - gain en débit
+    - (attention, implications de sécu non triviale, c.f. [BREACH](https://en.wikipedia.org/wiki/BREACH))
+
+---
+
+# Ingénierie d'infrastructure
+
+## Traffic engineering : load balancing
+
+- Peut avoir lieu au niveau software, ou bien niveau hardware (équipement dédié)
+- Le daemon principal réparti le traitement des requêtes entre des workers
+- Beaucoups de serveurs logiciels intègrent cette fonctionnalité (`nginx`, `apache`, ..)
+
+.center[
+![](img/loadbalancing.jpg)
+]
+
+---
+
+# Ingénierie d'infrastructure
+
+## Traffic engineering : DNS round robin
+
+- Il s'agit d'une autre technique de load balancing
+- Associer plusieurs IP (`A` record) à un nom de domaine
+- Lors de la résolution du nom de domaine, un enregistrement est choisi aléatoirement (round robin)
+
+---
+
+# Ingénierie d'infrastructure
+
+## Traffic engineering : CDN
+
+- CDN (Content Delivery Network)
+- Sorte d'opérateur "haut-niveau" (couche 5+) qui proposent comme service une haute dispo pour certains fichiers web (e.g. `.js`) ou contenus multimédias (e.g. video)
+- Répartition de serveurs géographiquement dans des "points de présence" (PoP)
+- Réponse du DNS en fonction de la proximité géographique
+- Interfaçage privilégié avec les opérateurs réseaux directement dans les datacenter / IXP
+- Typiquement appliqué au web mais pas seulement (par ex. mirroir des dépots debian)
+
+---
+
+# Ingénierie d'infrastructure
+
+## Traffic engineering : CDN
+
+
+.center[
+![](img/cdn.png)
+]
+
+---
+
+# Ingénierie d'infrastructure
+
+## Anything As A Service
+
+- Un des fondement du cloud : l'abstraction de l'infrastructure, de la plateforme et des applications
+
+---
+
+# Ingénierie d'infrastructure
+
+.center[
+![](img/aas.jpg)
+]
+
+---
+
+# Ingénierie d'infrastructure
+
+## Anything As A Service
+
+- N.B. : Sur les plateformes d'IaaS, on peut non seulement louer des machines, mais aussi des services comme : stockage additionels, load balancer, firewall, ...
 
 ---
 
 .center[
-![](img/tobecontinued.jpg)
+![](img/pizza-as-a-service.jpeg)
 ]
 
----
-
-- Git, Python
-- BDD SQL / NoSQL 
-- Apache
-- Tomcat
-- Junit, Jmeter, Gatling
-- Logstach, Elastic Search, Kibana
-- Nagios
-- Scrum
-- Devops
-- Docker
-- Jenkins
-- Chef
-- Puppet
-- Ansible
-- AWS, Openstack
-
----
-
-.center[
-With great power comes great responsabilities
-]
-
----
-
-.center[
-![](img/thatsall.jpg)
-]
 
