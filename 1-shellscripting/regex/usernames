@@ -1,0 +1,29 @@
+# ====================
+# - Caractères autorisés : minuscules, chiffres, - et _
+# - Au moins 3 caractères au total, pas plus que 16 caractères
+# - Doit démarrer avec une lettre
+# ====================
+#
+
+# To match
+# ========
+joe
+alex
+pikachu
+john
+lorem
+ipsum
+gr3at
+www-data
+legolas_du_67
+
+
+# Not to match
+# ============
+jo
+john doe
+Pikachu
+johnDoe
+67_super_legolas
+this_is_such_a_huge_username_this_should_not_be_allowed
+

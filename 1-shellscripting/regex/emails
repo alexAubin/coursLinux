@@ -1,0 +1,27 @@
+# =========
+# To match
+# =========
+
+geon@ihateregex.io
+jeff@gmail.com
+jeff@super-test.alsace
+jeff@super.test.alsace
+Jean-Michel.Bezos@testing.com
+jeff.bezos@amazon.pro
+j@gmail.com
+ljf+arn@example.com
+
+# =========
+# Not to match
+# =========
+
+hello@
+hello@example.c
+@test
+email@gmail.
+theproblem@test@gmail.com
+mail with@space.com
+mail with@weird.tld-com
+email@casino.777
+# hardcore? :
+many..dots.@email..com
