@@ -1049,6 +1049,19 @@ https://www.commitstrip.com/wp-content/uploads/2014/02/Strips-Le-dernier-des-vra
 
 ---
 
+.center[
+![](img/iknowregex.jpg)
+]
+
+---
+
+.center[
+![](img/iknowregularexpressions.png)
+]
+
+
+---
+
 # 7. Les expressions régulières
 
 ## Principe
@@ -1230,5 +1243,11 @@ Exemple : matcher le dieze d'une ligne de commentaire : `^#`
     - peut-être que le 0 est remplacé par un indicateur comme `+33`
         - `(\+\d{2,3}[\.\s]?|0)(\d[\.\s]?){8}\d`
 
+
+---
+
+.center[
+![](img/perfectregexemail.jpg)
+]
 
 
