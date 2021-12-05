@@ -47,54 +47,82 @@
 
 ```bash
 ~/
-└── documents/
-    ├── coursLinux.pdf
-    └── une_grande_maison/
-        ├── cuisine/
-        │   ├── placard1/
-        │   └── placard2/
-        ├── chambre1/
-        └── chambre2/
-            └── bureau/
-                ├── presentation.txt
-                └── ma_collection/
-                    ├── pikachu.jpg
-                    └── carapuce.jpg
+├── Documents/
+    ├── formation_linux/
+    │   ├── slides_1_les_bases.html
+    │   └── exo_1_les_bases.pdf
+    └── mon_pokedex/
+        ├── index.html
+        ├── all_pokemons.txt
+        ├── mon_equipe_de_pokemons.csv
+        └── assets/
+            ├── css/
+            │   └── pokedex.css
+            ├── fonts/
+            │   └── pokefont.ttf
+            └── img/
+                ├── logo.png
+                ├── pikachu.jpg
+                └── carapuce.jpg
 ```
 
-- **4.2** - Remplissez `presentation.txt` avec quelques lignes sur vous (votre nom, d'où vous venez, ...) en utilisant `nano`. Vérifiez que le contenu du fichier a bien été pris en compte en l'affichant avec `cat`.
-- 4.3 - Affichez le contenu du fichier `/etc/os-release`
-- **4.4** - Aller dans `~/documents/une_grande_maison` puis, *en utilisant uniquement des chemins relatifs* et en vous aidant de la touche [Tab], déplacez-vous successivement vers :
-    - `~/documents/une_grande_maison/chambre2/bureau/`
+- **4.2** - Téléchargez la liste de tous les pokémons connus (`all_pokemons.txt`) depuis le serveur du formateur à l'aide de `wget`.
+- **4.3** - À l'aide de `nano`, remplissez `mon_pokedex/mon_equipe_de_pokemons.csv` avec quelque chose comme:
+
+```
+Pokemon;Niveau
+bulbizarre;17
+rattata;8
+roucoups;15
+```
+
+Vérifiez que le contenu a bien été pris en compte en l'affichant avec `cat`.
+
+- **4.4** - Aller dans `~/Documents/mon_pokedex/assets/` puis, **en utilisant uniquement des chemins relatifs** et en vous aidant de la touche [Tab], déplacez-vous successivement vers :
+    - `~/Documents/mon_pokedex/assets/img`
+    - `~/Documents/formation_linux`
+    - `~/.local/` (ou `~/.config/` si `~/.local/` n'existe pas)
+    - `~/Documents/mon_pokedex/assets/fonts`
     - `/usr/share/doc/`
-    - `~/.local/`
-    - `~/documents/une_grande_maison`
-- 4.5 - Affichez le contenu de `/etc/motd` et `/etc/login.defs`
-- **4.6** - En utilisant `less`, checher `LOGIN_TIMEOUT` dans le fichier `/etc/login.defs`. Même chose, mais cette fois en utilisant `nano`.
-- 4.7 - Utilisez une commande pour compter le nombre de ligne de `/etc/login.defs` ?
-- **4.8** - Créez le fichier `dracaufeu.jpg` dans le dossier `cuisine/placard2/`... Vous réalisez ensuite que vous auriez voulu mettre ce fichier dans `ma_collection/` ! Utilisez alors la commande `mv` pour déplacer `dracaufeu.jpg` vers le bon dossier.
-- 4.9 - Renommez `ma_collection/` en `ma_collection_de_pokemons/`
-- 4.10 - Créez un nouveau dossier `~/mybins` et copiez dedans les fichier `/bin/ls` et `/bin/pwd`.
-- **4.11** - Créez un dossier `~/bkp/` et créer une copie de `ma_collection_de_pokemons` dans un nouveau dossier `~/sauvegardes/`
-- 4.12 - Supprimez le fichier `dracaufeu.jpg` de la collection
-- **4.13** - Supprimez tout le dossier `~/sauvegardes/` récursivement
-- **4.14** - Inspectez les sorties de `df -h` et `lsblk`
-- 4.15 - Tentez de supprimer `/etc/passwd` (en tant que `padawan` !)
-- 4.16 - Tentez de redimensionner une partition à l'aide de `gparted`
+    - `~/`
+- **4.5** - Créez un fichier `dracaufeu.jpg` dans `~/Documents/formation_linux` ... Vous réalisez ensuite que vous auriez voulu mettre ce fichier dans `~/Documents/mon_pokedex/assets/img` ! Utilisez alors la commande `mv` pour déplacer le fichier vers le bon dossier.
+- **4.6** - Renommez le dossier `mon_pokedex/` en `ma_collection_de_pokemons/`
+- **4.7** - Supprimez le fichier `carapuce.jpg` dans `~/Documents/mon_pokedex/assets/img` **en restant là où vous êtes actuellement, i.e. sans utiliser `cd`**
+- **4.8** - Créez un dossier `~/sauvegardes` et dedans, créer un dossier `collection_bkp` qui sera une copie récursive de `~/Documents/ma_collection_de_pokemons`
+- **4.9** - Supprimez tout le dossier `~/sauvegardes` récursivement
 
-### 5. Utilisateurs et groupes
+- **4.10** - Depuis là où vous êtes (i.e. sans utiliser `cd` !):
+    - affichez le contenu de `/etc/os-release` : devinez-vous à quoi correspondent ces informations ?
+    - affichez le contenu de `/etc/hostname` : à quoi correspond cette information ?
+    - affichez le contenu de `/etc/timezone` : à quoi correspond cette information ?
+    - affichez le contenu de `/etc/default/locale` : à quoi correspond cette information ?
 
-- **5.1** - Ouvrir un shell `root` avec `sudo`, `su`, ou via un autre `tty`
-- **5.2** - Créez un utilisateur `r2d2`
-- **5.3** - Créez un groupe `droid`
-- **5.4** - Ajoutez `r2d2` au groupe `droid`
-- **5.5** - À l'aide de `su`, lancez un shell en tant que `r2d2` et regarder le résultat de `whoami`, `id` et `groups`
-- **5.6** - Depuis un autre shell en root (ou bien à l'aide de `sudo`), définissez un mot de passe pour `r2d2` à l'aide de la commande `passwd`
-- 5.7 - Ouvrir plusieurs tty et se logger avec différents utilisateurs, puis observer ce que `who` retourne
-- 5.8 - Vérifiez que les infos de `r2d2` sont bien dans `/etc/passwd` et `/etc/shadow`
-- 5.9 - Que se passe-t-il si vous définissez `/bin/false` comme shell par défaut pour `r2d2` ?
-- **5.10** - En inspectant le contenu de `/etc/sudoers`, pouvez-vous donnez le droit à `r2d2` d'utiliser `sudo` ?
-- **5.11** - Depuis un shell en tant que `r2d2`, validez que vous êtes en mesure de faire des commandes avec `sudo`. Constatez aussi que les commandes executées avec `sudo` sont logguées dans le ficher `/var/log/auth.log` (on pourra utiliser `tail` pour afficher seulement les dernières lignes du fichier)
+- **4.11** - Regardez le contenu de `/etc/nanorc` : 
+    - à quoi correspond ce fichier ?
+    - en utilisant `less`, cherchez toutes les occurences du mot `set`.
+    - même chose mais cette fois en ouvrant le fichier avec `nano` (il existe un raccourci clavier pour chercher un mot dans `nano`)
+- **4.12** - Utilisez une commande pour compter le nombre de ligne du fichier `/etc/nanorc` 
+- **4.13** - Copiez le fichier `/etc/nanorc` dans `~/.nanorc`. Éditez ensuite cette copie pour décommenter la ligne `# set linenumbers` (c'est à dire enlever le `#` devant la ligne pour activer l'option `linenumbers`). Qu'avons-nous fait avec cette manipulation ? Pourquoi avoir copié le fichier dans notre répertoire personnel pour faire cela ?
+
+### 5. Utilisateurs, groupes et shells
+
+- **5.1** - Ouvrir un premier terminal en tant que `padawan`
+- **5.2** - Ouvrir un deuxième terminal. Dedans, ouvrir un sous-shell en `root` à l'aide des commandes `sudo` et/ou `su`.
+- **5.3** - Dans votre deuxième terminal (en `root`)
+    - créez un utilisateur `r2d2`
+    - définissez un mot de passe pour l'utilisateur `r2d2` à l'aide de la commande `passwd`
+    - créez un groupe `droid`
+    - ajoutez `r2d2` au groupe `droid`
+    - constatez que les infos de `r2d2` et du groupe `droid` sont bien dans `/etc/passwd`, `/etc/shadow` et `/etc/group`
+- **5.4** - Ouvrir un troisième terminal. Dedans, ouvrir un sous-shell en tant que `r2d2` à l'aide des commandes `sudo` et/ou `su`. 
+    - l'invite de commande obtenue est différente de celle de `r2d2` et `root`. Pourquoi ? (On pourra comparer le résultat de la commande `echo $SHELL`)
+    - comment peut-on procéder pour changer le shell par défaut de `r2d2` ? (Indice: regarder `/etc/passwd`, ou bien la commande `chsh`)
+    - regardez le résultat des commandes `whoami`, `id` et `groups` et comparez à ce que vous obtenez pour ces commandes dans le premier terminal (en tant que `padawan`)
+- **5.5** - Inspectez le contenu de `/etc/sudoers`:
+    - en lisant les commentaires du fichier, chercher comment faire pour donner le droit à `r2d2` d'utiliser `sudo`
+    - (après avoir fait la manip, n'oubliez pas de relancer le terminal/shell dans lequel vous êtes pour propager le changement!)
+    - depuis un shell en tant que `r2d2`, validez que vous êtes en mesure de faire des commandes avec `sudo` (Par exemple: `sudo ls -la /root/`).
+- 5.6 - Constatez que les commandes executées avec `sudo` sont logguées dans le ficher `/var/log/auth.log` (on pourra utiliser `tail` pour afficher seulement les dernières lignes du fichier)
 
 ### 6. Permissions
 
@@ -110,11 +138,12 @@
 - 6.10 - Créez des fichier `beep.wav`, `boop.wav` et `blop.wav` que seul `r2d2` peut executer.
 - 6.11 - Êtes-vous capable de créer un dossier qui contient des fichiers qu'il est possible de lire, mais pas de lister ?
 - 6.12 - En tant qu'utilisateur `padawan`, arrivez-vous à donner un de vos fichier à `r2d2` ?
-- 6.13 - Utilisez `setfacl` pour autoriser le groupe `droid` à lister et rentrer dans votre home. Confirmez l'effet attendu, d'une part avec `ls -l` et `getfacl`, et d'autre part depuis un shell en étant connecté en tant que `r2d2`
-- 6.14 - Même chose, mais cette fois-ci donnez le droit de list et rentrer dans `/home/r2d2` à l'user(!) `padawan`.
+- 6.13 - (Avancé) Utilisez `setfacl` pour autoriser le groupe `droid` à lister et rentrer dans votre home. Confirmez l'effet attendu, d'une part avec `ls -l` et `getfacl`, et d'autre part depuis un shell en étant connecté en tant que `r2d2`
+- 6.14 - (Avancé) Même chose, mais cette fois-ci donnez le droit de list et rentrer dans `/home/r2d2` à l'user(!) `padawan`.
 
 ### 7. Processus
 
+- **7.0** - Utilisez `ps -ef` ou `top` et trouvez un processus qui ne tourne ni en tant que `root`, ni en tant que `padawan`
 - **7.1** - Lancer `sleep 30`, puis mettre la commande en arrière-plan. Vérifier avec `jobs` qu'elle continue de s'executer, et qu'elle finie bien par se terminer.
 - **7.2** - Même chose, mais en remettant la commande en avant-plan avec qu'elle ne se termine.
 - **7.3** - Lancer `sleep 30` directement en arrière plan (avec `&`) puis tuez le processus avant qu'il ne se termine
