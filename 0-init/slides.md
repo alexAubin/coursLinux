@@ -6,9 +6,14 @@ layout: true
 
 class: impact
 
-# Introduction à Linux
+# Introduction à
+# <small style="font-size: 0.3em">GNU/</small>Linux
 
-*Become a Command Line Padawan in five days!*
+*Become a Command Line Padawan in three days!*
+
+.center[
+![](img/gnulinux.png)
+]
 
 ---
 
@@ -20,6 +25,7 @@ class: impact
 
 # À propos de moi
 
+.col-12[
 .col-4[
 .center[
 ![](img/me.jpg)
@@ -36,9 +42,7 @@ class: impact
 <br>
 <br>
 ]]
-
-
-
+]
 
 .col-4[.center[
 Ingénieur/Physicien
@@ -89,7 +93,7 @@ Formateur
 
 # Plan du cursus
 
-# Autres formateurs / référents 
+# Autres formateurs / référents
 
 ---
 
@@ -99,7 +103,7 @@ Formateur
 
 - 1 - Historique, introduction, rappels, setup initial
 - 2, 3 - Prise en main du terminal et de la ligne de commande
-- 4 - Le système de fichiers
+- 4 - Manipulation des fichiers
 
 **Jour 2 ?** / Bases de Linux
 
@@ -171,15 +175,15 @@ Formateur
 # Méthode de travail
 
 - Alternance théorie / pratique
-- Publication du contenu au fur et à mesure 
+- Publication du contenu au fur et à mesure
     - sur **https://dismorphia.info/documents/formationLinux**
 - Travail dans une machine virtuelle
 - Setup avec Guacamole pour les stagiaires à distance
 
 # Objectifs
 
-- Vous fournir des bases solides
-- Vous transmettre une forme d'enthousiasme
+- Vous fournir des bases solides via la pratique
+- Vous transmettre une forme d'enthousiasme !
 
 ---
 
@@ -203,7 +207,7 @@ Formateur
 
 class: impact
 
-# 1. Les origines de (GNU/)Linux 
+# 1. Les origines de (GNU/)Linux
 
 ## (ou plus largement de l'informatique contemporaine)
 
@@ -250,7 +254,7 @@ class: impact
 
 ## 1970 : UNIX
 
-- Définition d'un 'standard' pour les OS 
+- Définition d'un 'standard' pour les OS
 - Un multi-utilisateur, multi-tâche
 - Design modulaire, simple, élégant, efficace
 - Adopté par les universités américaines
@@ -589,7 +593,7 @@ Et bien d'autres : Gentoo, LinuxFromScratch, Fedora, OpenSuse, Slackware, Alpine
 
 - (Choix arbitraire du formateur)
 - Distribution simple, sobre, pas spécialement controversée (?)
-- Profite de la stabilité de Debian et de l'accessibilité d'Ubuntu 
+- Profite de la stabilité de Debian et de l'accessibilité d'Ubuntu
 
 ---
 
@@ -723,9 +727,9 @@ Pour ce faire, appuyer sur Ctrl+Alt+F2 (ou F3, F4, ...)
 Debian Stretch <nom_de_machine> tty0
 
 <nom_de_machine> login: votre_login
-Password: 
+Password:
 Last login: Wed 19 Sep 16:23:42 on tty2
-votre_login@machine:~$ █
+votre_login@machine:~$
 ```
 
 ---
@@ -734,7 +738,7 @@ votre_login@machine:~$ █
 
 ## Premières commandes
 
-Changez votre mot de passe : 
+Changez votre mot de passe :
 - Taper `passwd` puis *Entrée* puis suivez les instructions
 
 ```
@@ -849,7 +853,7 @@ dnsmasq -x /run/dnsmasq/dnsmasq.pid -u dnsmasq -7 /etc/dnsmasq.d,.dpkg-dist,.dpk
 
 ## Effet d'une commande
 
-Certaines commandes affichent des choses : 
+Certaines commandes affichent des choses :
 
 ```
 alex@shadow~$ ls -l /var/
@@ -1065,14 +1069,15 @@ ls  -h        # (ou --human-readable) Tailles lisibles comme '24K' ou '3G'
 
 ```
 ls *.py        # Liste tous les fichiers du repertoire courant finissant par .py
-ls *.py *.png} # Liste tous les fichiers du repertoire courant finissant par .py ou *.png
+ls *.py *.png # Liste tous les fichiers du repertoire courant finissant par .py ou *.png
 ls *.{py,png}  # Liste tous les fichiers du repertoire courant finissant par .py ou *.png
+echo ls *.{py,.png} # Affiche la commande precedente telle qu'elle va être executée
 ```
 
-- `*` corresponds à un "joker" / wildcard, et est interprété comme "n'importe quelle suite de caractère" 
+- `*` corresponds à un "joker" / wildcard, et est interprété comme "n'importe quelle suite de caractère"
 - utile pour spécifier "tous les fichiers qui suivent un même format"
 - **l'expansion survient *avant* que la commande soit éxécutée et se fait par rapport aux fichiers du dossier courant**
-- Par ex: 
+- Par ex:
     - Si le dossier contient les fichiers `foo.py` et `bar.py`
     - ... alors taper `ls *.py` équivaut à taper `ls foo.py bar.py`
     - ... et taper juste `*` équivant à taper `foo.py bar.py`
@@ -1201,7 +1206,7 @@ class: impact
 
 class: impact
 
-# 4. Le système de fichier 
+# 4. Le système de fichier
 
 ---
 
@@ -1278,8 +1283,8 @@ class: impact
 
 
 - **fichiers ordinaires** (`-`) : données, configuration, ... texte ou binaire
-- **répertoires** (directory, `d`) : gérer l'aborescence, ... 
-- **spéciaux** : 
+- **répertoires** (directory, `d`) : gérer l'aborescence, ...
+- **spéciaux** :
     - `block` et `char` (`b`, `c`) (clavier, souris, disque, ...)
     - sockets (`s`), named pipe (`p`) (communication entre programmes)
     - links (`l`) ('alias' de fichiers, ~comme les raccourcis sous Windows)
@@ -1324,8 +1329,8 @@ coursLinux/
 │   └── presentation.html
 ├── exo.md
 ├── img/
-│   ├── sorcery.jpg
-│   └── tartiflette.png
+│   ├── whatisthissorcery.jpg
+│   └── bottomlesspit.png
 ├── presentation.md
 └── template/
     ├── index.html
@@ -1352,7 +1357,7 @@ coursLinux/
 - `/` : racine de toute la hierarchie
 - `/bin/`, `/sbin/` : programmes essentiels (e.g. `ls`)
 - `/boot/` : noyau et fichiers pour amorcer le système
-- `/dev/`, `/sys` : périphériques, drivers 
+- `/dev/`, `/sys` : périphériques, drivers
 - `/etc/` : **fichiers de configuration**
 - `/home/` : **répertoires personnels des utilisateurs**
 - `/lib/` : librairies essentielles
@@ -1498,13 +1503,13 @@ ls /toto
 - `../yunohost/script.sh`
 - `./../yunohost/script.sh`
 - `./wordpress/../../yunohost/script.sh`
-- `../.././music/.././../barbara/.././alex/dev/ynh-dev/yunohost/script.sh`
+- `../.././music/.././../camille/.././alex/dev/ynh-dev/yunohost/script.sh`
 
 ---
 
 # 4. Le système de fichier
 
-## Manipuler des fichiers (1/4)
+## Manipuler des fichiers (1/5)
 
 - `ls` : lister les fichiers
 - `cat <fichier>` : affiche le contenu d'un fichier dans la console
@@ -1521,10 +1526,10 @@ wc -l /usr/share/doc/nano/nano.html      # 2005 lignes !
 
 # 4. Le système de fichier
 
-## Manipuler des fichiers (2/4)
+## Manipuler des fichiers (2/5)
 
 - `head <fichier>`, `tail <fichier>` : affiche les quelques premières ou dernières ligne du fichier
-- `less <fichier>` : regarder le contenu d'un fichier de manière "interactive"
+- `less <fichier>` : regarder le contenu d'un fichier de manière "interactive" (paginateur)
    - ↑, ↓, ⇑, ⇓ pour se déplacer
    - `/mot` pour chercher un mot
    - `q` pour quitter
@@ -1538,7 +1543,7 @@ less /usr/share/doc/nano/nano.html       # Regarder interactivement le fichier
 
 # 4. Le système de fichier
 
-## Manipuler des fichiers : `cat`, `head`, `tail`
+## Manipuler des fichiers (2/5)
 
 .center[
 ![](img/cat.jpeg)
@@ -1548,14 +1553,14 @@ less /usr/share/doc/nano/nano.html       # Regarder interactivement le fichier
 
 # 4. Le système de fichier
 
-## Manipuler des fichiers (3/4)
+## Manipuler des fichiers (3/5)
 
 - `touch <fichier>` : créer un nouveau fichier, et/ou modifie sa date de modification
 - `nano <fichier>` : éditer un fichier dans la console
     - (`nano` créera le fichier si besoin)
     - [Ctrl]+X pour enregistrer+quitter
     - [Ctrl]+W pour chercher
-    - [Alt]+Y pour activer la coloration syntaxique 
+    - [Alt]+Y pour activer la coloration syntaxique
 - `vi` ou `vim <fichier>` : alternative à nano
     - plus puissant (mais plus complexe)
 
@@ -1563,7 +1568,7 @@ less /usr/share/doc/nano/nano.html       # Regarder interactivement le fichier
 
 # 4. Le système de fichier
 
-## Manipuler des fichiers (4/4)
+## Manipuler des fichiers (4/5)
 
 - `cp <source> <destination>` : copier un fichier
 - `rm <fichier>` : supprimer un fichier
@@ -1577,6 +1582,36 @@ cp cours.html ~/bkp/linux.bkp  # Créée une copie de cours.html dans /home/alex
 rm cours.html                  # Supprime cours.html
 mv coursLinux.html linux.html  # Renomme coursLinux.html en linux.html
 mv linux.html ~/archives/      # Déplace linux.html dans ~/archives/
+```
+
+---
+
+# 4. Le système de fichier
+
+## Manipuler des fichiers (5/5)
+
+- `wget` : télécharger un fichier depuis les Internets
+
+Exemple
+
+```text
+$ wget https://dismorphia.info/documents/formationLinux/toto
+
+--2021-12-05 17:12:45--  https://dismorphia.info/documents/formationLinux/toto
+Resolving dismorphia.info (dismorphia.info)... 92.92.115.142
+Connecting to dismorphia.info (dismorphia.info)|92.92.115.142|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 6 [application/octet-stream]
+Saving to: ‘toto’
+
+toto               100%[=============>]       6  --.-KB/s    in 0s 
+
+2021-12-05 17:12:46 (3.20 MB/s) - ‘toto’ saved [6/6]
+```
+
+```shell
+$ cat toto
+pouet
 ```
 
 ---
@@ -1661,7 +1696,7 @@ rm -r ~/trash          # Supprime tout le dossier ~/trash et son contenu
 ![](img/symlink.png)
 ]
 
-- Dans ce exemple, le lien a été créé avec 
+- Dans ce exemple, le lien a été créé avec
     - `ln -s ../../../conf/ynh.txt conf.json`
 - `conf.json` est "le raccourci" : on peut le supprimer sans problème
 - `ynh.txt` est la cible : le supprimer rendra inopérationnel le raccourci
@@ -1677,6 +1712,36 @@ rm -r ~/trash          # Supprime tout le dossier ~/trash et son contenu
 - On peut avoir des symlinks de répertoires (à la différence des hardlinks)
     - Attention tout de même à certains comportements étrange (`..` en étant à l'intérieur d'un symlink)
 - On peut avoir des symlinks entre des filesystem différents ! (à la différence des hardlinks)
+
+---
+
+# 4. Le système de fichier
+
+## Recap dossiers importants (l'essentiel)
+
+- `/home/<user>/` : le répertoire personnel de `<user>`
+- `/etc/` : là où habitent les fichiers de configuration
+- `/var/log/` : là ou habitent les fichiers de logs
+- `/root/` : le répertoire personnel de `root`
+
+---
+
+# 4. Le système de fichier
+
+## Recap des commandes
+
+- `ls` : lister les fichiers d'un dossier
+- `cat` : afficher le contenu d'un fichier
+- `head`, `tail` : afficher les N premières / dernière ligne d'un fichier
+- `less` : afficher le contenu d'un fichier avec un mode interactif
+- `touch` : créer un fichier vide (ou changer sa date de modif sans rien faire)
+- `nano`, `vim` : éditer un fichier (et le créer si besoin)
+- `cp` : copier un fichier (ou dossier avec `-r`)
+- `mv` : déplacer ou renommer un fichier ou un dossier
+- `rm` : supprimer un fichier (ou un dossier avec `-r`)
+- `wc -l` : compter les lignes d'un fichier
+- `ln -s` : créer un lien symbolique
+- `wget` : télécharger un fichier sur les Internets
 
 ---
 
@@ -1703,7 +1768,7 @@ class: impact
 Classiquement, les utilisateurs sont répertoriés dans `/etc/passwd`
 
 ```
-alex:x:1000:1000:Zee Aleks:/home/alex:/bin/bash
+alex:x:1000:1000:Super Formateur Linux:/home/alex:/bin/bash
 ```
 
 - identifiant / login
@@ -1729,6 +1794,29 @@ alex:x:1000:1000:Zee Aleks:/home/alex:/bin/bash
 ![](img/heistheone.png)
 ]
 
+
+---
+
+# 5. Utilisateurs et groupes
+
+## Parenthèse sur la terminologie
+
+#### Le terminal / la console
+
+Dans le temps, il s'agissait d'une machine sans interface graphique, similaire à un minitel qui permettait d'interagir avec le "vrai" ordinateur (mainframe) à distance.
+
+De nos jours, par abus de language un terminal est en fait un **émulateur** de terminal, c'est-à-dire un programme qui émule la même fonctionnalité. (La distinction terminal/mainframe a disparu)
+
+#### Le shell
+
+Il s'agit du programme qui gère l'invite de commande et l'execution des commandes tapées.
+
+Classiquement, il s'agit de `bash`. Il existe d'autres shell comme `sh`, `zsh`, `fish`, ...
+
+Lorsque l'on programme dans certains languages de scripting, on parle aussi de shell `python`, `perl`, `ruby`, `javascript`, ...
+
+Un shell que vous utilisez peut potentiellement être situé sur une autre machine que celle devant laquelle vous êtes !
+
 ---
 
 # 5. Utilisateurs et groupes
@@ -1737,7 +1825,7 @@ alex:x:1000:1000:Zee Aleks:/home/alex:/bin/bash
 
 ```bash
 su                  # Demande à ouvrir un shell en tant que root
-su barbara          # Demande à ouvrir un shell en tant que barbara
+su camille          # Demande à ouvrir un shell en tant que camille
 su -c "ls /root/"   # Executer 'ls /root/' en tant que root (de manière ephemere)
 exit                # Quitter un shell
 ```
@@ -1841,7 +1929,7 @@ Bref : une empreinte caractérisant une information de manière très précise
 ```bash
 whoami                  # Demander qui on est...!
 groups                  # Demander dans quel groupe on est
-id                      # Lister des infos sur qui on est (uid, gid, ..) 
+id                      # Lister des infos sur qui on est (uid, gid, ..)
 passwd <user>           # Changer son password (ou celui de quelqu'un si on est root)
 who                     # Lister les utilisateurs connectés
 useradd <user>          # Créé un utilisateur
@@ -1937,8 +2025,8 @@ chgrp <group> <cible>         # Change juste le groupe d'un fichier
 Exemples :
 
 ```bash
-chown barbara:students coursLinux.md  # "Donne" coursLinux.md à barbara et au groupe students
-chown -R barbara /home/alex/dev/      # Change le proprio récursivement !
+chown camille:students coursLinux.md  # "Donne" coursLinux.md à camille et au groupe students
+chown -R camille /home/alex/dev/      # Change le proprio récursivement !
 ```
 
 (ACHTUNG: si l'on fait un malencontreux `chown -R`, il peut être difficile de revenir en arrière)
@@ -2035,7 +2123,7 @@ ne signifie pas qu'on a pas les droits de lecture sur le fichier, mais bien que 
 
 ## Permissions "théoriques" vs permissions réelles
 
-Pour pouvoir accéder à `/home/alex/img/pikachu.jpg` j'ai besoin de : 
+Pour pouvoir accéder à `/home/alex/img/pikachu.jpg` j'ai besoin de :
 
 - Pouvoir entrer (`x`) dans le dossier `/`
 - Pouvoir entrer (`x`) dans le dossier `/home/`
@@ -2103,7 +2191,7 @@ class: impact
 
 ## Execution (1/2)
 
-La machine comprends seulement du code machine ("binaire"). 
+La machine comprends seulement du code machine ("binaire").
 
 Un programme est donc soit :
 - compilé (par ex. un programme en C)
@@ -2119,7 +2207,7 @@ Rappel : UNIX est multi-tâche, multi-utilisateur
 
 ## Execution (2/2)
 
-Un processus est lancé soit : 
+Un processus est lancé soit :
 
 - en interactif (depuis un shell / la ligne de commande)
 - de manière automatique (tâche programmées, c.f. `at` et jobs cron)
@@ -2247,7 +2335,7 @@ pkill -9 java
 - "Gentillesse" (*niceness*) entre -20 et 19
     - -20 : priorité la plus élevée
     - 19 : priorité la plus basse
-- Seul les process du kernel peuvent être "méchant" 
+- Seul les process du kernel peuvent être "méchant"
     - niceness négative, et donc les + prioritaires
 
 ---
@@ -2302,7 +2390,7 @@ USER, USERNAME : nom d'utilisateur
 Exemple :
 
 ```
-HOME=/usr/cache/ 
+HOME=/usr/cache/
 ```
 
 ## Afficher une variable
@@ -2411,13 +2499,13 @@ Autres fichiers de profils : `~/.profile` et `/etc/bash_profile`
 
 class: impact
 
-# 9. Commandes avancées
+# 9. Commandes "avancées"
 
-## 9.1 - Redirections, assemblages
+## redirections et assemblages
 
 ---
 
-# 9.1 - Redirections, assemblages
+# 9 - Redirections, assemblages
 
 ## Schema fonctionnel d'une commande
 
@@ -2432,7 +2520,7 @@ class: impact
 
 ---
 
-# 9.1 - Redirections, assemblages
+# 9 - Redirections, assemblages
 
 ## Entrées / sorties
 
@@ -2447,7 +2535,7 @@ class: impact
 
 ---
 
-# 9.1 - Redirections, assemblages
+# 9 - Redirections, assemblages
 
 ## Code de retour
 
@@ -2460,7 +2548,7 @@ $ echo $?
 
 ---
 
-# 9.1 - Redirections, assemblages
+# 9 - Redirections, assemblages
 
 ## Rediriger les entrées/sorties (1/3)
 
@@ -2479,7 +2567,7 @@ wc <<< "une grande phrase"           # Compte le nomde de mot d'une chaine
 
 ---
 
-# 9.1 - Redirections, assemblages
+# 9 - Redirections, assemblages
 
 ## Rediriger les entrées/sorties (2/3)
 
@@ -2498,7 +2586,7 @@ ls /* &> log     # Redirige tout vers 'log' !
 
 ---
 
-# 9.1 - Redirections, assemblages
+# 9 - Redirections, assemblages
 
 ## Rediriger les entrées/sorties (3/3)
 
@@ -2512,7 +2600,7 @@ Fichiers speciaux :
 
 ---
 
-# 9.1 - Redirections, assemblages
+# 9 - Redirections, assemblages
 
 ## Rediriger les entrées/sorties (3/3)
 
@@ -2522,18 +2610,18 @@ Fichiers speciaux :
 
 ```bash
 ls /* 2> /dev/null           # Ignore stderr
-mv ./todo.txt /dev/null      # Façon originale de supprimer un fichier ! 
+mv ./todo.txt /dev/null      # Façon originale de supprimer un fichier !
 head -c 5 < /dev/urandom     # Affiche 5 caractères de /dev/urandom
 cat /dev/urandom > /dev/null # Injecte de l'aleatoire dans le puit sans fond
 ```
 
 ---
 
-# 9.1 - Redirections, assemblages
+# 9 - Redirections, assemblages
 
 ## Assembler des commandes
 
-Executer plusieurs commandes à la suite : 
+Executer plusieurs commandes à la suite :
 
 - `cmd1; cmd2` : execute `cmd1` puis `cmd2`
 - `cmd1 && cmd2` : execute `cmd1` puis `cmd2` mais seulement si `cmd1` reussie !
@@ -2546,13 +2634,13 @@ Que fait `cmd1 && cmd2 || cmd3` ?
 
 class: impact
 
-# 9. Commandes avancées
+# 10. Commandes avancées
 
-## 9.2 - Pipes et boîte à outils
+## pipes et outils
 
 ---
 
-# 9.2 Pipes et boîte à outils
+# 10 Pipes et boîte à outils
 
 ## Pipes ! (1/3)
 
@@ -2568,7 +2656,7 @@ Exemple : `cat /etc/login.defs | head -n 3`
 
 ---
 
-# 9.2 Pipes et boîte à outils
+# 10 Pipes et boîte à outils
 
 ## Pipes ! (2/3)
 
@@ -2577,9 +2665,11 @@ Lorsqu'on utilise des pipes, c'est generalement pour enchaîner des opérations 
 - filtrer ces données
 - modifier ces données à la volée
 
+Sous Linux : tout est fichier / tout est flux de texte
+
 ---
 
-# 9.2 Pipes et boîte à outils
+# 10 Pipes et boîte à outils
 
 ## Pipes ! (3/3)
 
@@ -2590,9 +2680,9 @@ Precisions techniques
 
 ---
 
-# 9.2 Pipes et boîte à outils
+# 10 Pipes et boîte à outils
 
-## Boîte à outils : tee
+## Boîte à outils : `tee`
 
 `tee` permet de rediriger `stdout` vers un fichier tout en l'affichant quand meme dans la console
 
@@ -2603,9 +2693,9 @@ openssl speed | tee -a tests.log      # Affiche et ajoute la sortie de openssl �
 
 ---
 
-# 9.2 Pipes et boîte à outils
+# 10 Pipes et boîte à outils
 
-## Boîte à outils : grep (1/3)
+## Boîte à outils : `grep` (1/3)
 
 `grep` permet de trouver des lignes qui contiennent un mot clef (ou plus generalement, une expression)
 
@@ -2624,9 +2714,9 @@ LOGIN_TIMEOUT		60
 
 ---
 
-# 9.2 Pipes et boîte à outils
+# 10 Pipes et boîte à outils
 
-## Boîte à outils : grep (2/3)
+## Boîte à outils : `grep` (2/3)
 
 Une option utile (parmis d'autres) : `-v` permet d'inverser le filtre
 
@@ -2646,9 +2736,9 @@ $ ps -ef | grep "alex\|r2d2"
 
 ---
 
-# 9.2 Pipes et boîte à outils
+# 10 Pipes et boîte à outils
 
-## Boîte à outils : grep (3/3)
+## Boîte à outils : `grep` (3/3)
 
 On peut faire référence à des débuts ou fin de ligne avec `^` et `$` :
 
@@ -2665,9 +2755,9 @@ root      6222  6218  0 Oct02 pts/15   00:00:00 bash
 
 ---
 
-# 9.2 Pipes et boîte à outils
+# 10 Pipes et boîte à outils
 
-## Boîte à outils : tr
+## Boîte à outils : `tr`
 
 `tr` ('translate') traduit des caractères d'un ensemble par des caractère d'un autre ensemble ...
 
@@ -2683,9 +2773,9 @@ COuCOu
 
 ---
 
-# 9.2 Pipes et boîte à outils
+# 10 Pipes et boîte à outils
 
-## Boîte à outils : awk
+## Boîte à outils : `awk`
 
 `awk` est un processeur de texte assez puissant ...
 - En pratique, il est souvent utilisé pour "récupérer seulement une ou plusieurs colonnes"
@@ -2705,9 +2795,9 @@ r2d2 11:27
 
 ---
 
-# 9.2 Pipes et boîte à outils
+# 10 Pipes et boîte à outils
 
-## Boîte à outils : awk
+## Boîte à outils : `awk`
 
 - L'option `-F` permet de specifier un autre délimiteur
 
@@ -2719,9 +2809,9 @@ cat /etc/passwd | awk -F: '{print $3}'  # Affiche les UID des utilisateurs
 
 ---
 
-# 9.2 Pipes et boîte à outils
+# 10 Pipes et boîte à outils
 
-## Boîte à outils : sort
+## Boîte à outils : `sort`
 
 `sort` est un outil de tri :
 - `-k` permet de spécifier quel colonne utiliser pour trier (par défaut : la 1ère)
@@ -2734,9 +2824,9 @@ ps -ef | sort -k2 -n  # Trie les processus par PID (2eme col., chiffres)
 
 ---
 
-# 9.2 Pipes et boîte à outils
+# 10 Pipes et boîte à outils
 
-## Boîte à outils : uniq
+## Boîte à outils : `uniq`
 
 `uniq` permet de ne garder que des occurences uniques ... ou de compter un nombre d'occurence (avec `-c`)
 
@@ -2749,9 +2839,9 @@ who | awk '{print $1}' | sort | uniq -c                # Compte le nombre de she
 
 ---
 
-# 9.2 Pipes et boîte à outils
+# 10 Pipes et boîte à outils
 
-## Boîte à outils : sed
+## Boîte à outils : `sed`
 
 `sed` est un outil de manipulation de texte très puissant ... mais sa syntaxe est complexe.
 
@@ -2764,9 +2854,9 @@ ls -l | sed 's/alex/padawan/g' # Remplace toutes les occurences de alex par pada
 
 ---
 
-# 9.2 Pipes et boîte à outils
+# 10 Pipes et boîte à outils
 
-## Boîte à outils : find
+## Boîte à outils : `find`
 
 `find` permet de trouver (recursivement) des fichiers répondant à des critères sur le nom, la date de modif, la taille, ...
 
@@ -2778,3 +2868,21 @@ find /etc -name "*.service"
 # Lister tous les fichiers dans /var/log modifiés il y a moins de 5 minutes
 find /var/log -mmin 5
 ```
+
+---
+
+# 10 Pipes et boîte à outils
+
+## Recap (QUELQUES outils)
+
+(en tout cas leur utilisation la plus commune)
+
+- `tee` : montrer la sortie dans le terminal tout en la copiant dans un fichier
+- `tr` : supprimer / remplacer certains caractères
+- `grep` : garder seulement les lignes qui matchent (ou pas) une expression
+- `awk` : garder seulement une colonne de donnée
+- `cut` : garder seulement une colonne de donnée (similaire à `awk` mais différent)
+- `sort` : trier des données
+- `uniq` : garder seulement des lignes uniques (ou compter combien d'occurences)
+- `sed` : chercher et remplacer une expression par une autre
+- `find` : chercher des fichiers qui correspondent à certains critères (nom, date de modif, ...)
