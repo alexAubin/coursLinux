@@ -548,8 +548,6 @@ Sous Windows
 *One package to download them all*
 
 *and on the system bind them*
-
-*In the land of GNU/Debian where the penguin lie*
 ]
 
 ---
@@ -2217,6 +2215,37 @@ Oct 10 21:01:37 scw-5e2fca sshd[5174]: pam_unix(sshd:auth): authentication failu
 Oct 10 21:01:39 scw-5e2fca sshd[5174]: Failed password for invalid user user from 5.101.40.101 port 35162 ssh2
 Oct 10 21:01:39 scw-5e2fca sshd[5174]: Connection closed by 5.101.40.101 port 35162 [preauth]
 ```
+---
+
+# 6 - Services et sécurité
+
+### Qu'est-ce que c'est un service systemd?
+
+Config:
+
+```
+/etc/systemd/system/sshd.service
+```
+
+(Ou bien aussi: `systemctl cat sshd`)
+
+`systemctl` est un outil pour lancer le service / daemon, en tant que fils de `init`
+
+
+---
+
+# 6 - Services et sécurité
+
+### Qu'est-ce que c'est systemd
+
+- Une suite d'outils pour manipuler pleins d'aspects du système
+- ... en particulier, tout le système d'`init` et les services (`systemctl`), alternative à `SysVinit`
+- Mais aussi:
+    - `localectl` (gestion des traduction / localisation)
+    - `hostnamectl` (nom de la machine, etc.)
+    - `systemd-resolve` (un service qui gère la résolution DNS)
+    - les points de montage
+    - les tâches programmées (cron -> timer)
 
 ---
 

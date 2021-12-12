@@ -49,37 +49,37 @@
 
 ### Gestionnaire de paquet
 
-- 1.11 Suite à l'installation de votre système, vous voulez vous assurer qu'il est à jour.
+- 2.1 Suite à l'installation de votre système, vous voulez vous assurer qu'il est à jour.
    - Lancez la commande `apt update`. Quels dépôts sont contactés pendant cette opération ?
    - À l'aide de `apt list --upgradable`, identifiez si `firefox`, `libreoffice`, `linux-firmware` et `apt` peuvent être mis à jour - et identifiez l'ancienne version et la nouvelle version.
    - Lancez la mise à jour avec `apt full-upgrade`. Pendant le déroulement de la mise à jour, identifiez les trois parties clefs du déroulement : liste des tâches et validation par l'utilisateur, téléchargement des paquets, et installation/configuration.
-- 1.12 - Cherchez avec `apt search` si le programme `sl` est disponible. (Utiliser `grep` pour vous simplifiez la tâche). À quoi sert ce programme ? Quelles sont ses dépendances ? (Vous pourrez vous aider de `apt show`). Finalement, installez ce programme en prêtant attention aux autres paquets qui seront installés en même temps.
-- 1.13 - Même chose pour le programme `lolcat`
-- 1.14 - Même chose pour le programme `nyancat` - mais cette fois, trouvez un moyen de télécharger le `.deb` directement depuis le site de debian qui référence les paquets, puis installez ce `.deb` avec `dpkg -i`. (Pour ce faire, taper par exemple `nyancat package debian` dans un moteur de recherche. Une fois arrivé sur la bonne page, vous trouverez une section 'Download' en bas. Parmis les architectures proposées, prendre `amd64`.)
-- 1.15 - Parfois, il est nécessaire d'ajouter un nouveau dépôt pour installer un programme (parce qu'il n'est pas disponible, ou bien parce qu'il n'est pas entièrement à jour dans la distribution utilisée). Ici, nous prendrons l'exemple de `mongodb` (un logiciel pour gérer des bases NoSQL) dont la version 4.4 n'est disponible que via un dépôt précis maintenu par les auteurs de mongodb.
+- 2.2 - Cherchez avec `apt search` si le programme `sl` est disponible. (Utiliser `grep` pour vous simplifiez la tâche). À quoi sert ce programme ? Quelles sont ses dépendances ? (Vous pourrez vous aider de `apt show`). Finalement, installez ce programme en prêtant attention aux autres paquets qui seront installés en même temps.
+- 2.3 - Même chose pour le programme `lolcat`
+- 2.4 - Même chose pour le programme `nyancat` - mais cette fois, trouvez un moyen de télécharger le `.deb` directement depuis le site de debian qui référence les paquets, puis installez ce `.deb` avec `dpkg -i`. (Pour ce faire, taper par exemple `nyancat package debian` dans un moteur de recherche. Une fois arrivé sur la bonne page, vous trouverez une section 'Download' en bas. Parmis les architectures proposées, prendre `amd64`.)
+- 2.5 - Parfois, il est nécessaire d'ajouter un nouveau dépôt pour installer un programme (parce qu'il n'est pas disponible, ou bien parce qu'il n'est pas entièrement à jour dans la distribution utilisée). Ici, nous prendrons l'exemple de `mongodb` (un logiciel pour gérer des bases NoSQL) dont la version 5.0 n'est disponible que via un dépôt précis maintenu par les auteurs de mongodb.
     - Regarder avec `apt search` et `apt show` (et `grep` !) si le paquet `mongodb` est disponible et quelle est la version installable. 
-    - Ajouter un nouveau fichier (par exemple `mongodb.list`) dans `/etc/apt/sources.list.d` avec une unique ligne : `echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse`
+    - Ajouter un nouveau fichier `mongodb.list` dans `/etc/apt/sources.list.d` avec une unique ligne : `echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse`
     - Faire `apt update`. Que se passe-t-il ? Quels serveurs votre machine a-t-elle essayer de contacter ? Pourquoi cela produit-il une erreur ?
-    - Ajoutez la clef d'authentification des paquets avec `wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+    - Ajoutez la clef d'authentification des paquets avec `wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -
 `.
     - Refaire `apt update`. Est-ce que ça fonctionne ?
     - Regarder avec `apt search` et `apt show` (et `grep` !) si le paquet `mongodb-org` est disponible et quelle est la version installable.
     - Installer le paquet. Depuis où a-t-il été téléchargé ?
     - Désinstallez ce paquet (en purgeant les données / fichiers) et supprimez le `mongodb.list` puis refaites un `apt update` pour remettre à plat la liste des paquets disponibles.
-- 1.16 - Regardez le contenu de `/var/cache/apt/archives`. À quoi ces fichiers correspondent-ils ? Trouvez deux méthodes pour nettoyer ces fichiers, l'une "brutale" avec `rm`, et l'autre "propre" avec `apt`.
-- 1.17 - Identifiez l'utilité de la commande `apt moo`
+- 2.6 - Regardez le contenu de `/var/cache/apt/archives`. À quoi ces fichiers correspondent-ils ? Trouvez deux méthodes pour nettoyer ces fichiers, l'une "brutale" avec `rm`, et l'autre "propre" avec `apt`.
+- 2.7 - Identifiez l'utilité de la commande `apt moo`
 
 ### Gestion des archives
 
-- 1.20 - Créez une archive (non-compressée !) de votre répertoire personnel avec `tar`.
-- 1.21 - En utilisant `gzip`, produisez une version compressée de l'archive de la question précédente
-- 1.22 - Recommencez mais en produisant une version compressée directement
-- 1.23 - En fouillant dans les options de `tar`, trouvez un moyen de lister le contenu de l'archive
-- 1.24 - Créez un dossier `test_extract` dans `/tmp/`, déplacez l'archive dans ce dossier puis décompressez-là dedans.
-- 1.25 - (Avancé) En reprenant le `.deb` du programme `nyancat` de la question 1.14, utilisez `ar` et `tar` pour décompresser le `.deb` jusqu'à trouver le fichier de controle debian, ainsi que l'executable contenu dans le paquet.
-- 1.26 - (Avancé) Trouvez un ou des fichiers `.gz` dans `/var/log` (ou ailleurs ?) et cherchez comment combiner `cat` et `gzip` pour lire le contenu de ce fichier sans créer de nouveau fichier.
+- 2.8 - Créez une archive (non-compressée !) de votre répertoire personnel avec `tar`.
+- 2.9 - En utilisant `gzip`, produisez une version compressée de l'archive de la question précédente
+- 2.10 - Recommencez mais en produisant une version compressée directement
+- 2.11 - En fouillant dans les options de `tar`, trouvez un moyen de lister le contenu de l'archive
+- 2.12 - Créez un dossier `test_extract` dans `/tmp/`, déplacez l'archive dans ce dossier puis décompressez-là dedans.
+- 2.13 - (Avancé) En reprenant le `.deb` du programme `nyancat` de la question 1.14, utilisez `ar` et `tar` pour décompresser le `.deb` jusqu'à trouver le fichier de controle debian, ainsi que l'executable contenu dans le paquet.
+- 2.14 - (Avancé) Trouvez un ou des fichiers `.gz` dans `/var/log` (ou ailleurs ?) et cherchez comment combiner `cat` et `gzip` pour lire le contenu de ce fichier sans créer de nouveau fichier.
 
-### Exercices avancés
+### Exercices avancés++
 
 - Utilisez `aptitude why` pour trouver la raison pour laquelle le paquet `libxcomposite1` est installé
 - Utilisez `apt-rdepends` pour afficher la liste des dépendances de `libreoffice`.
@@ -143,7 +143,7 @@ gpg --armor --export votreprenom@formationlinux
     - de quelle distribution s'agit-il ? (`lsb_release -a` ou regarder `/etc/os-release`)
     - quelle est la configuration en terme de CPU, de RAM, et d'espace disque ? (`cat /proc/cpuinfo`, `free -h` et `df -h`)
     - quelle est son adresse IP locale et globale ?
-- 5.3 - **Sur votre serveur** : donnez un nom à votre machine avec `hostnamectl set-hostname <un_nom>`. (Attention, ce nom est purement cosmétique et interne à la machine. Il ne s'agit pas d'un vrai nom de domaine résolvable et accessible par n'importe qui sur internet, comme celui qui sera configuré à la question 10.8)
+- 5.3 - **Sur votre serveur** : donnez un nom à votre machine avec `hostnamectl set-hostname <un_nom>`. (Attention, ce nom est purement cosmétique et interne à la machine. Il ne s'agit pas d'un vrai nom de domaine résolvable et accessible par n'importe qui sur internet, à la différence de celui qui sera configuré à la question 5.8)
 - 5.4 - **Sur votre serveur** : créez un utilisateur destiné à être utilisé plutôt que de se connecter en root. 
     - Créez-lui un répertoire personnel et donnez-lui les permissions dessus. 
     - Définissez-lui un mot de passe. 
@@ -243,7 +243,7 @@ fourni sur Dismorphia). Décompresser l'archive à l'aide de `tar` et mettre son
 contenu dans `/var/www/nextcloud`.
 
 - 8.2 - Installer les dépendances de Nextcloud (c.f. liste fournie sur
-Dismorphia). Vérifier qu'il y a bien un service `php7.0-fpm` et `mysql` (ou
+Dismorphia). Vérifier qu'il y a bien un service `php7.4-fpm` et `mysql` (ou
 `mariadb`) qui tourne désormais sur le serveur - à la fois via `systemctl` et
 `ps`.
 
@@ -290,7 +290,7 @@ le fichier ;))
   Il vous faudra ajouter ce modèle à votre configuration nginx, et remplacer 
   `__WEB_PATH__` et `__UNIX_FOLDER__` par des valeurs appropriée. (Ne remplacez
   pas toutes les occurrences à la main, utilisez un outil approprié !).
-  Notez l'existence d'une ligne mentionnant `/var/run/php/php7.0-fpm.sock`. À
+  Notez l'existence d'une ligne mentionnant `/var/run/php/php7.4-fpm.sock`. À
   votre avis, à quoi sert ce fichier et cette ligne ?
 
 - 8.7 - Testez que la configuration nginx semble valide avec `nginx -t`,

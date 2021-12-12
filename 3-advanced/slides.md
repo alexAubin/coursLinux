@@ -16,6 +16,13 @@ class: impact
 
 ---
 
+.center[
+![](img/sudoreported.png)
+]
+
+
+---
+
 # Recap'
 
 - Installer une distribution
@@ -82,11 +89,11 @@ class: impact
 
 class: impact
 
-# 1. Déployer une app PHP/Mysql
+# 8. Déployer une app PHP/Mysql
 
 ---
 
-# 1. Déployer une app PHP/Mysql
+# 8. Déployer une app PHP/Mysql
 
 - Jusqu'ici : des pages statiques !
 
@@ -96,7 +103,7 @@ class: impact
 
 ---
 
-# 1. Déployer une app PHP/Mysql
+# 8. Déployer une app PHP/Mysql
 
 Comment créer des pages "dynamiques", par exemple :
 - espaces utilisateurs <small>(mur facebook, compte amazon)</small>
@@ -104,48 +111,17 @@ Comment créer des pages "dynamiques", par exemple :
 - ... ou stockées dans des bases de donnée <small>(liste d'élèves d'une université...)</small> 
 - ...
 
-"Bricolage" : cron job qui rafraìchit la page toutes les minutes
-
 ---
 
-# 1. Déployer une app PHP/Mysql
+# 8. Déployer une app PHP/Mysql
 
-## Methode générale / versatile / "moderne"
+## Historiquement : methode 'CGI' avec par ex. PHP
 
-- Reverse-proxy (c.f. `proxy_pass`)
-
-.center[
-![](img/proxypass.png)
-]
-
----
-
-# 1. Déployer une app PHP/Mysql
-
-## Historiquement / classiquement : PHP
-
-- Le serveur web transmet la requête à un programme / daemon PHP
-- (Basé sur FastCGI, pas exactement un reverse-proxy)
-- PHP interprête le code et genere la réponse
-- .. et renvoie la réponse à nginx qui la renvoie au client
-- PHP est la "Gateway" dans le contexte de Nginx
-    - c.f. 502 Bad Gateway, et 504 Gateway Timeout
-
----
-
-# 1. Déployer une app PHP/Mysql
-
-## et aussi : MySQL
-
-- MySQL est classiquement utilisé pour gérer des bases de données
-- Les données sont structurées de façon cohérente pour être accédées de manière efficace
-- Interface avec PHP qui peut venir piocher dyaniquement des données
-- PHP / L'app met ensuite en forme ces données pour générer la page
-
-<br>
-
-- N.B. : MariaDB est un fork du MySQL originel
-- Alternatives à MySQL/MariaDB : PostgreSQL
+- CGI: Common Gateway Interface
+- Le serveur web déclenche un "script CGI" pour traiter la requête et générer la réponse
+- Pas très performant (lancement d'un script à chaque requête, en Perl, PHP, Python, ...)
+- ... mais depuis optimisé dans la variante FastCGI
+    - c.f. "PHP-FPM" pour "PHP FastCGI Process Manager"
 
 ---
 
@@ -155,7 +131,65 @@ Comment créer des pages "dynamiques", par exemple :
 
 ---
 
-# 1. Déployer une app PHP/Mysql
+# 8. Déployer une app PHP/Mysql
+
+## Methode générale / versatile / "moderne"
+
+- Reverse-proxy (c.f. instruction `proxy_pass` dans nginx)
+- Le serveur web transmet la requête à un autre programme / daemon qui écoute généralement sur `127.0.0.1:<port>`
+- Dans le cas d'un reverse proxy, il y a une séparation claire entre le serveur web et l'applicatif (a la différence du CGI où il se peut que ce soit un script lancé à chaque requête)
+
+---
+
+.center[
+![](img/proxypass.png)
+]
+
+---
+
+# 8. Déployer une app PHP/Mysql
+
+## 502 Bad Gateway / 504 Gateway Timeout
+
+- Erreurs courantes lorsqu'on debug une installation avec du CGI / Reverse proxy
+- La "gateway" désigne le process avec lequel Nginx communique
+    - bad gateway = nginx n'arrive pas du tout à communiquer avec le process
+    - gateway timeout = le process a mis trop longtemps à traiter la requête
+
+---
+
+
+# 8. Déployer une app PHP/Mysql
+
+## Bases de données / MySQL
+
+- MySQL est classiquement utilisé pour gérer des bases de données
+- Les données sont structurées de façon cohérente pour être accédées de manière efficace
+- Interface avec PHP qui peut venir piocher dyaniquement des données
+- PHP / L'app met ensuite en forme ces données pour générer la page
+
+<br>
+
+- N.B. : MariaDB est un fork du MySQL originel
+- Un autre moteur SQL très connu est PosgreSQL
+
+
+---
+
+# 8. Déployer une app PHP/Mysql
+
+## LAMP
+
+Une pile logicielle historique et classique pour construire et déployer une app web dynamique
+
+- Linux
+- Apache (... plutot que Nginx dans notre cas)
+- Mysql
+- PHP
+
+---
+
+# 8. Déployer une app PHP/Mysql
 
 ## Nextcloud
 
@@ -165,7 +199,7 @@ Comment créer des pages "dynamiques", par exemple :
 
 ---
 
-# 1. Déployer une app PHP/Mysql
+# 8. Déployer une app PHP/Mysql
 
 ## Nextcloud
 
@@ -181,7 +215,7 @@ Comment créer des pages "dynamiques", par exemple :
 
 ---
 
-# 1. Déployer une app PHP/Mysql
+# 8. Déployer une app PHP/Mysql
 
 ## Nextcloud
 
@@ -191,7 +225,7 @@ Comment créer des pages "dynamiques", par exemple :
 
 ---
 
-# 1. Déployer une app PHP/Mysql
+# 8. Déployer une app PHP/Mysql
 
 ## Nextcloud : procédure d'installation
 
@@ -206,11 +240,11 @@ Comment créer des pages "dynamiques", par exemple :
 
 class: impact
 
-# 1.5. Investiguer et réparer des problèmes
+# 8.5. Investiguer et réparer des problèmes
 
 ---
 
-# 1.5. Investiguer et réparer des problèmes
+# 8.5. Investiguer et réparer des problèmes
 
 ## Méthode générale
 
@@ -224,7 +258,7 @@ class: impact
 
 ---
 
-# 1.5. Investiguer et réparer des problèmes
+# 8.5. Investiguer et réparer des problèmes
 
 ## Méthode générale
 
@@ -235,7 +269,7 @@ Malheureusement ...
 
 ---
 
-# 1.5. Investiguer et réparer des problèmes
+# 8.5. Investiguer et réparer des problèmes
 
 ## Sources d'information
 
@@ -243,6 +277,145 @@ Savoir lire des posts sur Stack Overflow et ses dérivés :
 - Stack Overflow (développement / programmation)
 - Super User (administration système géneraliste / amateur)
 - Server Fault (contexte pro., e.g. maintenance de serveur)
+
+---
+
+class: impact
+
+# 9. Automatiser avec `at` et les cron jobs
+
+---
+
+# 9. Automatiser
+
+## Executer des commandes (ou un script) à distance
+
+```
+# Verifier depuis combien de temps la machine tourne
+$ echo "uptime" | ssh machine
+ 19:48:51 up 1 day,  2:05,  1 user,  load average: 0.08, 0.02, 0.01
+
+# Lancer un script à distance
+$ cat script.sh | ssh machine
+[...]
+```
+
+---
+
+# 9. Automatiser
+
+## `at`
+
+- Executer *une fois* une action à un moment précis dans le futur
+- Format de date/temps plutôt user-friendly
+
+```bash
+# En interactif
+$ at 5:00 PM     
+warning: commands will be executed using /bin/sh
+at> reboot
+job 5 at Fri Oct 12 17:00:00 2018
+```
+
+```bash
+# Avec un script
+$ at now + 30 minutes -f mettre_a_jour.sh 
+job 6 at Thu Oct 6 20:22:00 2018
+```
+
+---
+
+# 9. Automatiser 
+
+## Les jobs cron
+
+- Répéter une tâche à intervalle régulier (heures, jours, mois, ...)
+- Chaque utilisateur peut en configurer avec `crontab -e`
+
+```
+10 * 1 * * /chemin/vers/un/script
+```
+
+---
+
+# 9. Automatiser
+
+## Les jobs cron : syntaxe (1/3)
+
+```
+10 * 1 * * /chemin/vers/un/script
+```
+
+- `10` : à la minute 10
+- `*`  :toutes les heures
+- `1` le 1er du mois
+- `*` tous les mois
+- `*` (tous les jours de la semaine)
+
+---
+
+# 9. Automatiser
+
+## Les jobs cron : syntaxe (2/3)
+
+```
+0 8 * * 1-5 /chemin/vers/un/script
+```
+
+- `0` : à la minute 0
+- `8` : à 8h
+- `*` (tous les jours du mois)
+- `*` tous les mois
+- `1-5` tous les jours de travail (lundi à vendredi)
+
+---
+
+# 9. Automatiser
+
+## Les jobs cron : syntaxe (3/4)
+
+```text
+ */10 * * * * /chemin/vers/un/script
+```
+
+- `*/10` : toutes les 10 minutes
+- `*` toutes les heures
+- `*` tous les jours du mois
+- `*` tous les mois
+- `*`  tous les jours de la semaine
+
+---
+
+# 9. Automatiser
+
+## Les jobs cron : syntaxe (4/4)
+
+- `http://crontab.guru/` to the rescue !
+
+---
+
+# 9. Automatiser
+
+## `/etc/crontab` et `/etc/cron.d/`
+
+- Ce sont des fichiers/dossiers de config cron "globaux"
+- Dedans, on specifie aussi l'utilisateur utilisé pour lancer le script :
+
+```
+ # M  H  D M W   User    Command --->
+ */30 *  * * * feed2toot feed2toot -c /etc/feed2toot/feed2toot.ini
+```
+
+---
+
+# 9. Automatiser
+
+## `/etc/cron.hourly`, `daily`, `weekly`, `monthly`
+
+- Ils contiennent directement des scripts qui seront executés automatiquement à certains intervalles
+- Attention
+   - le nom des fichiers dedans ne doit pas avoir d'extensions ...
+   - .. et doit être executable (+x)
 
 ---
 
@@ -381,7 +554,7 @@ Starting test1
 ## Interagir avec un LXC (1/2)
 
 ```bash
-$ lxc exec text1 -- ps -ef --forest
+$ lxc exec test1 -- ps -ef --forest
 UID      PID  CMD
 root     103  ps -ef --forest
 root       1  /sbin/init
