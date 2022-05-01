@@ -189,9 +189,8 @@ Formateur
 
 # Disclaimers
 
+- C'est une formation d'informatique technique
 - L'informatique technique, c'est compliqué
-    - ignorez les turboonerds qui prétendent que c'est intuitif et trivial
-    - (et désolé si moi-même je pars trop loin!)
 - Le brute force ne marche pas, il faut être précis / rigoureux...
 - Soyez **patient, méthodique, attentifs** !
 - **Ne laissez pas l'écran vous aspirer** !
@@ -201,7 +200,8 @@ Formateur
 - Réussir les exo importe peu, il faut **comprendre ce que vous faites** !
 - Apprendre plus que de la théorie (posture, savoir se dépatouiller...)
 - Prenez le temps de vous tromper (et de comprendre pourquoi)
-- Interagissez, posez des questions !
+
+## **N'hésitez pas à poser vos questions !**
 
 ---
 
@@ -1089,7 +1089,7 @@ echo ls *.{py,.png} # Affiche la commande precedente telle qu'elle va être exec
 
 ## Nettoyer son terminal
 
-- `clean` efface tout ce qui est affiché dans le terminal
+- `clear` efface tout ce qui est affiché dans le terminal
 - `reset` permet de réinitialiser le terminal (utile pour certaines situation où le terminal est "cassé")
 - `exit` permet de fermer un terminal
 - (`logout` est similaire à `exit`)
