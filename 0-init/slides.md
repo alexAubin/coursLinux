@@ -2315,6 +2315,22 @@ pkill -9 java
 
 # 7. Processus
 
+### Un petit outil en passant
+
+`watch` permet d'afficher le résultat d'une commande et de relancer cette commandes toutes les 2 secondes
+
+Par exemple : 
+
+```bash
+watch 'ps -ux -U alex --forest' # Surveiller les process lancé par l'utilisateur alex
+watch ls -l ~/Documents         # Surveiller le contenu de ~/Documents
+watch free -h                   # Surveiller l'utilisation de la RAM
+```
+
+---
+
+# 7. Processus
+
 ## `screen`
 
 `screen` permet de lancer une commande dans un terminal que l'on peut récupérer plus tard
@@ -2324,6 +2340,54 @@ pkill -9 java
 3. On peut sortir de la session avec `<Ctrl>+A` puis `D`.
 4. La commande lancée continue à s'executer
 5. On peut revenir dans la session plus tard avec `screen -r`
+
+
+---
+
+# 7. Processus
+
+## Processus et permissions (1/3)
+
+- Un processus est rattaché à l'identité de l'utilisateur qui l'a lancé
+- Il est donc soumis aux permissions que cet utilisateur possède, par exemple pour lire ou écrire un fichier..
+
+---
+
+# 7. Processus
+
+## Processus et permissions (2/3)
+
+- Un processus est rattaché à l'identité de l'utilisateur qui l'a lancé
+- Il est donc soumis aux permissions que cet utilisateur possède, par exemple pour lire ou écrire un fichier..
+
+### Problème
+
+- Lorsqu'un user veut changer son mot de passe, il faut modifier `/etc/shadow` ... que seul `root` peut lire et écrire !
+- Pourtant ... le programme `/usr/bin/passwd` permet effectivement de changer son mot de passe !
+
+---
+
+# 7. Processus
+
+## Processus et permissions (3/3)
+
+- Un processus est rattaché à l'identité de l'utilisateur qui l'a lancé
+- Il est donc soumis aux permissions que cet utilisateur possède, par exemple pour lire ou écrire un fichier..
+
+### Problème
+
+- Lorsqu'un user veut changer son mot de passe, il faut modifier `/etc/shadow` ... que seul `root` peut lire et écrire !
+- Pourtant ... le programme `/usr/bin/passwd` permet effectivement de changer son mot de passe !
+
+```
+ > ls -l /usr/bin/passwd
+-rwsr-xr-x 1 root root 63960 Feb  7  2020 /usr/bin/passwd
+```
+
+Le `s` correspond à [une permission spéciale : le SUID bit](https://fr.wikipedia.org/wiki/Permissions_UNIX#Droits_%C3%A9tendus), qui fait en sorte que lorsque le programme est lancé par n'importe quel user, il s'éxécute quand même en tant que `root` !
+
+
+
 
 ---
 
