@@ -176,7 +176,7 @@ Formateur
 
 - Alternance théorie / pratique
 - Publication du contenu au fur et à mesure
-    - sur **https://dismorphia.info/documents/formationLinux**
+    - sur **https://aleks.internetlib.re/docs/formationLinux**
 - Travail dans une machine virtuelle
 - Setup avec Guacamole pour les stagiaires à distance
 
@@ -1595,11 +1595,11 @@ mv linux.html ~/archives/      # Déplace linux.html dans ~/archives/
 Exemple
 
 ```text
-$ wget https://dismorphia.info/documents/formationLinux/toto
+$ wget https://aleks.internetlib.re/docs/formationLinux/toto
 
---2021-12-05 17:12:45--  https://dismorphia.info/documents/formationLinux/toto
-Resolving dismorphia.info (dismorphia.info)... 92.92.115.142
-Connecting to dismorphia.info (dismorphia.info)|92.92.115.142|:443... connected.
+--2021-12-05 17:12:45--  https://aleks.internetlib.re/docs/formationLinux/toto
+Resolving aleks.internetlib.re (aleks.internetlib.re)... 92.92.115.142
+Connecting to aleks.internetlib.re (aleks.internetlib.re)|92.92.115.142|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 6 [application/octet-stream]
 Saving to: ‘toto’
@@ -2250,7 +2250,7 @@ Exemple de `ps -ef --forest`
 20796   935  0 Sep27 pts/2  00:00:00      \_ -bash
  2203 20796  0 03:10 pts/2  00:00:00      |   \_ ps -ef --forest
 13070   935  0 00:27 pts/0  00:00:00      \_ -bash
-13081 13070  0 00:27 pts/0  00:00:00          \_ ssh dismorphia -t source getIrc.sh
+13081 13070  0 00:27 pts/0  00:00:00          \_ ssh aleks -t source getIrc.sh
 ```
 
 ---
@@ -2420,6 +2420,230 @@ nice -n 5 tar -cvzf archive.tar.gz /home/
 # Redéfinir la priorité du processus 9182
 renice +10 9182
 ```
+
+
+
+---
+
+# 7. Processus
+
+## Écrire et executer des scripts (1/14)
+
+- `bash` <small>(`/bin/bash`)</small> est un interpreteur
+    - en mode interactif, un interpréteur de commande est souvent appelé un shell
+- Plutôt que de faire de l'interactif, on peut écrire une suite d'instruction qu'il doit executer (un script)
+- Un script peut être considéré comme un type de programme <small>(caractérisé par le fait qu'il reste de taille modeste)</small>
+
+---
+
+# 7. Processus
+
+## Écrire et executer des scripts (2/14)
+
+Ce que ça ne fait généralement **pas** :
+- du calcul scientifique
+- des interfaces graphiques / web
+- des manipulations 'fines' d'information
+
+Ce que ça fait plutôt bien :
+- prototypage rapide
+- automatisation de tâches d'administration (fichiers, commandes, ..)
+- rendre des tâches parametrables ou interactives
+
+---
+
+# 7. Processus
+
+## Écrire et executer des scripts (3/14)
+
+```bash
+#!/bin/bash
+
+# Un commentaire
+cmd1
+cmd2
+cmd3
+...
+
+exit 0    # (Optionnel, 0 par defaut)
+```
+
+---
+
+# 7. Processus
+
+## Écrire et executer des scripts (4/14)
+
+```bash
+#!/bin/bash
+
+echo "Hello, world !"
+echo "How are you today ?"
+```
+
+---
+
+# 7. Processus
+
+## Écrire et executer des scripts (5/14)
+
+- `exit` permet d'interrompre le script immédiatement
+- `exit 0` quitte et signale que tout s'est bien passé
+- `exit 1` (ou une valeur différente de 0) quitte et signale un problème
+
+---
+
+# 7. Processus
+
+## Écrire et executer des scripts (6/14)
+
+Première façon : avec l'interpreteur `bash`
+
+- `bash script.sh` execute `script.sh` dans un processus à part
+- on annonce explicitement qu'il s'agit d'un script bash
+    - dans l'absolu, pas besoin d'avoir mis `#!/bin/bash`
+
+---
+
+# 7. Processus
+
+## Écrire et executer des scripts (7/14)
+
+Deuxième façon : avec `source`
+
+- `source script.sh` execute le script **dans** le terminal en cours
+- 95% du temps, ce n'est pas `source` qu'il faut utiliser pour votre cas d'usage !
+- Cas d'usage typique de `source` : recharger le `.bashrc`
+- (Autre cas : `source venv/bin/activate` pour les virtualenv python)
+
+---
+
+# 7. Processus
+
+## Écrire et executer des scripts (8/14)
+
+Troisième façon : en donnant les permissions d'execution à votre script
+
+```
+chmod +x script.sh   # À faire la première fois seulement
+./script.sh
+```
+
+- l'interpreteur utilisé sera implicitement celui défini après le `#!` à la première ligne
+- (dans notre cas : `#!/bin/bash`)
+
+---
+
+# 7. Processus
+
+## Écrire et executer des scripts (9/14)
+
+La variable d'environnement `PATH` défini où aller chercher les programmes
+
+```bash
+$ echo $PATH
+/usr/local/bin:/usr/bin:/bin:/usr/local/sbin
+
+$ which ls
+/usr/bin/ls
+
+$ which script.sh
+which: no script.sh in (/usr/local/bin:/usr/bin:/bin:/usr/local/sbin
+```
+
+---
+
+# 7. Processus
+
+## Écrire et executer des scripts (10/14)
+
+```bash
+$ ./script.sh  # Fonctionnera (si +x activé)
+$ script.sh    # Ne fonctionnera a priori pas
+```
+
+Néanmoins il est possible d'ajouter des dossiers à `PATH` :
+
+```bash
+PATH="$PATH:/home/padawan/my_programs/"
+```
+---
+
+# 7. Processus
+
+## Écrire et executer des scripts (11/14)
+
+Deuxième façon : avec `source`
+
+- `source script.sh` execute le script **dans** le terminal en cours
+- 95% du temps, ce n'est pas `source` qu'il faut utiliser pour votre cas d'usage !
+- Cas d'usage typique de `source` : recharger le `.bashrc`
+- (Autre cas : `source venv/bin/activate` pour les virtualenv python)
+
+---
+
+# 7. Processus
+
+## Écrire et executer des scripts (12/14)
+
+Troisième façon : en donnant les permissions d'execution à votre script
+
+```
+chmod +x script.sh   # À faire la première fois seulement
+./script.sh
+```
+
+- l'interpreteur utilisé sera implicitement celui défini après le `#!` à la première ligne
+- (dans notre cas : `#!/bin/bash`)
+
+---
+
+# 7. Processus
+
+## Écrire et executer des scripts (13/14)
+
+La variable d'environnement `PATH` défini où aller chercher les programmes
+
+```bash
+$ echo $PATH
+/usr/local/bin:/usr/bin:/bin:/usr/local/sbin
+
+$ which ls
+/usr/bin/ls
+
+$ which script.sh
+which: no script.sh in (/usr/local/bin:/usr/bin:/bin:/usr/local/sbin
+```
+
+---
+
+# 7. Processus
+
+## Écrire et executer des scripts (14/14)
+
+```bash
+$ ./script.sh  # Fonctionnera (si +x activé)
+$ script.sh    # Ne fonctionnera a priori pas
+```
+
+Néanmoins il est possible d'ajouter des dossiers à `PATH` :
+
+```bash
+PATH="$PATH:/home/padawan/my_programs/"
+```
+
+Ensuite, vous pourrez utiliser depuis n'importe où les programmes dans `~/my_programs` !
+
+---
+
+# 7. Processus
+
+## Écrire et executer des scripts (résumé)
+
+- `bash script.sh` est la manière "explicite" de lancer un script bash
+- `./script.sh` lance un executable (+x) via un chemin absolu ou relatif
+- `source script.sh` execute le code *dans le shell en cours* !
+- `script.sh` peut être utilisé seulement si le script est dans un des dossier de `PATH`
 
 ---
 
