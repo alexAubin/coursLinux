@@ -1898,6 +1898,8 @@ VPS = une VM dans un datacenter
 
 ## Syntaxe : `ssh utilisateur@machine`
 
+(par "machine" on peut utiliser soit un nom de domaine, une IP, ou un nom d'hôte (cf plus tard))
+
 ```bash
 $ ssh admin@ynh-forge.netlib.re
 The authenticity of host 'ynh-forge.netlib.re (46.101.221.117)' can't be established.

@@ -1821,6 +1821,18 @@ Un shell que vous utilisez peut potentiellement être situé sur une autre machi
 
 # 5. Utilisateurs et groupes
 
+#### Parenthèses sur les différents shells
+
+- `bash` ("Bourne-Again" shell) : c'est le plus classique, souvent utilisé aussi pour créer des scripts
+- `sh` (aussi appellé `dash`) : c'est l'ancêtre de `bash`, plus rudimentaire (pas d'historique, pas d'autocomplétion)
+- `zsh` : un shell plus puissant que `bash` (meilleur autocomplétion, partage d'historique entre les shells ouverts, correction des typos, ..)
+- `fish` : un shell encore plus moderne et convivial
+- et d'autres moins courants / historiques : `ash`, `csh`, `ksh`, ...
+
+---
+
+# 5. Utilisateurs et groupes
+
 ## Passer root (ou changer d'utilisateur)
 
 ```bash
@@ -1937,6 +1949,14 @@ userdel <user>          # Supprimer un utilisateur
 groupadd <group>        # Ajouter un groupe
 usermod -a -G <group> <user>  # Ajouter un utilisateur à un groupe
 ```
+
+---
+
+# Interlude sur `sudo`
+
+- Pourquoi `sudo cd` ne marche pas ?
+- Pourquoi `sudo ls > /var/log/toto` ne marche pas ? (et comment faire autrement?)
+- Pourquoi `sudo toto.pdf` ne marche pas ?
 
 ---
 
@@ -2232,7 +2252,7 @@ En mode interactif, on peut interragir directement avec le processus pendant qu'
 
 # 7. Processus
 
-## Lister les processus et leurs attributs (1/2)
+## Lister les processus et leurs attributs (1/3)
 
 ```bash
 ps aux            # Liste tous les processus
@@ -2257,7 +2277,7 @@ Exemple de `ps -ef --forest`
 
 # 7. Processus
 
-## Lister les processus et leurs attributs (2/2)
+## Lister les processus et leurs attributs (2/3)
 
 Et aussi :
 ```bash
@@ -2271,15 +2291,51 @@ top               # Liste les processus actif interactivement
 
 # 7. Processus
 
-## Gérer les processus interactif
+## Lister les processus et leurs attributs (3/3)
+
+Alternative plus moderne: `htop`
+
+- Visualisation plus simple du niveau d'utilisation CPU/RAM/swap
+- `t` ou F5 pour activer une vue "tree" (arbre) similaire à `ps -ef --forest`
+- Liste également les threads (lignes vertes), ce qui peut être confusant
+    - `H` pour désactiver le listing des threads users
+    - `K` pour désactiver le listing des threads kernels
+- F2 pour plus de configurations (ajouter/enlever des colonnes) (utiliser les "Fx" décrit en bas de l'écran)
+    - la configuration est persistante!
+
+---
+
+# 7. Processus
+
+## Lancer des processus "en arrière-plan" (1/2)
 
 ```bash
 <commande>            # Lancer une commande de façon classique
 <commande> &          # Lancer une commande en arrière plan
+                      #  (mais reste "attaché" au terminal et sera tué si on ferme le terminal)
 [Ctrl]+Z  puis 'bg'   # Passer la commande en cours en arrière-plan
+                      #  (typiquement si on a oublié de lancer le programme avec &)
 fg                    # Repasser une commande en arrière-plan en avant-plan
 jobs                  # Lister les commandes en cours d'execution
 ```
+
+---
+
+# 7. Processus
+
+## Lancer des processus "en arrière-plan" (2/2)
+
+```bash
+nohup <commande>   # Lancer une commande qui continuera de tourner
+                   # même si on ferme le terminal (il écrira dans le fichier nohup.out)
+
+<commande> &
+disown             # Retire le process en arrière plan des processus "controllés"
+                   # par le terminal courant (voir résultat de "jobs" avant/après)
+                   # -> Il continuera de tourner même si on ferme le terminal
+```
+
+`nohup` est nommé ainsi car le signal envoyé au process lorsque le terminal est fermé (SIGHUP - 'Hang up')
 
 ---
 
@@ -2567,72 +2623,18 @@ Néanmoins il est possible d'ajouter des dossiers à `PATH` :
 ```bash
 PATH="$PATH:/home/padawan/my_programs/"
 ```
----
-
-# 7. Processus
-
-## Écrire et executer des scripts (11/14)
-
-Deuxième façon : avec `source`
-
-- `source script.sh` execute le script **dans** le terminal en cours
-- 95% du temps, ce n'est pas `source` qu'il faut utiliser pour votre cas d'usage !
-- Cas d'usage typique de `source` : recharger le `.bashrc`
-- (Autre cas : `source venv/bin/activate` pour les virtualenv python)
-
----
-
-# 7. Processus
-
-## Écrire et executer des scripts (12/14)
-
-Troisième façon : en donnant les permissions d'execution à votre script
-
-```
-chmod +x script.sh   # À faire la première fois seulement
-./script.sh
-```
-
-- l'interpreteur utilisé sera implicitement celui défini après le `#!` à la première ligne
-- (dans notre cas : `#!/bin/bash`)
-
----
-
-# 7. Processus
-
-## Écrire et executer des scripts (13/14)
-
-La variable d'environnement `PATH` défini où aller chercher les programmes
-
-```bash
-$ echo $PATH
-/usr/local/bin:/usr/bin:/bin:/usr/local/sbin
-
-$ which ls
-/usr/bin/ls
-
-$ which script.sh
-which: no script.sh in (/usr/local/bin:/usr/bin:/bin:/usr/local/sbin
-```
-
----
-
-# 7. Processus
-
-## Écrire et executer des scripts (14/14)
-
-```bash
-$ ./script.sh  # Fonctionnera (si +x activé)
-$ script.sh    # Ne fonctionnera a priori pas
-```
-
-Néanmoins il est possible d'ajouter des dossiers à `PATH` :
-
-```bash
-PATH="$PATH:/home/padawan/my_programs/"
-```
 
 Ensuite, vous pourrez utiliser depuis n'importe où les programmes dans `~/my_programs` !
+
+---
+
+# 7. Processus
+
+## Écrire et executer des scripts (10/14)
+
+Note à propos de `which`:
+
+certaines commandes comme `cd`, `history` et `echo` sont des "builtin" (pas des "vrais" programmes indépendants)
 
 ---
 
@@ -2687,6 +2689,51 @@ HOME=/usr/cache/
 $ echo $HOME
 /usr/cache/
 ```
+
+---
+
+# 8. Personnaliser son environnement
+
+## Utilisation des quotes (1/2)
+
+Les simple quotes empêche l'interprétation des caractères spéciaux
+
+```bash
+echo $HOME     # -> affiche le contenu de la variable
+echo "$HOME"   # -> affiche aussi le contenu de la variable
+echo '$HOME'   # -> affiche littéralement $HOME
+```
+
+Et aussi:
+
+```bash
+echo *.py         # -> affiche le nom des fichiers qui se terminent pas .py dans le dossier courant
+                  #   (ou bien littéralement *.py si aucune match)
+
+echo "*.py"       # -> affiche *.py littéralement
+echo '*.py'       # -> affiche *.py littéralement
+```
+
+---
+
+# 8. Personnaliser son environnement
+
+## Utilisation des quotes (2/2)
+
+Et aussi :
+
+```bash
+ls mon super fichier.pdf   # Donne sans doute des erreurs disans qu'il n'y a pas de 
+                           # fichier "mon", ni fichier "super", ni fichier "fichier.pdf"
+
+ls "mon super fichier.pdf" # -> fonctionne
+ls 'mon super fichier.pdf" # -> fonctionne
+
+ls $NOM_DE_FICHIER         # -> fonctionne si le fichier existe et ne contient pas d'espace
+ls "$NOM_DE_FICHIER"       # -> fonctionne même si le nom contient des espaces
+ls '$NOM_DE_FICHIER'       # -> affiche littéralement $NOM_DE_FICHIER
+```
+
 
 ---
 
@@ -2979,6 +3026,8 @@ tree ~/documents | tee arbo_docs.txt  # Affiche et enregistre l'arborescence de 
 openssl speed | tee -a tests.log      # Affiche et ajoute la sortie de openssl à la suite de tests.log
 ```
 
+(Note à propos de `commande | sudo tee fichier`)
+
 ---
 
 # 10 Pipes et boîte à outils
@@ -3174,3 +3223,258 @@ find /var/log -mmin 5
 - `uniq` : garder seulement des lignes uniques (ou compter combien d'occurences)
 - `sed` : chercher et remplacer une expression par une autre
 - `find` : chercher des fichiers qui correspondent à certains critères (nom, date de modif, ...)
+
+
+
+---
+
+class: impact
+
+# 11. Se connecter et gérer un serveur avec SSH
+
+---
+
+# 11. SSH et les serveurs
+
+## "Virtual" Private Server (VPS)
+
+VPS = une VM dans un datacenter
+
+.center[
+![](img/vps.jpg)
+]
+
+---
+
+# 11. SSH et les serveurs
+
+## "Virtual" Private Server (VPS)
+
+... qui tourne quelque part sur une vraie machine
+
+.center[
+![](img/server.jpg)
+]
+
+---
+
+# 11. SSH et les serveurs
+
+.center[
+![](img/digitalocean.png)
+]
+
+---
+
+# 11. SSH et les serveurs
+
+.center[
+![](img/scaleway.png)
+]
+
+---
+
+# 11. SSH et les serveurs
+
+## SSH : Secure Shell
+
+- Un protocole **client-serveur**, par défaut sur le port 22
+- Prendre le contrôle d'une machine à distance via un shell
+- Sécurisé grâce à du chiffrement asymétrique
+    - le serveur a un jeu de clef publique/privé
+    - le client peut aussi en avoir un (sinon : mot de passe)
+- Outil "de base" pour administrer des serveurs
+
+---
+
+# 11. SSH et les serveurs
+
+## Syntaxe : `ssh utilisateur@machine`
+
+```bash
+$ ssh admin@ynh-forge.netlib.re
+The authenticity of host 'ynh-forge.netlib.re (46.101.221.117)' can't be established.
+RSA key fingerprint is SHA256:CuPd7AtmqS0UE6DwDDG68hQ+qIT2tQqZqm8pfo2oBE8.
+Are you sure you want to continue connecting (yes/no)? █
+```
+
+---
+
+# 11. SSH et les serveurs
+
+## Syntaxe : `ssh utilisateur@machine`
+
+
+```bash
+$ ssh admin@ynh-forge.netlib.re
+The authenticity of host 'ynh-forge.netlib.re (46.101.221.117)' can't be established.
+RSA key fingerprint is SHA256:CuPd7AtmqS0UE6DwDDG68hQ+qIT2tQqZqm8pfo2oBE8.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'ynh-forge.netlib.re' (RSA) to the list of known hosts.
+Debian GNU/Linux 9
+admin@ynh-forge.netlib.re's password: █
+```
+
+---
+
+# 11. SSH et les serveurs
+
+## Syntaxe : `ssh utilisateur@machine`
+
+
+```bash
+$ ssh admin@ynh-forge.netlib.re
+The authenticity of host 'ynh-forge.netlib.re (46.101.221.117)' can't be established.
+RSA key fingerprint is SHA256:CuPd7AtmqS0UE6DwDDG68hQ+qIT2tQqZqm8pfo2oBE8.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'ynh-forge.netlib.re' (RSA) to the list of known hosts.
+Debian GNU/Linux 9
+admin@ynh-forge.netlib.re's password:
+
+Last login: Thu Oct  4 08:52:07 2018 from 90.63.229.46
+admin@ynh-forge:~$ █
+```
+
+---
+
+# 11. SSH et les serveurs
+
+## SSH : se logguer
+
+- ACHTUNG : Soyez attentif à dans quel terminal vous tapez !!!
+- En se connectant la première fois, on vérifie la clef publique du serveur
+- On a besoin du mot de passe pour se connecter
+- ... mais la bonne pratique est d'utiliser nous-aussi une clef
+
+---
+
+# 11. SSH et les serveurs
+
+## SSH : avec une clef
+
+... mais pourquoi ?
+
+- Pas de mot de passe qui se balade sur le réseau
+- Pas nécessaire de retaper le mot de passe à chaque fois
+- Possibilité d'automatiser des tâches (clef sans mot de passe)
+- (Plusieurs personnes peuvent avoir accès à un meme utilisateur sans devoir se mettre d'accord sur un mot de passe commun)
+
+---
+
+# 11. SSH et les serveurs
+
+## SSH : avec une clef
+
+1 - Générer avec `ssh-keygen -t rsa -b 4096 -C "commentaire ou description"`
+
+```bash
+$ ssh-keygen -t rsa -b 4096 -C "Clef pour la formation"
+```
+
+---
+
+# 11. SSH et les serveurs
+
+## SSH : avec une clef
+
+1 - Générer avec `ssh-keygen -t rsa -b 4096 -C "commentaire ou description"`
+
+```bash
+$ ssh-keygen -t rsa -b 4096 -C "Clef pour la formation"
+```
+
+---
+
+# 11. SSH et les serveurs
+
+## SSH : avec une clef
+
+1 - Générer avec `ssh-keygen -t rsa -b 4096 -C "commentaire ou description"`
+
+```bash
+$ ssh-keygen -t rsa -b 4096 -C "Clef pour la formation"
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/alex/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):   # Mot de passe
+Enter same passphrase again:                  # (again)
+Your identification has been saved in /home/alex/.ssh/id_rsa.
+Your public key has been saved in /home/alex/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:ZcAKHVtTXUPz3ipqia4i+soRHZQ4tYsDGfc5ieEGWcY "Clef pour la formation"
+```
+
+---
+
+# 11. SSH et les serveurs
+
+## SSH : avec une clef
+
+2 - Configurer la clef sur le serveur
+
+- soit *depuis le client* avec
+
+```
+ssh-copy-id -i chemin/vers/la/clef user@machine
+```
+
+- soit *depuis le serveur* en rajoutant la clef dans `~/.ssh/authorized_keys`
+    - (generalement, l'admin vous demande votre clef)
+
+---
+
+# 11. SSH et les serveurs
+
+## SSH : avec une clef
+
+3 - Utiliser la clef pour se connecter
+
+```bash
+$ ssh -i ~/.ssh/ma_clef alex@jaimelecafe.com
+Enter passphrase for key '/home/alex/.ssh/ma_clef': █
+```
+
+---
+
+# 11. SSH et les serveurs
+
+## SSH : avec une clef
+
+3 - Utiliser la clef pour se connecter
+
+```bash
+$ ssh -i ~/.ssh/ma_clef alex@jaimelecafe.com
+Enter passphrase for key '/home/alex/.ssh/ma_clef':
+
+Last login: Mon Oct  8 19:46:32 2018 from 11.22.33.44
+user@jaimelecafe.com:~$ █
+```
+
+- Le système peut potentiellement se souvenir du mot de passe pour les prochaines minutes, comme avec sudo
+- Il peut ne pas y avoir de mot de passe (utilisation dans des scripts)
+
+---
+
+# 11. SSH et les serveurs
+
+## SSH : configuration côté client
+
+- Le fichier `~/.ssh/config` peut être édité pour définir des machines et les options associées
+
+```bash
+Host jaimelecafe
+    User alex
+    Hostname jaimelecafe.com
+    IdentityFile ~/.ssh/ma_clef
+```
+
+- On peut ensuite écrire simplement : `ssh jaimelecafe`
+
+---
+
+# 11. SSH et les serveurs
+
+.center[
+![](img/sneakyfoxssh.jpg)
+]
+
+

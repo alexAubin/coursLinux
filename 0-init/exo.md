@@ -11,7 +11,7 @@
 ## 1. Démarrer et se logguer
 
 - Démarrer la machine et *observer* son démarrage
-- L'user par défaut est `padawan` et le mot de passe `ilovelinux`.
+- L'user par défaut est `osboxes` et le mot de passe `osboxes.org`. Attention, si le clavier est en qwerty mais que vous tapez depuis un clavier azerty, cela donne `osboxes:org`
 - Une fois loggué, confirmez que la disposition du clavier est Francais/Azerty. (Si nécessaire, la changer en allant dans le "Menu démarrer" > Keyboads, puis '+' pour ajouter la disposition de clavier. Enfin, supprimez la disposition Qwerty avec le '-'.)
 - Pour que l'écran de la machine virtuelle (VM) s'adapte automatiquement et joliment à la taille de l'écran, il vous faut utiliser le menu "Périphériques" (tout en haut de l'écran), puis, en bas du menu, "Insérer le CD des add-ons invités". Ensuite, accepter d'executer le CD dans Linux Mint. Un terminal s'ouvre automatiquement pour installer des logiciels. Une fois terminé, redémarrer la machine, et l'écran devrait s'adapter automatiquement à la taille de la fenêtre.
 
@@ -172,7 +172,7 @@ Vérifiez que le contenu a bien été pris en compte en l'affichant avec `cat`.
 - 8.3 - Ajouter aussi un message de bienvenue comme "May the force be with you!" qui s'affichera à chaque ouverture d'un shell (rappel : `echo` peut être utilisé pour afficher un tel message).
 - 8.4 - Changer le `.bashrc` de root pour que son invite de commande soit en rouge !
 - 8.5 - S'assurer que vous disposez de l'alias `ll` (pour `ls -l`), et que `--color=auto` est activé implicitement lorsque vous utilisez `ls`.
-- 8.6 - Créer un alias `amiconnected` qui éxecute la commande `ping` sur l'IP 8.8.8.8 avec l'option `-q` et l'option `-c 1`
+- 8.6 - Créer un alias `testinternet` qui éxecute la commande `ping` sur l'IP 8.8.8.8 avec l'option `-q` et l'option `-c 1`
 - 8.7 - Créer un alias `r2d2` qui permet d'ouvrir un shell en tant que `r2d2` avec `sudo` et `su`.
 - 8.8 - En utilisant `echo`, comment faire pour faire en sorte que la commande `ls` retourne systématiquement 'Bof, G pas envie' au lieu de son comportement normal ?
 - 8.9 - (Avancé) Se renseigner sur `LS_COLORS` et personnaliser cette variable.
@@ -208,8 +208,22 @@ Vérifiez que le contenu a bien été pris en compte en l'affichant avec `cat`.
 - 10.7 - Sachant que pour grep, `^`et `$` désignent un début et une fin de ligne, pouvez-vous affichez le contenu de `/etc/login.defs`
     - sans les commentaires (ce sont les lignes commençant par #)
     - puis sans les commentaires ni les lignes vides ? (Indice : une ligne vide est une ligne qui se commnence puis se termine tout de suite)
-- 10.8 - Écrire **une seule ligne de commande** qui affichera (uniquement) "Oui" ou "Non" suivant si par exemple le paquet `vim` est installé. Pour tester si un paquet est installé, on pourra se baser sur `dpkg --list` ou bien sur `dpkg-query --status <nom_du_paquet>` (Testez et validez le comportement avec d'autres paquets)
+- 10.8 - Modifiez votre alias `testinternet` pour qu'il affiche "Connecté!" ou "Pas de connexion!" suivant si le ping fonctionne (en masquant la sortie initiale du ping).
 - **10.9** - À l'aide des pages de man de `grep`, trouvez un moyen de lister toutes les occurences du mot `daemon` dans tous les fichiers à l'intérieur de `/etc/` (recursivement)
 - **10.10** - À l'aide de `ps`, `sort` et `uniq` générer un bilan du nombre de processus actuellement en cours par utilisateur
 - **10.11** - À l'aide de `sort` et `uniq`, analysez le fichier `loginattempts.log` (demander au formateur comment l'obtenir), et produisez un résumé du nombre de tentative de connections par ip
-- 10.12 - (Avancé) Construisez une ligne de commande qui récupère les adresses des images présentes dans le code du site `yoloswag.team`. Vous aurez possiblement besoin de `curl`, `grep`, `tr`, `awk` et `sed`.
+
+
+
+
+
+
+
+## 11. - Se connecter en SSH, installer et configurer un serveur web
+
+(complété plus tard par le formateur ;))
+
+## 12. Déploiement (simplifié) d'une application PHP/Mysql : Nextcloud
+
+(complété plus tard par le formateur ;))
+
