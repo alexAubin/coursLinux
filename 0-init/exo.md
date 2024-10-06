@@ -214,16 +214,149 @@ Vérifiez que le contenu a bien été pris en compte en l'affichant avec `cat`.
 - **10.11** - À l'aide de `sort` et `uniq`, analysez le fichier `loginattempts.log` (demander au formateur comment l'obtenir), et produisez un résumé du nombre de tentative de connections par ip
 
 
+## 11. - Se connecter en SSH
+
+- 11.1 - Pingez votre serveur, connectez-vous dessus en root (si possible en vérifiant la fingerprint du serveur) et **changer le mot de passe** ! (Choisir un mot de passe un minimum robuste : il sera mis à l'épreuve !!!). Dans une autre console, constater qu'il y a maintenant une entrée correspondant à votre serveur dans `~/.ssh/known_hosts`.
+- 11.2 - **Sur votre serveur**, familiarisez-vous avec le système : 
+    - de quelle distribution s'agit-il ? (`lsb_release -a` ou regarder `/etc/os-release`)
+    - quelle est la configuration en terme de CPU, de RAM, et d'espace disque ? (`cat /proc/cpuinfo`, `free -h` et `df -h`)
+    - quelle est son adresse IP locale et globale ?
+- 11.3 - **Sur votre serveur** : donnez un nom à votre machine avec `hostnamectl set-hostname <un_nom>`. (Attention, ce nom est purement cosmétique et interne à la machine. Il ne s'agit pas d'un vrai nom de domaine résolvable et accessible par n'importe qui sur internet, à la différence de celui qui sera configuré à la question 5.8)
+- 11.4 - **Sur votre serveur** : créez un utilisateur destiné à être utilisé plutôt que de se connecter en root. 
+    - Créez-lui un répertoire personnel et donnez-lui les permissions dessus. 
+    - Définissez-lui un mot de passe. 
+    - Ajoutez-le au groupe `ssh`.
+    - Assurez-vous qu'il a le droit d'utiliser `sudo`.
+- 11.5 - **Depuis votre machine de bureau (VM Ubuntu)** : ajoutons maintenant une vrai clef SSH : 
+    - générez une clef SSH pour votre utilisateur avec `ssh-keygen -t rsa -b 4096 -C "un_commentaire"`;
+    - identifiez le fichier correspondant à la clef publique créé (generalement `~/.ssh/un_nom.pub`) ;
+    - utilisez `ssh-copy-id -i clef_publique user@machine` pour copiez et activer la clef sur votre serveur ;
+    - (notez que sur le serveur, il y a maintenant une ligne dans `~/.ssh/authorized_keys`)
+    - tentez de vous connecter à votre utilisateur en utilisant désormais la clef (`ssh -i clef_privee user@machine`)
+- 11.6 - **Depuis votre machine de bureau (VM Ubuntu)**, configurez `~/.ssh/config` avec ce modèle de fichier. Vous devriez ensuite être en mesure de pouvoir vous connecter à votre machine simplement en tapant `ssh nom_de_votre_machine`
+```bash
+Host nom_de_votre_machine
+    User votre_utilisateur
+    Hostname ip_de_votre_machine
+    IdentityFile chemin_vers_clef_privee
+```
 
 
+## 12 - Installer et configurer un serveur web
 
+NB: les opérations suivantes sont à effectuer **sur votre serveur** au travers de SSH depuis votre machine Ubuntu
 
+- 12.1 - Installer `nginx` puis vérifier que le service tourne bien avec `systemctl status nginx`. On pourra aussi utiliser `ps -ef --forest` pour constater qu'un processus nginx tourne bien, ainsi que `netstat -tulpn` pour constater qu'il écoute bien sur le port 80.
+- 12.2 - Tester d'accéder à votre serveur depuis un navigateur web en tapant `http://ip.de.votre.serveur` (vérifiez bien que vous utilisez `http` et non `https` qui n'est pas configuré sur le serveur). Comparez la page visible dans votre navigateur au fichier qui se trouve dans `/var/www/html/`.
+- 12.3 - Nous voudrions maintenant servir notre propre contenu web plutôt que l'exemple de nginx. Créer un dossier `monsite` dans `/var/www/` et à l'intérier, créer un fichier `index.html` qui contient par exemple :
+```html
+<html>
+<h3>Hello world !</h3>
+<img src="chatonmignon.jpg">
+</html>
+```
+Ensuite, modifier le fichier `/etc/nginx/sites-enabled/default` :  trouvez l'instruction à modifier pour servir le dossier `/var/www/monsite/` plutôt que `/var/www/html/`. Vérifiez ensuite que vos changements ne causent pas de problèmes grâce à `nginx -t`, puis si tout est ok, recharger le service avec `systemctl reload nginx`. Arrivez-vous maintenant à accéder à votre page web ?
+- 12.4 - Normalement, votre page affiche bien 'Hello world' mais nous n'avons pas réellement mis d'image de chaton. Nous pouvons en télécharger une aléatoire grâce à `wget https://thecatapi.com/api/images/get`. Assurez vous de renommer le fichier en `chatonmignon.jpg` et de le mettre dans `/var/www/monsite/`.
+- 12.5 - Rendez-vous dans `/var/log/nginx/` et lancer une surveillance du log `access.log` à l'aide de `tail -f access.log`. Depuis votre navigateur, rechargez plusieurs fois la page de votre site et étudiez les lignes qui apparaissent dans votre console.
+- 12.6 - À l'aide de `ps -ef`, identifiez le(s) processus qui font tourner nginx. Quels seraient alors le propriétaire et les permissions adéquate à appliquer aux dossier et fichiers `/var/www/monsite` ?
+- 12.7 - Que se passe-t-il si vous arrêter nginx avec `systemctl stop nginx` ?
 
-## 11. - Se connecter en SSH, installer et configurer un serveur web
+## 13. Déploiement (simplifié) d'une application PHP/Mysql : Nextcloud
 
-(complété plus tard par le formateur ;))
+Dans cette partie, on se propose de déployer une application basée sur PHP /
+Mysql, ce qui est un exemple classique d'application "dynamique" (c.f.
+architecture LAMP).
 
-## 12. Déploiement (simplifié) d'une application PHP/Mysql : Nextcloud
+Une telle installation implique typiquement les étapes suivantes :
+- téléchargement de l'application et extraction dans le bon dossier
+- installation de dépendances
+- création de la base de données
+- configuration du serveur web
+- configuration de l'application
+- test et finalisation de l'installation
 
-(complété plus tard par le formateur ;))
+Les instructions suivantes ne viennent pas de `/dev/urandom` : elles ont été
+récupérées depuis le site officiel de Nextcloud (et aussi du script
+d'installation de l'app YunoHost !).
+
+- 13.1 - **Téléchargez l'archive** de la dernière version de Nextcloud (c.f. lien
+  fourni dans les documents du formateur). Décompresser l'archive à l'aide de
+  `tar -xvf <archive>` et mettre son contenu dans `/var/www/nextcloud`.
+
+- 13.2 - **Installez les dépendances** de Nextcloud (c.f. liste fournie dans les
+  documents du formateur) à l'aide de la commande `sudo apt install <paquet1>
+  <paquet2> <paquet3> ...`. Vérifier qu'il y a bien des services `nginx`,
+  `php7.4-fpm` et `mysql` (ou `mariadb`) à l'aide de `ps` et de `systemctl
+  status nginx` (idem avec `php7.4-fpm` et `mysql`).
+
+- 13.3 - **Base de données** : Créez un utilisateur `nextcloud` (NB: au sens de mysql, PAS au sens
+  "Unix"/useradd !) et une base de donnée portant le même nom. Pour ceci, il
+  faut ouvrir une console mysql et utiliser les incantations suivantes
+  (éventuellement, remplacez `password` par un vrai mot de passe) (aussi :
+  n'oubliez pas les `;` !)
+
+```bash
+$ mysql -u root
+MariaDB [(none)]> CREATE USER 'nextcloud'@'localhost' 
+                  IDENTIFIED BY 'password';
+MariaDB [(none)]> CREATE DATABASE IF NOT EXISTS nextcloud;
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON nextcloud.*
+                  TO 'nextcloud'@'localhost'
+                  IDENTIFIED BY 'password';
+MariaDB [(none)]> FLUSH privileges;
+MariaDB [(none)]> quit
+```
+
+- 13.4 - **Configurons Nextcloud (1/2)** pour utiliser la base de donnée qui
+  vient d'être créée. Pour cela, rendez-vous dans `/var/www/nextcloud`.
+  Assurez-vous qu'il existe un fichier `occ` dans ce dossier. Lancez ensuite
+  la commande suivante (êtes-vous capable de comprendre le rôle de ses
+  différents morceaux ?). Il vous faudra peut-être remplacer `password` par le
+  mot de passe précédemment choisi.
+
+```bash
+$ php occ maintenance:install \
+     --database      "mysql"     --database-name "nextcloud" \
+     --database-user "nextcloud" --database-pass "password" \
+     --admin-user    "admin"     --admin-pass    "password"
+```
+
+- 13.5 - **Configurons Nextcloud (2/2)** : il nous faut aussi définir le domaine
+  derrière lequel Nextcloud est hébergé : éditez le fichier `config/config.php`
+  de Nextcloud, et rajoutez l'IP de votre machine dans les "trusted domains".
+  Vous pouvez connaître l'IP de votre machine à l'aide de : `curl ifconfig.me`
+  Ajoutez également le paramètre `overwriteprotocol` avec la valeur `http`.
+  Cela devrait ressembler à quelque chose comme : 
+
+```text
+'trusted_domains' =>
+   [
+    '12.34.567.89'
+   ],
+
+'overwriteprotocol' => 'http',
+```
+
+- 13.6 - **Configurons nginx (le serveur web)** pour servir l'application
+  Nextcloud. Pour cela, récupérer et étudiez le modèle de configuration
+  (toujours dans les documents du formateur).  Copiez-le à un endroit approprié
+  à l'intérieur de `/etc/nginx/sites-enabled/default`. Dans le fichier, notez
+  l'existence d'une ligne mentionnant `/var/run/php/php7.4-fpm.sock`. À votre
+  avis, à quoi sert ce fichier et cette ligne ?
+
+- 13.7 - **Testez** que la configuration nginx semble valide avec `nginx -t`,
+  rechargez la configuration nginx avec `systemctl restart nginx`, vérifiez que
+  le service s'est bien relancé avec `systemctl status nginx`, puis tentez
+  d'accéder à votre application via un navigateur web depuis votre machine de
+  Windows en tapant l'IP dans un navigateur.  Si elle ne fonctionne pas
+  correctement (c'est probable !), **investiguez les logs d'erreur de nginx**
+  dans `/var/log/nginx/`.  Comparez les messages aux permissions de
+  `/var/www/nextcloud`, et à l'utilisateur avec lequel tournent les processus
+  `php-fpm`. **Comment faut-il modifier les permissions pour que l'application
+  fonctionne correctement ?**
+  
+- 13.8 - Une fois le problème résolu, tester que l'application fonctionne
+  correctement et découvrir Nextcloud (téléversez des fichiers, créez des
+  dossier, etc...). (Il est même possible d'installer une application Nextcloud
+  sur votre smartphone pour synchroniser les fichiers !)
 
