@@ -1,4 +1,4 @@
-title: Shell Scripting
+title: Automatiser l'administration Unix/Linux avec les scripts Shell 
 class: animation-fade
 layout: true
 
@@ -6,7 +6,162 @@ layout: true
 
 class: impact
 
-# Bash Scripting
+# Automatiser l'administration 
+# Unix/Linux 
+# avec les scripts Shell 
+
+*Become a Bash jedi in three days!*
+
+.center[
+![](img/gnulinux.png)
+]
+
+TODO/FIXME : bash icon?
+
+---
+
+# À propos de moi
+
+.col-12[
+.col-4[
+.center[
+![](img/me.jpg)
+]
+]
+
+.col-8[.center[
+<br>
+<br>
+`https://github.com/alexAubin`
+<br>
+<br>
+`alex.aubin@mailoo.org`
+<br>
+<br>
+]]
+]
+
+.col-4[.center[
+Ingénieur/Physicien
+
+![](img/cern.png)
+</br>
+![](img/particles.jpg)
+]]
+
+.col-4[.center[
+Dev / adminsys / ...
+
+![](img/yunohost.png)
+![](img/arn.png)
+![](img/odoo.png)
+]]
+
+.col-4[.center[
+Formateur
+
+![](img/python_arduino_linux.png)
+]]
+
+---
+
+# À propos de vous
+
+---
+
+# Organisation
+
+## Horaires
+
+- 9h00 -> 12h30 <small>(pause de 10 min autour de 10h30)</small>
+- Repas
+- 13h30 -> 17h00 <small>(pause de 10 min autour de 15h30)</small>
+
+.center[
+(soit 7h00 de formation / jour !)
+]
+
+## Signatures de présence
+
+## Évaluations de la formation
+
+---
+
+
+# Plan de la formation
+
+- Jour 1 ?
+    - 0 - "Rappels"
+    - 1 - Le(s) shell(s)
+    - 2 - Enchainement de commandes et redirections
+    - 3 - Pipes (`|`), filtres, boîte à outils
+    - 4 - Écrire et executer des scripts
+- Jour 2 ?
+    - 5 - Manipuler des variables
+        - TODO
+        - arithmétique, $(( )), +=
+        - manip pur bash / valeur par défaut / replace / ...
+    - 6 - Scripts interactifs / paramétrables
+    - 7 - Conditions
+        - TODO
+        - case
+        - discussion && / ||
+        - "test" vs [ vs [[
+    - 8 - Fonctions
+    - 9 - Boucles
+        - TODO
+        - until
+        - itérer sur un fichier
+        - xargs?
+    TODO exercice allumettes
+- Jour 3 ?
+    - 10 - Bonnes pratiques
+        - TODO
+    - 11 - Expressions régulières (avec grep et sed)
+        - TODO exercice
+    - 12 - Tâches automatiques (avec cron et at)
+        - TODO rework exercice
+    - 13 - Misc / Astuces / syntaxes avancées
+        - TODO
+        - Programmation parallèle
+        - eval
+        - tableaux
+        - manip bash cheloues style ${foo:-}
+
+
+---
+
+# Méthode de travail
+
+- Alternance théorie / pratique
+- Publication du contenu au fur et à mesure
+    - sur **https://aleks.internetlib.re/docs/formationLinux**
+- Travail dans une machine virtuelle
+- Setup avec Guacamole pour les stagiaires à distance
+
+# Objectifs
+
+- Vous fournir des bases solides via la pratique
+- Vous transmettre une forme d'enthousiasme !
+
+---
+
+# Disclaimers
+
+- C'est une formation d'informatique technique
+- L'informatique technique, c'est compliqué
+- Le brute force ne marche pas, il faut être précis / rigoureux...
+- Soyez **patient, méthodique, attentifs** !
+- **Ne laissez pas l'écran vous aspirer** !
+
+## On est là pour apprendre
+
+- Réussir les exo importe peu, il faut **comprendre ce que vous faites** !
+- Apprendre plus que de la théorie (posture, savoir se dépatouiller...)
+- Prenez le temps de vous tromper (et de comprendre pourquoi)
+
+## **N'hésitez pas à poser vos questions !**
+
 
 ---
 
@@ -16,37 +171,569 @@ class: impact
 
 ---
 
-# Rappels
+class: impact
 
-- Les commandes ont un code de retour
-- `cmd1 && cmd2` pour enchainer une commande si cmd1 a "marché"
-- `cmd1 || cmd2` pour enchainer une commande si cmd2 a "échoué"
-- `cmd > file` pour rediriger la sortie standard dans un fichier
-- `cmd 2> file` pour rediriger la sortie d'erreur dans un fichier
-- `cmd1 | cmd2` pour utiliser la sortie d'une commande comme entrée d'une autre
+# 0 - Rappels (?)
 
 ---
 
-# Plan
+# 0 - Rappels (?)
 
-- 0 écrire et executer des scripts
-- 1 les variables
-- 2 interactivité
-- 3 les conditions 
-- 4 les fonctions
-- 5 les boucles
+## (1/4) La ligne de commande
+
+- `cd` pour changer de dossier courant
+- `ls` / `ls -l` / `ll` pour lister les fichiers
+    - les fichiers commençant par `.` ne sont pas affichés par défaut
+- Les commandes ont des options courtes (par ex. `-f`) ou longues (par ex. `--fullscreen`)
+- Obtenir de l'aide : `cmd --help` (ou `-h`), ou `man cmd`
+- Auto-complétion avec `Tab`ulation
+- Flèches haut/bas pour retrouver les commandes précédentes
+
+----
+
+- `Ctrl+R` pour chercher dans les commandes précédentes, `history` pour afficher tout l'historique
+- `Ctrl+C` pour annuler la commande en cours
+- `Ctrl+A`/`E` pour aller au début / à la fin, `Ctrl+U` pour effacer tout ce qui est à gauche
+- Copier-coller avec sélection et clic-du-milieu, ou bien `Ctrl+Insert` et `Shift+Insert`
+
+---
+
+# 0 - Rappels (?)
+
+## (2/4) Manipuler des fichiers
+
+- chemin relatif vs chemin absolu
+    - en particulier, pas besoin de systématiquement se déplacer avec `cd` pour manipuler un fichier
+- **Créer** / **éditer** des fichiers textes : `nano` (ou `vim`)
+- **Fichiers**: déplacer : `mv`, copier : `cp`, supprimer : `rm`
+- **Dossiers**: créer : `mkdir`, déplacer : `mv`, copier : `cp -r`, supprimer : `rm -r`
+- Récupérer des fichiers depuis internet (via une URL) `wget <url>` ou `curl <url>`
+
+---
+
+# 0 - Rappels (?)
+
+## (3/4) Utilisateurs et permissions
+
+- `root` est dieu sur la machine
+- `sudo` permet d'exécuter ponctuellement une commande en tant que `root` (si on est *sudoers*)
+    - `sudo su` ou `sudo -i` pour ouvrir un shell interactif
+- `groups` pour lister les groupes dans lesquelles nous sommes
+- Les users sont référencés dans dans `/etc/passwd`
+
+----
+
+- Les permissions et propriétaires des fichiers sont montrés dans le retour de `ls -l` 
+- `chmod` : changer les permissions
+- `chown` : changer le propriétaire / groupe
+- `namei -l /chemin/du/fichier` pour inspecter les permissions tout le long du chemin
+
+---
+
+# 0 - Rappels (?)
+
+## (4/4) Les processus
+
+- Différence entre programme et processus
+- Notion de PID, PPID, de propriétaire et permission
+- `ps -ef --forest` pour voir l'arborescence des process en cours
+- `top`, `htop` pour voir "dynamiquement" les process en cours (notamment conso de CPU/RAM)
+- `cmd &` pour lancer une commande en arrière-plan <small>(ou aussi : `Ctrl+Z` puis `bg` si on a oublié de mettre le `&`)</small>
+- `screen` / `tmux` pour lancer des commandes sans être lié à un terminal particulier 
+- `kill` / `kill -9` pour tuer un process via son PID
 
 ---
 
 class: impact
 
-#  Bash scripts
-
-### 0 Écrire et executer des scripts
+# 1 - Le(s) shell(s)
 
 ---
 
-# 0 Écrire / executer
+# 1 - Le(s) shell(s)
+
+### Origine historique : le tty (teletype)
+
+.center[
+![](img/tty1.jpg)
+![](img/tty2.jpg)
+]
+
+---
+
+# 1 - Le(s) shell(s)
+
+### Le terminal
+
+Dans le temps, il s'agissait d'une machine sans interface graphique, similaire à un minitel qui permettait d'interagir avec le "vrai" ordinateur (mainframe) à distance.
+
+De nos jours, par abus de language un terminal est en fait un **émulateur** de terminal, c'est-à-dire un programme qui émule la même fonctionnalité. (La distinction terminal/mainframe a disparu)
+
+### Le shell
+
+Il s'agit du programme qui gère l'invite de commande et l'execution des commandes tapées.
+
+Classiquement, il s'agit de `bash`. Il existe d'autres shell comme `sh`, `zsh`, `fish`, ...
+
+Lorsque l'on programme dans certains languages de scripting, on parle aussi de shell `python`, `perl`, `ruby`, `javascript`, ...
+
+Un shell que vous utilisez peut potentiellement être situé sur une autre machine que celle devant laquelle vous êtes !
+
+---
+
+# 1 - Le(s) shell(s)
+
+### Les différents shells
+
+- `bash` ("Bourne-Again" shell) : c'est le plus classique, souvent utilisé aussi pour créer des scripts
+- `sh` (aussi appellé `dash`) : c'est l'ancêtre de `bash`, plus rudimentaire (pas d'historique, pas d'autocomplétion)
+- `zsh` : un shell plus puissant que `bash` (meilleur autocomplétion, partage d'historique entre les shells ouverts, correction des typos, ..)
+- `fish` : un shell encore plus moderne et convivial
+- et d'autres moins courants / historiques : `ash`, `csh`, `ksh`, ...
+
+---
+
+# 1 - Le(s) shell(s)
+
+- Le shell qu'on utilise par défaut est configuré dans `/etc/passwd`
+- On peut le changer avec `chsh`
+- On peut aussi simplement lancer manuelle un shell en lançant la commande : `bash`, `zsh`, `python`, ...
+
+----
+
+- Dans certains contextes on utilise un shell qui n'est pas la machine devant laquelle on est:
+    - Lancer une session `ssh`
+    - Ouvrir un shell dans un docker ou un LXC
+
+---
+
+# 1 - Le(s) shell(s)
+
+### Personnaliser le shell bash
+
+TODO / FIXME
+
+- /etc/.profile, ~/.bashrc
+- alias
+- PS1
+- variables d'env
+
+---
+
+# 1 - Le(s) shell(s)
+
+### Caractères spéciaux, expansions en bash
+
+TODO / FIXME
+
+- `*`
+- `{foo,bar}`
+- `$foo`
+- simple / double quotes
+- echap
+
+
+
+
+---
+
+class: impact
+
+# 2 - Redirections, assemblages
+
+---
+
+# 2 - Redirections, assemblages
+
+## Schema fonctionnel d'une commande
+
+- Une commande est une boîte avec des entrées / sorties
+- et un code de retour (`$?`)
+   - 0 : tout s'est bien passé
+   - 1 (ou toute valeur différente de 0) : problème !
+
+.center[
+![](img/commandbox.png)
+]
+
+---
+
+# 2 - Redirections, assemblages
+
+## Entrées / sorties
+
+.center[
+![](img/commandbox.png)
+]
+
+- **arguments** : donnés lors du lancement de la commande (ex: `/usr/` dans `ls /usr/`)
+- **stdin** : flux d'entrée (typ. viens du clavier)
+- **stdout** : flux de sortie (typ. vers le terminal)
+- **stderr** : flux d'erreur (typ. vers le terminal aussi !)
+
+---
+
+# 2 - Redirections, assemblages
+
+## Code de retour
+
+```bash
+$ ls /toto
+ls: cannot access '/toto': No such file or directory
+$ echo $?
+2
+```
+
+---
+
+# 2 - Redirections, assemblages
+
+## Rediriger les entrées/sorties (1/3)
+
+- `cmd > fichier` : renvoie stdout vers un fichier (le fichier sera d'abord écrasé !)
+- `cmd >> fichier ` : ajoute stdout à la suite du fichier
+- `cmd < fichier` : utiliser 'fichier' comme stdin pour la commande
+- `cmd <<< "chaine"` : utiliser 'chaine" comme stdin pour la commande
+
+Exemples
+
+```bash
+ls -la ~/ > tous_mes_fichiers.txt  # Sauvegarde la liste de tous les fichiers dans le home
+echo "manger" >> todo.txt          # Ajoute "manger" a la liste des choses à faire
+wc <<< "une grande phrase"           # Compte le nomde de mot d'une chaine
+```
+
+---
+
+# 2 - Redirections, assemblages
+
+## Rediriger les entrées/sorties (2/3)
+
+- `commande 2> fichier` : renvoie stderr vers un fichier (le fichier sera d'abord écrasé !)
+- `commande 2>&1` : renvoie stderr vers stdout !
+- `commande &> fichier` : renvoie stderr *et* stdout vers un fichier (le fichier sera d'abord écrasé !)
+
+Exemples :
+
+```bash
+ls /* 2> errors  # Sauvegarde les erreurs dans 'errors'
+ls /* 2>&1 > log # Redirige les erreurs vers stdout (la console) et stdout vers 'log'
+ls /* > log 2>&1 # Redirige tout vers 'log' !
+ls /* &> log     # Redirige tout vers 'log' !
+```
+
+---
+
+# 2 - Redirections, assemblages
+
+## Rediriger les entrées/sorties (3/3)
+
+Fichiers speciaux :
+- `/dev/null` : puit sans fond (trou noir)
+- `/dev/urandom` : generateur aleatoire (trou blanc)
+
+.center[
+![](img/bottomlesspit.png)
+]
+
+---
+
+# 2 - Redirections, assemblages
+
+## Rediriger les entrées/sorties (3/3)
+
+Fichiers speciaux :
+- `/dev/null` : puit sans fond (trou noir)
+- `/dev/urandom` : generateur aleatoire (trou blanc)
+
+```bash
+ls /* 2> /dev/null           # Ignore stderr
+mv ./todo.txt /dev/null      # Façon originale de supprimer un fichier !
+head -c 5 < /dev/urandom     # Affiche 5 caractères de /dev/urandom
+cat /dev/urandom > /dev/null # Injecte de l'aleatoire dans le puit sans fond
+```
+
+---
+
+# 2 - Redirections, assemblages
+
+## Assembler des commandes
+
+Executer plusieurs commandes à la suite :
+
+- `cmd1; cmd2` : execute `cmd1` puis `cmd2`
+- `cmd1 && cmd2` : execute `cmd1` puis `cmd2` mais seulement si `cmd1` reussie !
+- `cmd1 || cmd2` : execute `cmd1` puis `cmd2` mais seulement si `cmd1` a échoué
+- `cmd1 && { cmd2; cmd3; }` : "groupe" `cmd2` et `cmd3` ensemble (attention à la syntaxe !!)
+
+Que fait `cmd1 && cmd2 || cmd3` ?
+
+---
+
+class: impact
+
+# 3 - Pipes et boîte à outils
+
+---
+
+# 3 - Pipes et boîte à outils
+
+## Pipes ! (1/3)
+
+- `cmd1 | cmd2` permet d'assembler des commandes de sorte à ce que le `stdout` de `cmd1` devienne le `stdin` de `cmd2` !
+
+Exemple : `cat /etc/login.defs | head -n 3`
+
+.center[
+![](img/pipe.png)
+]
+
+- (Attention, par défaut `stderr` n'est pas affecté par les pipes !)
+
+---
+
+# 3 - Pipes et boîte à outils
+
+## Pipes ! (2/3)
+
+Lorsqu'on utilise des pipes, c'est generalement pour enchaîner des opérations comme :
+- générer ou récupérer des données
+- filtrer ces données
+- modifier ces données à la volée
+
+Sous Linux : tout est fichier / tout est flux de texte
+
+---
+
+# 3 - Pipes et boîte à outils
+
+## Pipes ! (3/3)
+
+Precisions techniques
+- La transmission d'une commande à l'autre se fait "en temps réel". La première commande n'a pas besoin d'être terminée pour que la deuxieme commence à travailler.
+- Si la deuxieme commande a terminée, la première *peut* être terminée prématurément (SIGPIPE).
+    - C'est le cas par exemple pour `cat tres_gros_fichier | head -n 3`
+
+---
+
+# 3 - Pipes et boîte à outils
+
+## Boîte à outils : `tee`
+
+`tee` permet de rediriger `stdout` vers un fichier tout en l'affichant quand meme dans la console
+
+```bash
+tree ~/documents | tee arbo_docs.txt  # Affiche et enregistre l'arborescence de ~/documents
+openssl speed | tee -a tests.log      # Affiche et ajoute la sortie de openssl à la suite de tests.log
+```
+
+(Note à propos de `commande | sudo tee fichier`)
+
+---
+
+# 3 - Pipes et boîte à outils
+
+## Boîte à outils : `grep` (1/3)
+
+`grep` permet de trouver des lignes qui contiennent un mot clef (ou plus generalement, une expression)
+
+```bash
+$ ls -l | grep r2d2
+-rw-r--r--  1 alex alex        0 Oct  2 20:31 r2d2.conf
+-rw-r--r--  1 r2d2 alex     1219 Jan  6  2018 zblorf.scd
+```
+
+```bash
+$ cat /etc/login.defs | grep TIMEOUT
+LOGIN_TIMEOUT		60
+```
+
+(on aurait aussi pu simplement faire : `grep TIMEOUT /etc/login.defs`)
+
+---
+
+# 3 - Pipes et boîte à outils
+
+## Boîte à outils : `grep` (2/3)
+
+Une option utile (parmis d'autres) : `-v` permet d'inverser le filtre
+
+```bash
+$ ls -l | grep -v "alex alex"
+total 158376
+d---rwxr-x  2 alex droid    4096 Oct  2 15:48 droidplace
+-rw-r--r--  1 r2d2 alex     1219 Jan  6  2018 zblorf.scd
+```
+
+On peut créer un "ou" avec : `r2d2\|c3p0`
+
+```bash
+$ ps -ef | grep "alex\|r2d2"
+# Affiche seulement les lignes contenant alex ou r2d2
+```
+
+---
+
+# 3 - Pipes et boîte à outils
+
+## Boîte à outils : `grep` (3/3)
+
+On peut faire référence à des débuts ou fin de ligne avec `^` et `$` :
+
+```bash
+$ cat /etc/os-release | grep "^ID"
+ID=manjaro
+
+$ ps -ef | grep "bash$"
+alex      5411   956  0 Oct02 pts/13   00:00:00 -bash
+alex      5794   956  0 Oct02 pts/14   00:00:00 -bash
+alex      6164   956  0 Oct02 pts/15   00:00:00 -bash
+root      6222  6218  0 Oct02 pts/15   00:00:00 bash
+```
+
+---
+
+# 3 - Pipes et boîte à outils
+
+## Boîte à outils : `tr`
+
+`tr` ('translate') traduit des caractères d'un ensemble par des caractère d'un autre ensemble ...
+
+```bash
+$ cat /etc/os-release \
+   | grep "^ID" \
+   | tr '=' ' '
+ID manjaro
+
+$ echo "coucou" | tr 'a-q' 'A-Q'
+COuCOu
+```
+
+---
+
+# 3 - Pipes et boîte à outils
+
+## Boîte à outils : `awk`
+
+`awk` est un processeur de texte assez puissant ...
+- En pratique, il est souvent utilisé pour "récupérer seulement une ou plusieurs colonnes"
+- Attention à la syntaxe un peu compliquée !
+
+```bash
+$ cat /etc/os-release  \
+    | grep "^ID"       \
+    | tr '=' ' '       \
+    | awk '{print $2}' \
+manjaro
+
+$ who | awk '{print $1 " " $4}'
+alex 22:10
+r2d2 11:27
+```
+
+---
+
+# 3 - Pipes et boîte à outils
+
+## Boîte à outils : `awk`
+
+- L'option `-F` permet de specifier un autre délimiteur
+
+```bash
+cat /etc/passwd | awk -F: '{print $3}'  # Affiche les UID des utilisateurs
+```
+
+(Equivalent à `cat /etc/passwd | cut -d: -f 3`)
+
+---
+
+# 3 - Pipes et boîte à outils
+
+## Boîte à outils : `sort`
+
+`sort` est un outil de tri :
+- `-k` permet de spécifier quel colonne utiliser pour trier (par défaut : la 1ère)
+- `-n` permet de trier par ordre numérique (par défaut : ordre alphabetique)
+
+```bash
+ps -ef | sort         # Trie les processus par proprietaire (1ere col)
+ps -ef | sort -k2 -n  # Trie les processus par PID (2eme col., chiffres)
+```
+
+---
+
+# 3 - Pipes et boîte à outils
+
+## Boîte à outils : `uniq`
+
+`uniq` permet de ne garder que des occurences uniques ... ou de compter un nombre d'occurence (avec `-c`)
+
+`uniq` s'utilise 90% du temps sur des données **déjà triées** par sort
+
+```bash
+who | awk '{print $1}' | sort | uniq                   # Affiche la liste des users loggués
+who | awk '{print $1}' | sort | uniq -c                # Compte le nombre de shell par user loggué
+```
+
+---
+
+# 3 - Pipes et boîte à outils
+
+## Boîte à outils : `sed`
+
+`sed` est un outil de manipulation de texte très puissant ... mais sa syntaxe est complexe.
+
+Comme premier contact : utilisation pour chercher et remplacer : `s/motif/remplacement/g`
+
+Exemple :
+```bash
+ls -l | sed 's/alex/padawan/g' # Remplace toutes les occurences de alex par padawan
+```
+
+---
+
+# 3 - Pipes et boîte à outils
+
+## Boîte à outils : `find`
+
+`find` permet de trouver (recursivement) des fichiers répondant à des critères sur le nom, la date de modif, la taille, ...
+
+Exemples:
+```bash
+# Lister tous les fichiers en .service dans /etc
+find /etc -name "*.service"
+
+# Lister tous les fichiers dans /var/log modifiés il y a moins de 5 minutes
+find /var/log -mmin 5
+```
+
+---
+
+# 3 - Pipes et boîte à outils
+
+## Recap (QUELQUES outils)
+
+(en tout cas leur utilisation la plus commune)
+
+- `tee` : montrer la sortie dans le terminal tout en la copiant dans un fichier
+- `tr` : supprimer / remplacer certains caractères
+- `grep` : garder seulement les lignes qui matchent (ou pas) une expression
+- `awk` : garder seulement une colonne de donnée
+- `cut` : garder seulement une colonne de donnée (similaire à `awk` mais différent)
+- `sort` : trier des données
+- `uniq` : garder seulement des lignes uniques (ou compter combien d'occurences)
+- `sed` : chercher et remplacer une expression par une autre
+- `find` : chercher des fichiers qui correspondent à certains critères (nom, date de modif, ...)
+
+---
+
+class: impact
+
+# 4 - Écrire et executer des scripts
+
+---
+
+# 4 - Écrire / executer
 
 ## Des scripts
 
@@ -57,7 +744,7 @@ class: impact
 
 ---
 
-# 0 Écrire / executer
+# 4 - Écrire / executer
 
 ## Utilité des scripts bash
 
@@ -69,11 +756,12 @@ Ce que ça ne fait généralement **pas** :
 Ce que ça fait plutôt bien :
 - prototypage rapide
 - automatisation de tâches d'administration (fichiers, commandes, ..)
-- rendre des tâches parametrables ou interactives
+- de la "glue" entre différents programmes
+- simplifier des procédures complexes mais en gardant une dose de paramétrabilité / interactivité
 
 ---
 
-# 0 Écrire / executer
+# 4 - Écrire / executer
 
 ## Ecrire un script (1/2)
 
@@ -91,7 +779,7 @@ exit 0    # (Optionnel, 0 par defaut)
 
 ---
 
-# 0 Écrire / executer
+# 4 - Écrire / executer
 
 ## Ecrire un script (2/2)
 
@@ -104,7 +792,7 @@ echo "How are you today ?"
 
 ---
 
-# 0 Écrire / executer
+# 4 - Écrire / executer
 
 ## `exit`
 
@@ -114,7 +802,7 @@ echo "How are you today ?"
 
 ---
 
-# 0 Écrire / executer
+# 4 - Écrire / executer
 
 ## Executer un script (1/3)
 
@@ -126,7 +814,7 @@ Première façon : avec l'interpreteur `bash`
 
 ---
 
-# 0 Écrire / executer
+# 4 - Écrire / executer
 
 ## Executer un script (2/3)
 
@@ -139,7 +827,7 @@ Deuxième façon : avec `source`
 
 ---
 
-# 0 Écrire / executer
+# 4 - Écrire / executer
 
 ## Executer un script (3/3)
 
@@ -155,7 +843,7 @@ chmod +x script.sh   # À faire la première fois seulement
 
 ---
 
-# 0 Écrire / executer
+# 4 - Écrire / executer
 
 ## Parenthèse sur la variable `PATH` (1/2)
 
@@ -174,7 +862,7 @@ which: no script.sh in (/usr/local/bin:/usr/bin:/bin:/usr/local/sbin
 
 ---
 
-# 0 Écrire / executer
+# 4 - Écrire / executer
 
 ## Parenthèse sur la variable `PATH` (2/2)
 
@@ -193,7 +881,7 @@ Ensuite, vous pourrez utiliser depuis n'importe où les programmes dans `~/my_pr
 
 ---
 
-# 0 Écrire / executer
+# 4 - Écrire / executer
 
 ## Résumé
 
@@ -206,13 +894,11 @@ Ensuite, vous pourrez utiliser depuis n'importe où les programmes dans `~/my_pr
 
 class: impact
 
-#  Bash scripts
-
-### 1 Les variables
+# 5 - Les variables
 
 ---
 
-# 1 Les variables
+# 5 - Les variables
 
 De manière générale, une variable est :
 - un contenant pour une information
@@ -235,7 +921,7 @@ N.B. : différence contenu/contenant sans trop d'ambiguité
 
 ---
 
-# 1 Les variables
+# 5 - Les variables
 
 On peut modifier une variable existante :
 
@@ -254,7 +940,7 @@ $ PI="3.14"
 
 ---
 
-# 1 Les variables
+# 5 - Les variables
 
 Initialiser une variable à partir du résultat d'une autre commande
 
@@ -270,7 +956,7 @@ NB_DE_LIGNES=`wc -l < /etc/login.defs`
 
 ---
 
-# 1 Les variables
+# 5 - Les variables
 
 On peut également initialiser une variable en composant avec d'autres variables :
 
@@ -289,7 +975,7 @@ echo "$MESSAGE"
 
 ---
 
-# 1 Les variables
+# 5 - Les variables
 
 ## Notes diverses (1/5)
 
@@ -306,7 +992,7 @@ $ echo $NOMBRE
 
 ---
 
-# 1 Les variables
+# 5 - Les variables
 
 ## Notes diverses (2/5)
 
@@ -325,7 +1011,7 @@ $ ls -l "$FICHIER"
 
 ---
 
-# 1 Les variables
+# 5 - Les variables
 
 ## Notes diverses (3/5)
 
@@ -341,7 +1027,7 @@ $ echo "$NB_DE_LINGE"
 
 ---
 
-# 1 Les variables
+# 5 - Les variables
 
 ## Notes diverses (4/5)
 
@@ -360,7 +1046,7 @@ $ cp $FICHIER ${FICHIER}_old
 
 ---
 
-# 1 Les variables
+# 5 - Les variables
 
 ## Notes diverses (5/5)
 
@@ -382,13 +1068,11 @@ Mon home est $HOME
 
 class: impact
 
-#  Bash scripts
-
-### 2 Paramétrabilité / interactivité
+# 6 - Paramétrabilité / interactivité
 
 ---
 
-# 2 Paramétrabilité / interactivité
+# 6 - Paramétrabilité / interactivité
 
 - Le comportement d'un script peut être paramétré via des options ou des données en argument
 - On peut également créer de l'interactivité, c'est à dire demander des informations à l'utilisateur pendant que l'execution du programme
@@ -396,7 +1080,7 @@ class: impact
 
 ---
 
-# 2 Paramétrabilité / interactivité
+# 6 - Paramétrabilité / interactivité
 
 ## Les paramètres
 
@@ -409,7 +1093,7 @@ class: impact
 
 ---
 
-# 2 Paramétrabilité / interactivité
+# 6 - Paramétrabilité / interactivité
 
 ```bash
 #!/bin/bash
@@ -428,7 +1112,7 @@ Le deuxieme argument est : les gens
 
 ---
 
-# 2 Paramétrabilité / interactivité
+# 6 - Paramétrabilité / interactivité
 
 ```bash
 #!/bin/bash
@@ -448,7 +1132,7 @@ Le deuxieme argument est :
 
 ---
 
-# 2 Paramétrabilité / interactivité
+# 6 - Paramétrabilité / interactivité
 
 ## Interactivité
 
@@ -464,13 +1148,11 @@ echo "OK, bonjour $NAME !"
 
 class: impact
 
-#  Bash scripts
-
-### 3 Les conditions
+# 7 - Les conditions
 
 ---
 
-# 3 Les conditions
+# 7 - Les conditions
 
 ## Généralités
 
@@ -478,7 +1160,7 @@ Les conditions permettent d'adapter l'execution d'un programme en fonction de ca
 
 ---
 
-# 3 Les conditions
+# 7 - Les conditions
 
 ## Avec les doubles crochets (1/3)
 
@@ -495,7 +1177,7 @@ fi
 
 ---
 
-# 3 Les conditions
+# 7 - Les conditions
 
 ## Avec les doubles crochets (2/3)
 
@@ -508,7 +1190,7 @@ fi
 
 ---
 
-# 3 Les conditions
+# 7 - Les conditions
 
 ## Avec les doubles crochets (3/3)
 
@@ -528,7 +1210,7 @@ N.B. : Il n'est pas nécessaire d'avoir un `else` !
 
 ---
 
-# 3 Les conditions
+# 7 - Les conditions
 
 ## Tester des valeurs numériques
 
@@ -547,7 +1229,7 @@ Par exemple pour tester qu'une variable `ANSWER` est supérieure à 42 :
 
 ---
 
-# 3 Les conditions
+# 7 - Les conditions
 
 ## Tester des chaînes de caractère
 
@@ -566,7 +1248,7 @@ Exemples :
 
 ---
 
-# 3 Les conditions
+# 7 - Les conditions
 
 ## Tester des fichiers
 
@@ -582,7 +1264,7 @@ Exemples:
 
 ---
 
-# 3 Les conditions
+# 7 - Les conditions
 
 ## Combiner des expressions
 
@@ -598,7 +1280,7 @@ Exemples
 
 ---
 
-# 3 Les conditions
+# 7 - Les conditions
 
 ## Syntaxe avec une commande
 
@@ -616,12 +1298,12 @@ fi
 
 ---
 
-# 3 Les conditions
+# 7 - Les conditions
 
 ## Syntaxe avec une commande : exemple
 
 ```bash
-if grep "r2d2" /etc/passwd
+if grep -q "r2d2" /etc/passwd
 then
    echo "r2d2 est bien enregistré en tant qu'utilisateur"
 else
@@ -631,7 +1313,7 @@ fi
 
 ---
 
-# 3 Les conditions
+# 7 - Les conditions
 
 ## Note sur les expressions entre crochet
 
@@ -642,6 +1324,57 @@ C'est souvent moins lourd à écrire pour des petites choses :
 ```bash
 [[ -f "$HOME/.bashrc" ]] || echo "Tu devrais créer un bashrc !"
 ```
+
+---
+
+# 7 - Les conditions
+
+## Erreurs courantes (1/2)
+
+Confusion entre `[[ ]]` et `cmd` : 
+
+```bash
+if [[ ma_commande ]]      # Devrait être simplement: if ma_commande
+```
+
+ou même
+
+```bash
+if [[ $(ma_commande) ]]   # Devrait être simplement: if ma_commande
+```
+
+éventuellement on peut écrire (pour vérifier que la sortie de la commande n'est pas vide:
+
+```bash
+if [[ -z "$(ma_commande)" ]]
+```
+
+
+---
+
+# 7 - Les conditions
+
+## Erreurs courantes (1/2)
+
+Confusion sur le code de retour
+
+```bash
+function ma_fonction()
+{
+    if blah
+    then
+        return 0
+    else
+        return 1
+    fi
+}
+
+if [[ $(ma commande) == 0 ]]    # Devrait être simplement: if ma_commande
+```
+
+
+
+
 
 ---
 
@@ -658,11 +1391,11 @@ class: impact
 
 #  Bash scripts
 
-### 4 Les fonctions
+### 8 - Les fonctions
 
 ---
 
-# 4 Les fonctions
+# 8 - Les fonctions
 
 ## Généralités
 
@@ -678,7 +1411,7 @@ L'objectif d'une fonction est :
 
 ---
 
-# 4 Les fonctions
+# 8 - Les fonctions
 
 ## Exemple
 
@@ -694,7 +1427,7 @@ Initialiser un utilisateur :
 
 ---
 
-# 4 Les fonctions
+# 8 - Les fonctions
 
 ## Exemple concret (non testé)
 
@@ -719,7 +1452,7 @@ create_droid bb8
 
 ---
 
-# 4 Les fonctions
+# 8 - Les fonctions
 
 ## Syntaxe
 
@@ -736,7 +1469,7 @@ function ma_fonction()
 
 ---
 
-# 4 Les fonctions
+# 8 - Les fonctions
 
 ## Code de retour
 
@@ -758,7 +1491,7 @@ function create_droid()
 
 ---
 
-# 4 Les fonctions
+# 8 - Les fonctions
 
 ## Variables locales
 
@@ -783,11 +1516,11 @@ echo $LIMIT   ## << Ne fonctionnera pas !
 
 class: impact
 
-# 5 - Boucles `for` / `while`
+# 9 - Boucles `for` / `while`
 
 ---
 
-# 5 - Boucles `for` / `while`
+# 9 - Boucles `for` / `while`
 
 ## Généralités sur les boucles
 
@@ -797,7 +1530,7 @@ Répéter des instructions :
 
 ---
 
-# 5 - Boucles `for` / `while`
+# 9 - Boucles `for` / `while`
 
 ## Boucle `for`
 
@@ -818,7 +1551,7 @@ I vaut 10
 
 ---
 
-# 5 - Boucles `for` / `while`
+# 9 - Boucles `for` / `while`
 
 ## Boucle `for`
 
@@ -831,7 +1564,7 @@ done
 
 ---
 
-# 5 - Boucles `for` / `while`
+# 9 - Boucles `for` / `while`
 
 ## Boucle `for`
 
@@ -845,7 +1578,7 @@ done
 
 ---
 
-# 5 - Boucles `for` / `while`
+# 9 - Boucles `for` / `while`
 
 ## Boucle `while`
 
@@ -868,7 +1601,7 @@ Maintenant I vaut 0
 
 ---
 
-# 5 - Boucles `for` / `while`
+# 9 - Boucles `for` / `while`
 
 ## Boucle `while`
 
@@ -885,7 +1618,7 @@ echo "Bien ouej ! $NUMBER est effectivement un nombre négatif !"
 
 ---
 
-# 5 - Boucles `for` / `while`
+# 9 - Boucles `for` / `while`
 
 ## Boucle `while`
 
@@ -897,149 +1630,30 @@ do
 done
 ```
 
----
 
-class: impact
 
-# 6. Automatiser avec `at` et les cron jobs
-
----
-
-# 6. Automatiser
-
-## Executer des commandes (ou un script) à distance
-
-```
-# Verifier depuis combien de temps la machine tourne
-$ echo "uptime" | ssh machine
- 19:48:51 up 1 day,  2:05,  1 user,  load average: 0.08, 0.02, 0.01
-
-# Lancer un script à distance
-$ cat script.sh | ssh machine
-[...]
-```
-
----
-
-# 6. Automatiser
-
-## `at`
-
-- Executer *une fois* une action à un moment précis dans le futur
-- Format de date/temps plutôt user-friendly
-
-```bash
-# En interactif
-$ at 5:00 PM     
-warning: commands will be executed using /bin/sh
-at> reboot
-job 5 at Fri Oct 12 17:00:00 2018
-```
-
-```bash
-# Avec un script
-$ at now + 30 minutes -f mettre_a_jour.sh 
-job 6 at Thu Oct 6 20:22:00 2018
-```
-
----
-
-# 6. Automatiser 
-
-## Les jobs cron
-
-- Répéter une tâche à intervalle régulier (heures, jours, mois, ...)
-- Chaque utilisateur peut en configurer avec `crontab -e`
-
-```
-10 * 1 * * /chemin/vers/un/script
-```
-
----
-
-# 6. Automatiser
-
-## Les jobs cron : syntaxe (1/3)
-
-```
-10 * 1 * * /chemin/vers/un/script
-```
-
-- `10` : à la minute 10
-- `*`  :toutes les heures
-- `1` le 1er du mois
-- `*` tous les mois
-- `*` (tous les jours de la semaine)
-
----
-
-# 6. Automatiser
-
-## Les jobs cron : syntaxe (2/3)
-
-```
-0 8 * * 1-5 /chemin/vers/un/script
-```
-
-- `0` : à la minute 0
-- `8` : à 8h
-- `*` (tous les jours du mois)
-- `*` tous les mois
-- `1-5` tous les jours de travail (lundi à vendredi)
-
----
-
-# 6. Automatiser
-
-## Les jobs cron : syntaxe (3/4)
-
-```text
- */10 * * * * /chemin/vers/un/script
-```
-
-- `*/10` : toutes les 10 minutes
-- `*` toutes les heures
-- `*` tous les jours du mois
-- `*` tous les mois
-- `*`  tous les jours de la semaine
-
----
-
-# 6. Automatiser
-
-## Les jobs cron : syntaxe (4/4)
-
-- `http://crontab.guru/` to the rescue !
-
----
-
-# 6. Automatiser
-
-## `/etc/crontab` et `/etc/cron.d/`
-
-- Ce sont des fichiers/dossiers de config cron "globaux"
-- Dedans, on specifie aussi l'utilisateur utilisé pour lancer le script :
-
-```
- # M  H  D M W   User    Command --->
- */30 *  * * * feed2toot feed2toot -c /etc/feed2toot/feed2toot.ini
-```
-
----
-
-# 6. Automatiser
-
-## `/etc/cron.hourly`, `daily`, `weekly`, `monthly`
-
-- Ils contiennent directement des scripts qui seront executés automatiquement à certains intervalles
-- Attention
-   - le nom des fichiers dedans ne doit pas avoir d'extensions ...
-   - .. et doit être executable (+x)
 
 ---
 
 class: impact
-# 7. Les expressions régulières
+
+# 10 - Bonnes pratiques
+
+---
+
+FIXME / TODO
+
+    - bash -x
+    - TODO / FIXME : defensive bash programming, shfmt
+    - getopts, construire un vrai script (usage, --help etc)
+    - set -eux, autres options,
+    - exec pour rediriger un fichier, utilitaires de logging
+
+
+---
+
+class: impact
+# 11 - Les expressions régulières
 
 ---
 
@@ -1062,7 +1676,7 @@ https://www.commitstrip.com/wp-content/uploads/2014/02/Strips-Le-dernier-des-vra
 
 ---
 
-# 7. Les expressions régulières
+# 11 - Les expressions régulières
 
 ## Principe
 
@@ -1080,7 +1694,7 @@ https://www.commitstrip.com/wp-content/uploads/2014/02/Strips-Le-dernier-des-vra
 
 ---
 
-# 7. Les expressions régulières
+# 11 - Les expressions régulières
 
 ## Les ancres
 
@@ -1091,7 +1705,7 @@ Exemple : matcher le dieze d'une ligne de commentaire : `^#`
 
 ---
 
-# 7. Les expressions régulières
+# 11 - Les expressions régulières
 
 ## Les classes de caractères
 
@@ -1104,7 +1718,7 @@ Exemple : matcher le dieze d'une ligne de commentaire : `^#`
 
 ---
 
-# 7. Les expressions régulières
+# 11 - Les expressions régulières
 
 ## Les classes de caractères
 
@@ -1116,7 +1730,7 @@ Exemple : matcher le dieze d'une ligne de commentaire : `^#`
 
 ---
 
-# 7. Les expressions régulières
+# 11 - Les expressions régulières
 
 ## Les classes de caractères
 
@@ -1128,7 +1742,7 @@ Exemple : matcher le dieze d'une ligne de commentaire : `^#`
 
 ---
 
-# 7. Les expressions régulières
+# 11 - Les expressions régulières
 
 ## Les classes de caractères
 
@@ -1142,7 +1756,7 @@ Exemple : matcher le dieze d'une ligne de commentaire : `^#`
 
 ---
 
-# 7. Les expressions régulières
+# 11 - Les expressions régulières
 
 ## Les quantifieurs
 
@@ -1157,7 +1771,7 @@ Exemple : matcher le dieze d'une ligne de commentaire : `^#`
 
 ---
 
-# 7. Les expressions régulières
+# 11 - Les expressions régulières
 
 ## Les classes de caractères
 
@@ -1172,7 +1786,7 @@ Exemple : matcher le dieze d'une ligne de commentaire : `^#`
 
 ---
 
-# 7. Les expressions régulières
+# 11 - Les expressions régulières
 
 ## Les classes de caractères
 
@@ -1187,7 +1801,7 @@ Exemple : matcher le dieze d'une ligne de commentaire : `^#`
 
 ---
 
-# 7. Les expressions régulières
+# 11 - Les expressions régulières
 
 ## Les groupes
 
@@ -1198,7 +1812,7 @@ Exemple : matcher le dieze d'une ligne de commentaire : `^#`
 
 ---
 
-# 7. Les expressions régulières
+# 11 - Les expressions régulières
 
 ## Exemple évolué
 
@@ -1209,7 +1823,7 @@ Exemple : matcher le dieze d'une ligne de commentaire : `^#`
 
 ---
 
-# 7. Les expressions régulières
+# 11 - Les expressions régulières
 
 ## Exemple évolué
 
@@ -1219,7 +1833,7 @@ Exemple : matcher le dieze d'une ligne de commentaire : `^#`
 
 ---
 
-# 7. Les expressions régulières
+# 11 - Les expressions régulières
 
 ## Exemple évolué
 
@@ -1231,7 +1845,7 @@ Exemple : matcher le dieze d'une ligne de commentaire : `^#`
 
 ---
 
-# 7. Les expressions régulières
+# 11 - Les expressions régulières
 
 ## Tester des regex en ligne :  Exemple évolué
 
@@ -1250,4 +1864,154 @@ Exemple : matcher le dieze d'une ligne de commentaire : `^#`
 ![](img/perfectregexemail.jpg)
 ]
 
+---
 
+class: impact
+
+# 12 - Automatiser avec `at` et les cron jobs
+
+---
+
+# 12 - Automatiser
+
+## Executer des commandes (ou un script) à distance
+
+```
+# Verifier depuis combien de temps la machine tourne
+$ echo "uptime" | ssh machine
+ 19:48:51 up 1 day,  2:05,  1 user,  load average: 0.08, 0.02, 0.01
+
+# Lancer un script à distance
+$ cat script.sh | ssh machine
+[...]
+```
+
+---
+
+# 12 - Automatiser
+
+## `at`
+
+- Executer *une fois* une action à un moment précis dans le futur
+- Format de date/temps plutôt user-friendly
+
+```bash
+# En interactif
+$ at 5:00 PM     
+warning: commands will be executed using /bin/sh
+at> reboot
+job 5 at Fri Oct 12 17:00:00 2018
+```
+
+```bash
+# Avec un script
+$ at now + 30 minutes -f mettre_a_jour.sh 
+job 6 at Thu Oct 6 20:22:00 2018
+```
+
+---
+
+# 12 - Automatiser 
+
+## Les jobs cron
+
+- Répéter une tâche à intervalle régulier (heures, jours, mois, ...)
+- Chaque utilisateur peut en configurer avec `crontab -e`
+
+```
+10 * 1 * * /chemin/vers/un/script
+```
+
+---
+
+# 12 - Automatiser
+
+## Les jobs cron : syntaxe (1/3)
+
+```
+10 * 1 * * /chemin/vers/un/script
+```
+
+- `10` : à la minute 10
+- `*`  :toutes les heures
+- `1` le 1er du mois
+- `*` tous les mois
+- `*` (tous les jours de la semaine)
+
+---
+
+# 12 - Automatiser
+
+## Les jobs cron : syntaxe (2/3)
+
+```
+0 8 * * 1-5 /chemin/vers/un/script
+```
+
+- `0` : à la minute 0
+- `8` : à 8h
+- `*` (tous les jours du mois)
+- `*` tous les mois
+- `1-5` tous les jours de travail (lundi à vendredi)
+
+---
+
+# 12 - Automatiser
+
+## Les jobs cron : syntaxe (3/4)
+
+```text
+ */10 * * * * /chemin/vers/un/script
+```
+
+- `*/10` : toutes les 10 minutes
+- `*` toutes les heures
+- `*` tous les jours du mois
+- `*` tous les mois
+- `*`  tous les jours de la semaine
+
+---
+
+# 12 - Automatiser
+
+## Les jobs cron : syntaxe (4/4)
+
+- `http://crontab.guru/` to the rescue !
+
+---
+
+# 12 - Automatiser
+
+## `/etc/crontab` et `/etc/cron.d/`
+
+- Ce sont des fichiers/dossiers de config cron "globaux"
+- Dedans, on specifie aussi l'utilisateur utilisé pour lancer le script :
+
+```
+ # M  H  D M W   User    Command --->
+ */30 *  * * * feed2toot feed2toot -c /etc/feed2toot/feed2toot.ini
+```
+
+---
+
+# 12 - Automatiser
+
+## `/etc/cron.hourly`, `daily`, `weekly`, `monthly`
+
+- Ils contiennent directement des scripts qui seront executés automatiquement à certains intervalles
+- Attention
+   - le nom des fichiers dedans ne doit pas avoir d'extensions ...
+   - .. et doit être executable (+x)
+
+---
+
+class: impact
+
+# 13 - Misc / Astuces / syntaxes avancées
+
+---
+
+- Programmation parallèle
+- eval
+- tableaux
+- manip bash cheloues style ${foo:-}
