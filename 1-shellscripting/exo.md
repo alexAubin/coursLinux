@@ -67,7 +67,7 @@ Il y a 340MB de RAM libre sur un total de 4GB
 
 ## 7 - Conditions
 
-- **7.1** - Reprendre le script `age.sh` de l'énoncé 6.3. Vérifiez que l'année de naissance fait sens. Par exemple, si elle est inférieure à 1900, on pourra afficher "Hmm... T'es sur !?", et si l'année donnée est supérieure à 2020, on pourra afficher "Tu viens du futur !?". Dans les deux cas, on quittera le programme **en renvoyant un code d'erreur** (= code de retour différent de 0).
+- **7.1** - Reprendre le script `age.sh` de l'énoncé 6.3. Vérifiez que l'année de naissance fait sens. Par exemple, si elle est inférieure à 1900, on pourra afficher "Hmm... T'es sur !?", et si l'année donnée est supérieure à 2025, on pourra afficher "Tu viens du futur !?". Dans les deux cas, on quittera le programme **en renvoyant un code d'erreur** (= code de retour différent de 0).
 - 7.2 - Écrire un script `estcequecestbientotleweekend.sh` de sorte à ce que : 
     - le script affiche "non :(" si le jour est lundi, mardi, mercredi ou jeudi
     - le script affiche "bientôt, mais il faut travailler encore un peu!" si on est vendredi mais qu'il est moins que 17h
@@ -88,7 +88,7 @@ Il y a 340MB de RAM libre sur un total de 4GB
     - `warning` qui prends un message en argument et affiche *dans la sortie d'erreur* `"[WARN] Le message"` avec le mot `WARN` en orange ;
     - `error`   qui prends un message en argument et affiche *dans la sortie d'erreur* `"[FAIL] Le message"` avec le mot `FAIL` en rouge ;
     - `critical` qui prends un message en argument et affiche *dans la sortie d'erreur* `"[CRIT] Le message"` avec le mot `CRIT` en rouge, **et termine directement le script avec un code de retour de 1**.
-- 8.2 - Dupliquez le script `check_user.sh` de la question 3.2 (la copie peut s'appeler `check_user_v2.sh`), puis transformez les différentes parties du script en fonctions. Ce genre de travail s'appelle *(re)factoriser du code*.  **Testez vos modifications au fur et à mesure !**
+- 8.2 - Dupliquez le script `check_user.sh` de la question 7.2 (la copie peut s'appeler `check_user_v2.sh`), puis transformez les différentes parties du script en fonctions. Ce genre de travail s'appelle *(re)factoriser du code*.  **Testez vos modifications au fur et à mesure !**
     - au début (après le `#!/bin/bash`), ajoutez `source utils.sh` pour charger les fonctions définies dans `utils.sh` dans ce script.
     - introduisez une fonction `assert_user_exists` qui affichera une erreur et arrêtera le script (via `critical`) si l'utilisateur n'existe pas ;
     - introduisez une fonction `usage` qui sera appelée pour décrire le fonctionnement du script si appelé avec `--help` ou `-h` ;
@@ -99,13 +99,22 @@ Il y a 340MB de RAM libre sur un total de 4GB
 
 ## 9 - Boucles
 
-- 9.1 - Écrivez à l'aide d'une boucle `for` un script qui affiche les carrés des 50 premiers entiers
+- 9.1 - Écrivez à l'aide d'une boucle `for` un script qui affiche la table de multiplication d'un entier `N` passé en argument du script:
+
+```text
+Table du 7
+----------
+ 1 x 7 = 7
+ 2 x 7 = 14
+ [...]
+ 10 x 7 = 70
+```
+
 - 9.2 - Même chose, mais à l'aide d'une boucle `while`.
 - 9.3 - En reprenant le script `check_user.sh`, utilisez une boucle `for` pour lancer ce script sur tous les utilisateurs ayant `/bin/bash` comme shell.
 - 9.4 - Écrivez un script `confirm.sh` qui, à l'aide d'une boucle `while`, demande à l'utilisateur `Est-ce que tu es sur ? [oui/non]` tant qu'il n'a pas répondu `oui` ou `non`.
-- 9.5 - Ecrire en bash un jeu qui consiste à demander à l'utilisateur de deviner un nombre choisi aléatoirement par le programme. L'utilisateur entrera un nombre, et le programme dira à l'utilisateur si le nombre à trouver est plus petit ou plus grand, jusqu'à ce que le bon nombre soit trouvé.
-- 9.6 - (TODO / FIXME / a retravailler : fournir directement un set d'imag) Revenant d'un mariage dans votre famille, vous décidez de partager vos 100 photos avec le reste de votre famille. Sachant que vos appareil photo dernier-cri prends des photos en moulte-méga-pixels qui pèsent 10 Mo chacune, vous décidez qu'il faut mieux redimensionner les images avant de les envoyer pour ne pas surcharger les boîtes mails de tout le monde avec 1Go de photos. Pour ce faire, renseignez-vous sur la commande `convert` (du paquet ImageMagick) qui permet de redimensionner (ou *rescaler*) et éventuellement d'adapter le niveau de qualité. Sachant maintenant manipuler cette commande, écrivez une boucle `for` pour redimensionner d'un seul coup toutes les images `jpg` présentent dans le dossier courant. (Pour tester votre script, vous pouvez télécharger par exemple des images sur `pixabay.com`, ou demander un pack d'image au formateur)
-
+- 9.5 - Revenant d'un mariage dans votre famille, vous décidez de partager vos 100 photos avec le reste de votre famille. Sachant que vos appareil photo dernier-cri prends des photos en moulte-méga-pixels qui pèsent 10 Mo chacune, vous décidez qu'il faut mieux redimensionner les images avant de les envoyer pour ne pas surcharger les boîtes mails de tout le monde avec 1Go de photos. Pour ce faire, renseignez-vous sur la commande `convert` (du paquet ImageMagick) qui permet de redimensionner (ou *rescaler*) et éventuellement d'adapter le niveau de qualité. Sachant maintenant manipuler cette commande, écrivez une boucle `for` pour redimensionner d'un seul coup toutes les images `jpg` présentent dans le dossier courant. Tester ce script sur le pack d'image fourni par le formateur.
+- 9.6 - Ecrire en bash un jeu qui consiste à demander à l'utilisateur de deviner un nombre choisi aléatoirement par le programme. L'utilisateur entrera un nombre, et le programme dira à l'utilisateur si le nombre à trouver est plus petit ou plus grand, jusqu'à ce que le bon nombre soit trouvé.
 
 ## Jeu des allumettes
 

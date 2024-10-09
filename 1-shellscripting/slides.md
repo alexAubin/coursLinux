@@ -1294,6 +1294,45 @@ $ cp $FICHIER ${FICHIER}_old
 
 ---
 
+# 5 - Les variables
+
+## Variables versus environnement
+
+Les variables que l'ont définit ne sont pas disponibles dans les commandes appelées depuis le script. Si l'on souhaite les exposers aux scripts appelés, il faut d'abord l'exporter dans l'environnement avec:
+
+```
+export MA_VARIABLE
+```
+
+ainsi, `MA_VARIABLE` sera diponible pour les sous-process, par exemple si leur comportement peut changer en fonction de `MA_VARIABLE`
+
+---
+
+### Variables versus environnement: valeur par défaut
+
+Il est possible de définir des variables avec une valeur par défaut, mais de permettre de changer cette variable via une variable d'environnement:
+
+```bash
+DISTRIBUTION=${DISTRIBUTION:-ubuntu}
+```
+
+Si `DISTRIBUTION` est une variable dispo dans l'environnement, cette valeur est utilisée ... sinon par défaut on utilise `ubuntu`.
+
+On peut notamment appeler le script avec:
+
+```bash
+export DISTRIBUTION=linuxmint
+bash mon_script.sh
+```
+
+ou alors : `DISTRIBUTION=linuxmint bash mon_script.sh`
+
+
+
+
+
+---
+
 class: impact
 
 # 6 - Paramétrabilité / interactivité
@@ -1932,25 +1971,158 @@ Attention : cela ne préserve pas les espaces en début / fin de ligne. Pour ça
 
 ---
 
-- TODO / FIXME : rework exercice images (preparer des images?)
-
-
----
-
 class: impact
 
-# 10 - Bonnes pratiques
+# 10 - Bonnes pratiques, astuces
 
 ---
 
-FIXME / TODO
+# 10 - Bonnes pratiques, astuces
 
-    - bash -x
-    - TODO / FIXME : defensive bash programming, shfmt
-    - getopts, construire un vrai script (usage, --help etc)
-    - set -eux, autres options,
-    - exec pour rediriger un fichier, utilitaires de logging
+## 1: utiliser `bash -x <script>` pour débugger
 
+---
+
+# 10 - Bonnes pratiques, astuces
+
+## 2: utiliser `set -eu` au début du script
+
+- A mettre dès qu'on commence à écrire le script, sinon c'est casse-pied à rajouter !
+- `set -u` : essayer d'utiliser une variable indéfinie est interprété comme une erreur
+- `set -e` : toute commande qui échoue déclenche l'arrêt du script plutôt que de continuer
+
+Si on veut vraiment qu'une commande puisse échouer, on peut écrire par ex.:
+
+```bash
+toto || echo 'warning: la commande toto a échoué ... mais c'est pas grave !"
+```
+
+---
+
+# 10 - Bonnes pratiques, astuces
+
+## 3: parser des paramètres avec `getopts`
+
+```bash
+#!/bin/bash
+
+usage() {
+    echo "Usage: $0 [-D] [-s N] [-h]"
+    echo "Options:"
+    echo "  -D      Enable verbose / debug mode"
+    echo "  -s [N]  Set the size to N (default: 15)"
+    echo "  -h      Display this help"
+}
+
+debug=false
+size=15
+```
+
+---
+
+```bash
+while getopts ":Ds:h" option; do
+    case "${option}" in
+        D)  debug=true
+            ;;
+        s)  size=${OPTARG}
+            ;;
+        h)  # Help option
+            usage
+            exit 0
+            ;;
+        \?) # Invalid option
+            echo "Invalid option: -$OPTARG"
+            usage
+            exit 1
+            ;;
+    esac
+done
+```
+
+---
+
+# 10 - Bonnes pratiques, astuces
+
+## 4: petits utilitaires de logging
+
+```bash
+NORMAL=$(printf '\033[0m')
+BOLD=$(printf '\033[1m')
+RED=$(printf '\033[31m')
+GREEN=$(printf '\033[32m')
+ORANGE=$(printf '\033[33m')
+BLUE=$(printf '\033[34m')
+
+function debug() { [[ "$debug" == false ]] || echo "[DEBUG] ${1}"; }
+function success() { echo "[${BOLD}${GREEN} OK ${NORMAL}] ${1}"; }
+function info() { echo "[${BOLD}${BLUE}INFO${NORMAL}] ${1}"; }
+function warn() { echo "[${BOLD}${ORANGE}WARN${NORMAL}] ${1}" 2>&1; }
+function error() { echo "[${BOLD}${RED}FAIL${NORMAL}] ${1}"  2>&1; }
+function critical() { echo "[${BOLD}${RED}CRIT${NORMAL}] ${1}"  2>&1; exit 1; }
+```
+
+---
+
+# 10 - Bonnes pratiques, astuces
+
+## 5: copier toute la sortie d'un script vers un fichier
+
+```bash
+exec &> >(tee monscript.$(date +'%Y%m%d_%H%M%S').log)
+echo "This is stdout"
+echo "This is stderr" >&2
+```
+
+`exec` est une commande un peu spéciale : elle rajoute des options ou des redirections au shell en cours(?)
+
+En l'occurence, l'entièreté de stdout et stderr de toute la suite du script est envoyée dans un fichier de log, nommé en fonction de la date et de l'heure qu'il est.
+
+---
+
+# 10 - Bonnes pratiques, astuces
+
+## 6: 'defensive bash programming'
+
+Un petit ensemble de pratiques pour 'faire du bash propre et lisible', proposés par Kfir Lavi en 2012 : <a href="https://frippertronics.com/posts/defensive_bash_programming.html" style='color: gold;'>source</a>
+
+En particulier:
+- Rendre immutable les variables globales avec `readonly`
+- Structurer systématiquement le code avec des fonctions
+- Définir systématiquement les variables comme `local`
+- Mettre systématiquement `$0`, `$1`, `$2`, ... (les arguments des fonctions) dans des variables pour 'documenter' leur signification
+- Définir et utiliser des petits utilitaires comme `is_empty` / `is_not_empty` plutôt que `[[ -z $var ]]` et `[[ -n $var ]]`
+
+---
+
+# 10 - Bonnes pratiques, astuces
+
+## 7: `shfmt`: fomatter le code de manière standardisée
+
+<a href="https://github.com/patrickvane/shfmt" style="color:gold;">`shfmt`</a> : autoformattage du code (indentation, passage à la ligne, ...). Similaire à 'Black' en Python.
+
+```bash
+shfmt -i=4 -kp -sr -bn -ci -w dossier_de_scripts/
+
+# -i=4    # indent
+# -kp     # keep column alignment paddings
+# -sr     # redirect operators will be followed by a space
+# -bn     # binary ops like && and | may start a line
+# -ci     # switch cases will be indented
+# -w      # write to file instead of stdout
+```
+
+---
+
+# 10 - Bonnes pratiques, astuces
+
+## 8: `shellcheck`: linter / analyse statique du code pour trouver automatiquement des problèmes potentiels
+
+<a href="https://www.shellcheck.net/" style='color: gold;'>www.shellcheck.net</a> (mais aussi installable en CLI avec `apt install shellcheck`)
+
+`shellcheck -o all script.sh`
+
+Parfois un peu trop strict, mais contiens de nombreuses options pour désactiver certains check si nécessaires
 
 ---
 
@@ -1959,9 +2131,7 @@ class: impact
 
 ---
 
-.center[
-https://www.commitstrip.com/wp-content/uploads/2014/02/Strips-Le-dernier-des-vrais-codeurs-650-final2.jpg
-]
+<a href="https://www.commitstrip.com/wp-content/uploads/2014/02/Strips-Le-dernier-des-vrais-codeurs-650-final2.jpg" style='color: gold;'>www.commitstrip.com/wp-content/uploads/2014/02/Strips-Le-dernier-des-vrais-codeurs-650-final2.jpg</a>
 
 ---
 
@@ -1990,7 +2160,7 @@ https://www.commitstrip.com/wp-content/uploads/2014/02/Strips-Le-dernier-des-vra
     - Version un peu plus évoluée : `[\d ?]{8}\d`
 - Utilisable dans pleins de langage de programmation, et outils des outils comme `grep`, `sed`, éditeurs de textes, ...
 - Tests en ligne : `regex101.com`
-- Attention, utilisation dans grep : `grep -E` ou `-P` (?)
+- Attention, utilisation dans grep : `grep -E` (regex étendue) ou `-P` (regex perl / PCRE)
 - Plusieurs normes de regex : PCRE, lua, ...
 
 
@@ -2163,7 +2333,7 @@ Exemple : matcher le dieze d'une ligne de commentaire : `^#`
 ---
 
 - FIXME / TODO explications grep et sed
-exo avec sed / search and replace ?
+- exo avec sed / search and replace ?
 
 ---
 
