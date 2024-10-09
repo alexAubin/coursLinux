@@ -15,15 +15,18 @@ lorem
 ipsum
 gr3at
 www-data
+al-ex
 legolas_du_67
+__alex__
 
 
 # Not to match
 # ============
 jo
 john doe
+-alex
+_alex
 Pikachu
 johnDoe
 67_super_legolas
 this_is_such_a_huge_username_this_should_not_be_allowed
-

@@ -6,17 +6,18 @@ layout: true
 
 class: impact
 
-# Automatiser l'administration 
-# Unix/Linux 
-# avec les scripts Shell 
+<h1 style="font-size:2.5em;">
+Automatiser l'administration <br/>
+Unix/Linux <br/>
+avec les scripts Shell
+</h1>
 
 *Become a Bash jedi in three days!*
 
 .center[
-![](img/gnulinux.png)
+![](img/bash.png)
+![](img/jedi.png)
 ]
-
-TODO/FIXME : bash icon?
 
 ---
 
@@ -98,36 +99,13 @@ Formateur
     - 4 - Écrire et executer des scripts
 - Jour 2 ?
     - 5 - Manipuler des variables
-        - TODO
-        - arithmétique, $(( )), +=
-        - manip pur bash / valeur par défaut / replace / ...
     - 6 - Scripts interactifs / paramétrables
-    - 7 - Conditions
-        - TODO
-        - case
-        - discussion && / ||
-        - "test" vs [ vs [[
-    - 8 - Fonctions
-    - 9 - Boucles
-        - TODO
-        - until
-        - itérer sur un fichier
-        - xargs?
-    TODO exercice allumettes
+    - 7, 8, 9 - Conditions, Fonction, Boucles
 - Jour 3 ?
     - 10 - Bonnes pratiques
-        - TODO
     - 11 - Expressions régulières (avec grep et sed)
-        - TODO exercice
     - 12 - Tâches automatiques (avec cron et at)
-        - TODO rework exercice
-    - 13 - Misc / Astuces / syntaxes avancées
-        - TODO
-        - Programmation parallèle
-        - eval
-        - tableaux
-        - manip bash cheloues style ${foo:-}
-
+    - 13 - Diverses astuces et syntaxes avancées
 
 ---
 
@@ -135,9 +113,11 @@ Formateur
 
 - Alternance théorie / pratique
 - Publication du contenu au fur et à mesure
-    - sur **https://aleks.internetlib.re/docs/formationLinux**
-- Travail dans une machine virtuelle
-- Setup avec Guacamole pour les stagiaires à distance
+    - sur <a href="https://aleks.internetlib.re/docs/formationLinux" style="color: gold;">aleks.internetlib.re/docs/formationLinux</a>
+- Travail dans une machine virtuelle Guacamole
+    - sur <a href="https://formationlinux.internetlib.re/" style="color: gold;">formationlinux.internetlib.re</a> (en HTTP sans s !)
+    - login: votre prenom en minuscule
+    - password: `ilovelinux`
 
 # Objectifs
 
@@ -186,11 +166,15 @@ class: impact
     - les fichiers commençant par `.` ne sont pas affichés par défaut
 - Les commandes ont des options courtes (par ex. `-f`) ou longues (par ex. `--fullscreen`)
 - Obtenir de l'aide : `cmd --help` (ou `-h`), ou `man cmd`
+
+---
+
+# 0 - Rappels (?)
+
+## (1/4) La ligne de commande : raccourcis clavier
+
 - Auto-complétion avec `Tab`ulation
 - Flèches haut/bas pour retrouver les commandes précédentes
-
-----
-
 - `Ctrl+R` pour chercher dans les commandes précédentes, `history` pour afficher tout l'historique
 - `Ctrl+C` pour annuler la commande en cours
 - `Ctrl+A`/`E` pour aller au début / à la fin, `Ctrl+U` pour effacer tout ce qui est à gauche
@@ -205,8 +189,12 @@ class: impact
 - chemin relatif vs chemin absolu
     - en particulier, pas besoin de systématiquement se déplacer avec `cd` pour manipuler un fichier
 - **Créer** / **éditer** des fichiers textes : `nano` (ou `vim`)
-- **Fichiers**: déplacer : `mv`, copier : `cp`, supprimer : `rm`
-- **Dossiers**: créer : `mkdir`, déplacer : `mv`, copier : `cp -r`, supprimer : `rm -r`
+- **Créer un dossier**: `mkdir <dossier>`
+- **Afficher** un fichier dans le terminal : `cat <fichier>`
+    - ou `tail -n 20 <fichier>` pour les 20 dernières lignes
+- **Déplacer/renommer**: `mv <source> <destination>` (move)
+- **Copier** : `cp <source> <destination>` (ou `cp -r` pour un dossier)
+- **Supprimer** : `rm <cible>` (ou `rm -r` pour un dossier)
 - Récupérer des fichiers depuis internet (via une URL) `wget <url>` ou `curl <url>`
 
 ---
@@ -215,18 +203,16 @@ class: impact
 
 ## (3/4) Utilisateurs et permissions
 
+- Chaque user a un répertoire personnel, classiquement `/home/<username>/`
 - `root` est dieu sur la machine
 - `sudo` permet d'exécuter ponctuellement une commande en tant que `root` (si on est *sudoers*)
     - `sudo su` ou `sudo -i` pour ouvrir un shell interactif
 - `groups` pour lister les groupes dans lesquelles nous sommes
 - Les users sont référencés dans dans `/etc/passwd`
-
-----
-
 - Les permissions et propriétaires des fichiers sont montrés dans le retour de `ls -l` 
 - `chmod` : changer les permissions
 - `chown` : changer le propriétaire / groupe
-- `namei -l /chemin/du/fichier` pour inspecter les permissions tout le long du chemin
+- `namei -l /chemin/du/fichier` <small>pour inspecter les permissions de tout un chemin</small>
 
 ---
 
@@ -271,9 +257,7 @@ De nos jours, par abus de language un terminal est en fait un **émulateur** de 
 
 ### Le shell
 
-Il s'agit du programme qui gère l'invite de commande et l'execution des commandes tapées.
-
-Classiquement, il s'agit de `bash`. Il existe d'autres shell comme `sh`, `zsh`, `fish`, ...
+Il s'agit du programme qui gère l'invite de commande et l'execution des commandes tapées. Classiquement, il s'agit de `bash`. Il existe d'autres shell comme `sh`, `zsh`, `fish`, ...
 
 Lorsque l'on programme dans certains languages de scripting, on parle aussi de shell `python`, `perl`, `ruby`, `javascript`, ...
 
@@ -309,33 +293,240 @@ Un shell que vous utilisez peut potentiellement être situé sur une autre machi
 
 # 1 - Le(s) shell(s)
 
-### Personnaliser le shell bash
+## Variables d'envionnement
 
-TODO / FIXME
+Lorsque vous êtes dans un shell, il existe des *variables d'environnement* qui définissent certains comportements.
 
-- /etc/.profile, ~/.bashrc
-- alias
-- PS1
-- variables d'env
+Par exemple, la variable 'HOME' contient `/home/padawan` et corresponds à l'endroit où `cd` retourne par défaut (si pas de dossier donné en argument)
+
+Autre exemples :
+
+```
+SHELL : /bin/bash (généralement)
+LANG, LC_ALL, ... : langue utilisée par les messages
+USER, USERNAME : nom d'utilisateur
+```
 
 ---
 
 # 1 - Le(s) shell(s)
 
-### Caractères spéciaux, expansions en bash
+## Changer une variable d'envionnement
 
-TODO / FIXME
+Exemple :
 
-- `*`
-- `{foo,bar}`
-- `$foo`
-- simple / double quotes
-- echap
+```
+HOME=/usr/cache/
+```
 
+## Afficher une variable
 
+```
+$ echo $HOME
+/usr/cache/
+```
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Lister les variables d'envionnement
+
+`env` permet de lister les variables d'environnement
+
+```
+$ env
+LC_ALL=en_US.UTF-8
+HOME=/home/alex
+LC_MONETARY=fr_FR.UTF-8
+TERM=rxvt-unicode-256color
+[...]
+```
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Personnaliser l'invite de commande
+
+- La variable `PS1` décrit l'apparence de l'invite de commande !
+- Généralement, `PS1` vaut : `\u@\h:\w$`
+- `\u` corresponds au nom d'utilisateur
+- `\h` corresponds au nom de la machine (host)
+- `\w` corresponds au repertoire de travail (working directory)
+- `\n` corresponds ... à un retour à la ligne !
+
+`PS2` corresponds à l'invite de commande de deuxième niveau !
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Ecrire du texte en couleur
+
+Syntaxe absolument abominable 😭 !
+
+```
+echo -e "\033[31mCeci est en rouge\033[0m"
+echo -e "\033[32mCeci est en vert\033[0m"
+echo -e "\033[33mCeci est en jaune\033[0m"
+echo -e "\033[7mCeci est surligné\033[0m"
+echo -e "\033[31;1;7;6mCeci est surligné rouge gras surligné clignotant\033[0m"
+```
+
+Couleurs : 30 à 38
+
+Effets : 0 à 7
+
+---
+
+# 1 - Le(s) shell(s)
+
+## PS1 en couleur ...
+
+```
+PS1="\[\033[31;1;7;6m\]\u\[\033[0m\]@\h:\w$ "
+```
+
+🙀
+
+N.B. : pour les couleurs dans le PS1, ne pas oublier d'ajouter des `\[` et `\]` autour des codes couleurs ... sinon le terminal buggera à moitié...
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Définir des aliases
+
+Un alias est un nom "custom" pour une commande et des options
+
+```
+alias ll='ls -l'
+alias rm='rm -i'
+alias ls='ls --color=auto'
+```
+
+On peut connaître les alias existants avec juste `alias`
+
+(Mauvaise blague : définir `alias cd='rm -r'` !)
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Les fichiers de profil
+
+- Le fichier `~/.bashrc` est lu à chaque lancement de shell
+- Il permet de définir des commandes à lancer à ce moment
+- Par exemple, des alias à définir ou des variables à changer...
+- Pour appliquer les modifications, il faut faire `source ~/.bashrc`
+
+Autres fichiers de profils : `~/.profile` et `/etc/bash_profile`
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Quotes, caractères spéciaux, expansion (1/2)
+
+Les simple quotes empêche l'interprétation des caractères spéciaux
+
+```bash
+echo $HOME    # -> affiche le contenu de la variable
+echo "$HOME"  # -> affiche aussi le contenu de la variable
+echo '$HOME'  # -> affiche littéralement $HOME
+```
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Quotes, caractères spéciaux, expansion (1/2)
+
+Et aussi :
+
+```bash
+ls mon super fichier.pdf   # Donne sans doute des erreurs disans qu'il n'y a pas de 
+                           # fichier "mon", ni fichier "super", ni fichier "fichier.pdf"
+
+ls "mon super fichier.pdf" # -> fonctionne
+ls 'mon super fichier.pdf" # -> fonctionne
+
+ls $NOM_DE_FICHIER         # -> fonctionne si le fichier existe et ne contient pas d'espace
+ls "$NOM_DE_FICHIER"       # -> fonctionne même si le nom contient des espaces
+ls '$NOM_DE_FICHIER'       # -> affiche littéralement $NOM_DE_FICHIER
+```
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Quotes, caractères spéciaux, expansion (1/2)
+
+Wildcard / joker
+
+```bash
+echo *.py     # -> affiche le nom des fichiers qui se terminent 
+              # par .py dans le dossier courant
+              # (ou bien littéralement *.py si aucune match)
+
+echo "*.py"   # -> affiche *.py littéralement
+echo '*.py'   # -> affiche *.py littéralement
+```
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Quotes, caractères spéciaux, expansion (1/2)
+
+Tilde `~` désigne le répertoire personnel, par exemple : 
+
+```bash
+echo ~/toto
+
+# équivaut à écrire
+
+echo $HOME/toto
+
+# équivaut à écrire
+
+echo /home/<votre_user/toto
+```
 
 
 ---
+
+# 1 - Le(s) shell(s)
+
+## Quotes, caractères spéciaux, expansion (1/2)
+
+On peut "empêcher", ou "échapper" un caractère spécial avec `\`
+
+```bash
+echo \*.py    # Affiche littéralement: *.py
+echo \$HOME   # Affiche littéralement: $HOME
+```
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Quotes, caractères spéciaux, expansion (1/2)
+
+Un peu moins connu : l'utilisation des accolades `{}` : 
+
+```bash
+mv toto{,.bkp}
+
+# équivaut à écrire :
+
+mv toto toto.bkp
+```
+
+---
+
+
 
 class: impact
 
@@ -977,24 +1168,81 @@ echo "$MESSAGE"
 
 # 5 - Les variables
 
-## Notes diverses (1/5)
+## Concatenations
 
-- En bash, on manipule du texte !
+Pour fusionner ensemble plusieurs morceaux de chaines
 
 ```bash
-$ PI="3.14"
+SOUS_DOSSIER="Documents/factures"
+CHEMIN_COMPLET="$HOME/$SOUS_DOSSIER"
+echo $CHEMIN_COMPLET  # -> /home/alex/Documents/factures
+```
 
-$ NOMBRE="$PI+2"
-
-$ echo $NOMBRE
-3.14+2           # littéralement !
+Mais il existe aussi `+=` pour ajouter à la suite :
+```bash
+CHEMIN=$HOME
+CHEMIN+="/Documents/factures"
+echo $CHEMIN_COMPLET  # -> /home/alex/Documents/factures
 ```
 
 ---
 
 # 5 - Les variables
 
-## Notes diverses (2/5)
+## Calculs arithmétiques (1/3)
+
+- En bash, on manipule toujours du texte ! Il n'y a pas de typage ni de structure de données ! <small>(hormis les array, assez peu utilisés)</small>
+
+```bash
+$ X="3"
+
+$ Y="$X+2"
+
+$ echo $NOMBRE
+3+2           # littéralement !
+```
+
+---
+
+# 5 - Les variables
+
+## Calculs arithmétiques (2/3)
+
+- On peut réaliser des petits calculs avec `$(( calcul ))`
+
+```bash
+$ X="3"
+
+$ Y="$(($X+2))"
+
+$ echo $Y
+5
+```
+
+- Attention, ça ne marche qu'avec des entiers (pas des floats) !
+
+---
+
+# 5 - Les variables
+
+## Calculs arithmétiques (3/3)
+
+- On peut aussi incrémenter une variable avec `((VAR++))`
+
+```bash
+$ X="3"
+
+$ ((X++))
+
+$ echo $X
+4
+```
+
+---
+
+# 5 - Les variables
+
+## Pièges classiques (1/3)
 
 - Lorsqu'on utilise une variable, il faut mieux l'entourer de quotes :
 
@@ -1013,7 +1261,7 @@ $ ls -l "$FICHIER"
 
 # 5 - Les variables
 
-## Notes diverses (3/5)
+## Pièges classiques (2/3)
 
 - ACHTUNG : une variable inexistante est interprétée comme une chaîne vide... !
 
@@ -1029,7 +1277,7 @@ $ echo "$NB_DE_LINGE"
 
 # 5 - Les variables
 
-## Notes diverses (4/5)
+## Pièges classiques (3/3)
 
 - Pour utiliser une variable sans ambiguité, il est peut être nécessaire de l'ecrire avec `${VAR}` :
 
@@ -1042,26 +1290,6 @@ cp: missing destination file operand after 'stuff'
 
 $ cp $FICHIER ${FICHIER}_old
 # fonctionne !
-```
-
----
-
-# 5 - Les variables
-
-## Notes diverses (5/5)
-
-- L'utilisation de 'simple quotes' permet d'éviter l'interpretation des variables :
-- On peut aussi utiliser \ pour echapper un caractère :
-
-```bash
-$ echo "Mon home est $HOME"
-Mon home est /home/alex
-
-$ echo 'Mon home est $HOME'
-Mon home est $HOME
-
-$ echo "Mon home est \$HOME"
-Mon home est $HOME
 ```
 
 ---
@@ -1165,13 +1393,13 @@ Les conditions permettent d'adapter l'execution d'un programme en fonction de ca
 ## Avec les doubles crochets (1/3)
 
 ```bash
-NB_TERMINAUX_OUVERTS=$(ps -ef | grep bash | wc -l)
+NB_SHELL_OUVERTS=$(ps -ef | grep bash | wc -l)
 
-if [[ "$NB_TERMINAUX_OUVERTS" -ge "5" ]]
+if [[ "$NB_SHELL_OUVERTS" -ge "5" ]]
 then
    echo "Il y a pleins de terminaux ouverts sur cette machine !"
 else
-   echo "Il n'y a que $NB_TERMINAUX_OUVERTS sur cette machine "
+   echo "Il n'y a que $NB_SHELL_OUVERTS terminaux ouverts"
 fi
 ```
 
@@ -1315,15 +1543,37 @@ fi
 
 # 7 - Les conditions
 
-## Note sur les expressions entre crochet
+## Comparaison entre `if / else` et `&& / ||`
 
-`[[ expression ]]` peut être utilisé comme une vraie commande ! 
+Au final, `&&` et `||` ressemblent un peu à des "if/else" sur une seule ligne
 
-C'est souvent moins lourd à écrire pour des petites choses :
+On peut écrire
 
 ```bash
 [[ -f "$HOME/.bashrc" ]] || echo "Tu devrais créer un bashrc !"
 ```
+
+plutôt que 
+
+```bash
+if ! [[ -f "$HOME/.bashrc" ]]
+then
+    echo "Tu devrais créer un bashrc !"
+fi
+```
+
+---
+
+# 7 - Les conditions
+
+## À propos de `[[ expr ]]` vs `[ expr ]` et `test`
+
+- La syntaxe `[[ expr ]]` est spécifique à Bash et est "buil-in"
+- Lorsqu'on code pour des shells plus rudimentaires comme `sh`, on utilise `[ expr ]` (un seul crochet) qui grosso-modo fonctionne pareil
+- `[` est en fait littéralement un programme (!!) et `]` est le dernier argument donné à ce programme
+- On peut d'ailleurs voir que `/usr/bin/[` existe (!!) et même écrire `man [`
+- La commande `test` est jumelle de `[` (pareil mais sans mettre de `]` à la fin)
+- La syntaxe `[ expr ]` est recommandée par certaines personnes comparée à `[[ expr ]]` car elle est POSIX et donc plus portable.
 
 ---
 
@@ -1373,7 +1623,26 @@ if [[ $(ma commande) == 0 ]]    # Devrait être simplement: if ma_commande
 ```
 
 
+---
 
+# 7 - Les conditions
+
+## `case`
+
+```bash
+case $PAYS in
+  France | Allemagne | Italie | Espagne | Royaume-Uni)
+    echo "Tu habites en Europe de l'Ouest !"
+    ;;
+  Chine | Japon | Corée*)
+    echo "Tu habites en Asie !"
+    ;;
+  # [...]
+  *)
+    echo "Pays inconnu ?"
+    ;;
+esac
+```
 
 
 ---
@@ -1389,9 +1658,7 @@ if [[ $(ma commande) == 0 ]]    # Devrait être simplement: if ma_commande
 
 class: impact
 
-#  Bash scripts
-
-### 8 - Les fonctions
+# 8 - Les fonctions
 
 ---
 
@@ -1631,6 +1898,41 @@ done
 ```
 
 
+---
+
+# 9 - Boucles `for` / `while`
+
+## Boucle `until`
+
+Un peu moins répondu, similaire à la boucle `while` : execute des commandes JUSQU'À ce que la condition soit remplie
+
+```bash
+until CONDITION
+do
+   CMD1
+   CMD2
+   ...
+done
+```
+
+---
+
+# 9 - Boucles `for` / `while`
+
+## Itérer sur les lignes d'un fichier
+
+```bash
+while read ligne
+do
+  echo "$ligne"
+done < data.txt
+```
+
+Attention : cela ne préserve pas les espaces en début / fin de ligne. Pour ça il faut jouer avec la variable `IFS`. Voir https://stackoverflow.com/a/1521498 
+
+---
+
+- TODO / FIXME : rework exercice images (preparer des images?)
 
 
 ---
@@ -1860,6 +2162,11 @@ Exemple : matcher le dieze d'une ligne de commentaire : `^#`
 
 ---
 
+- FIXME / TODO explications grep et sed
+exo avec sed / search and replace ?
+
+---
+
 .center[
 ![](img/perfectregexemail.jpg)
 ]
@@ -2011,7 +2318,11 @@ class: impact
 
 ---
 
+TODO / FIXME
+- xargs?
 - Programmation parallèle
 - eval
 - tableaux
-- manip bash cheloues style ${foo:-}
+- manip bash cheloues style ${foo:-} / valeur par défaut / replace / ...
+
+
