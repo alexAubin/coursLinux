@@ -163,13 +163,7 @@ Combien prendre d'allumettes ?  [Attendre et enregister la réponse de l'utilisa
 
 ## 12 - Tâches automatiques avec `cron` et `at`
 
-- (TODO / FIXME / a retravailler)
-
 - 12.1 - Utiliser `at` (via un script) pour écrire, au bout de deux minutes, les mots "C'est automagique !" dans un fichier `magic.txt`. Dans les secondes avant que la tâche ne se déclenche, regardez le contenu du dossier `/var/spool/atjobs/`.
-- 12.2 - Sur votre serveur, dans un des dossiers `/etc/cron.*`, remarquez l'existence d'un script `logrotate`. Renseignez-vous sur l'utilité et la raison d'être de ce script/programme.
-- 12.3 - À l'aide de `wget`, ajoutez un cron job qui télécharge dans votre HOME chaque minute une image de chaton différente depuis `https://placekitten.com/` (on pourra utiliser la variable `$RANDOM` pour obtenir un entier aléatoire)
-- 12.4 - Sur votre serveur, téléchargez quelques images de chatons (ou autre) dans un nouveau dossier `img` dans `/var/www/mywebsite`. Créez un script (non automatisé pour le moment) qui permet de choisir une image aléatoire parmis toute celles disponible, et utilise cette image sur votre page d'acceuil. Pour ce faire, :
-    - vous pouvez choisir un nombre aléatoirement avec la variable spéciale `$RANDOM`,
-    - mettre en place un fichier `template.html` qui contient le code de votre page web mais où le chemin de l'image est un mot clef comme `CHEMIN_IMAGE`. Votre script pourra alors utiliser `sed` pour généner `index.html` en remplacant `CHEMIN_IMAGE` par le vrai chemin.
-- 12.5 - Une fois votre script validé, ajouter un job cron qui lancera ce script toutes les minutes pour choisir une nouvelle image aléatoirement
-- 12.6 - Même principe, mais cette fois créez une page `monitor.html` qui contiendra des informations régulièrement mises à jour (e.g. toutes les quelques minutes) à propos du serveur : RAM utilisée / disponible, uptime, processus les plus gourmands, l'heure qu'il est, et un rapport des IPs récemment bannies par fail2ban ...
+- 12.2 - Ajoutez à l'aide de `date` et `crontab -e` un cron "personnel" qui met toutes les 5 secondes la date qu'il est dans un fichier "date" dans votre répertoire personnel.
+- 12.3 - À l'aide de `wget`  ajoutez un cron job dans `/etc/cron.d/` qui télécharge dans votre répertoire personnel chaque minute une image de chat différente depuis `https://cataas.com/cat`. Vous pouvez utiliser l'option `-O <nom_de_fichier>` de `wget` qui permet de choisir le nom de fichier de destination.
+- 12.4 - Installez le paquet "logrotate" à l'aide de `apt`, puis regardez des les dossiers `/etc/cron.*` pour remarquez l'existence d'un script `logrotate`. Renseignez-vous sur l'utilité et la raison d'être de ce script/programme.

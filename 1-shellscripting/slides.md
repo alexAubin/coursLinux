@@ -427,7 +427,7 @@ Autres fichiers de profils : `~/.profile` et `/etc/bash_profile`
 
 # 1 - Le(s) shell(s)
 
-## Quotes, caractères spéciaux, expansion (1/2)
+## Quotes, caractères spéciaux, expansion (1/6)
 
 Les simple quotes empêche l'interprétation des caractères spéciaux
 
@@ -441,7 +441,7 @@ echo '$HOME'  # -> affiche littéralement $HOME
 
 # 1 - Le(s) shell(s)
 
-## Quotes, caractères spéciaux, expansion (1/2)
+## Quotes, caractères spéciaux, expansion (2/6)
 
 Et aussi :
 
@@ -461,7 +461,7 @@ ls '$NOM_DE_FICHIER'       # -> affiche littéralement $NOM_DE_FICHIER
 
 # 1 - Le(s) shell(s)
 
-## Quotes, caractères spéciaux, expansion (1/2)
+## Quotes, caractères spéciaux, expansion (3/6)
 
 Wildcard / joker
 
@@ -478,7 +478,7 @@ echo '*.py'   # -> affiche *.py littéralement
 
 # 1 - Le(s) shell(s)
 
-## Quotes, caractères spéciaux, expansion (1/2)
+## Quotes, caractères spéciaux, expansion (4/6)
 
 Tilde `~` désigne le répertoire personnel, par exemple : 
 
@@ -499,7 +499,7 @@ echo /home/<votre_user/toto
 
 # 1 - Le(s) shell(s)
 
-## Quotes, caractères spéciaux, expansion (1/2)
+## Quotes, caractères spéciaux, expansion (5/6)
 
 On peut "empêcher", ou "échapper" un caractère spécial avec `\`
 
@@ -512,7 +512,7 @@ echo \$HOME   # Affiche littéralement: $HOME
 
 # 1 - Le(s) shell(s)
 
-## Quotes, caractères spéciaux, expansion (1/2)
+## Quotes, caractères spéciaux, expansion (6/6)
 
 Un peu moins connu : l'utilisation des accolades `{}` : 
 
@@ -525,8 +525,6 @@ mv toto toto.bkp
 ```
 
 ---
-
-
 
 class: impact
 
@@ -1643,7 +1641,7 @@ if [[ -z "$(ma_commande)" ]]
 
 # 7 - Les conditions
 
-## Erreurs courantes (1/2)
+## Erreurs courantes (2/2)
 
 Confusion sur le code de retour
 
@@ -2092,6 +2090,7 @@ En particulier:
 - Définir systématiquement les variables comme `local`
 - Mettre systématiquement `$0`, `$1`, `$2`, ... (les arguments des fonctions) dans des variables pour 'documenter' leur signification
 - Définir et utiliser des petits utilitaires comme `is_empty` / `is_not_empty` plutôt que `[[ -z $var ]]` et `[[ -n $var ]]`
+- (Rester cohérent sur la casse utilisé pour les noms de variable/fonction (UPPERCASE? snake_case? CamelCase?))
 
 ---
 
@@ -2161,7 +2160,7 @@ class: impact
 - Utilisable dans pleins de langage de programmation, et outils des outils comme `grep`, `sed`, éditeurs de textes, ...
 - Tests en ligne : `regex101.com`
 - Attention, utilisation dans grep : `grep -E` (regex étendue) ou `-P` (regex perl / PCRE)
-- Plusieurs normes de regex : PCRE, lua, ...
+- Plusieurs normes de regex : PCRE, lua, ... <a href="https://www.greenend.org.uk/rjk/tech/regexp.html" style="color: gold;">comparaison des fonctionnalités</a>
 
 
 ---
@@ -2315,31 +2314,63 @@ Exemple : matcher le dieze d'une ligne de commentaire : `^#`
     - peut-être des espaces ou des `.` entre les chiffres
         - `0(\d[\.\s]?){8}\d`
 
----
-
-# 11 - Les expressions régulières
-
-## Tester des regex en ligne :  Exemple évolué
-
-- Matcher un numéro de téléphone français (européen ?)
-    - 10 chiffres, premier chiffre = 0
-        - `0\d{9}`
-    - peut-être des espaces ou des `.` entre les chiffres
-        - `0(\d[\.\s]?){8}\d`
+<!--
     - peut-être que le 0 est remplacé par un indicateur comme `+33`
         - `(\+\d{2,3}[\.\s]?|0)(\d[\.\s]?){8}\d`
-
-
----
-
-- FIXME / TODO explications grep et sed
-- exo avec sed / search and replace ?
+-->
 
 ---
 
 .center[
 ![](img/perfectregexemail.jpg)
 ]
+
+---
+
+# 11 - Les expressions régulières
+
+## Tester des regex en ligne : `regex101.com`
+
+---
+
+# 11 - Les expressions régulières
+
+## Les regex avec `grep`
+
+- `grep` par défaut utilise un type de regex "basique" (BRE)
+- ... peut utiliser des "extended" regex (ERE) avec `-E`
+- ... et le regex "complètes" PERL (PCRE) avec `-P`
+- <a href="https://www.greenend.org.uk/rjk/tech/regexp.html" style="color: gold;">comparaison des fonctionnalités</a>
+
+```
+echo "1234" | grep "^[0-9]*$"   # Fonctionne
+echo "1234" | grep "^[0-9]+$"   # Ne fonctionne pas sans -E ou -P 
+                                        ... ou alors avec \+
+echo "1234" | grep "^[0-9]{4}$" # Ne fonctionne pas sans -E ou -P
+echo "1234" | grep "^\d*$"      # Ne fonctionne pas sans -P
+```
+
+---
+
+# 11 - Les expressions régulières
+
+## Les regex avec `sed`
+
+- `sed` utilise les BRE ou ERE avec `-E` mais pas les PCRE
+- `sed` permet de remplacer les matchs ... et notamment des groupes `(expr)`
+
+Chercher et remplacer basique:
+
+```bash
+# Remplace les suites de 5 chiffres par XXXXX
+echo "12345" | sed -E 's@[0-9]{5}@XXXXX@g'
+```
+
+Chercher et remplacer avec des groupes (`\1`, `\2`):
+
+```bash
+echo "12345" | sed -E 's@([0-9]{2})([0-9]{3})@departement:\1 bureau:\2@g'
+```
 
 ---
 
@@ -2399,11 +2430,17 @@ job 6 at Thu Oct 6 20:22:00 2018
 10 * 1 * * /chemin/vers/un/script
 ```
 
+- Heure
+- Minute
+- Jour du mois
+- Mois
+- Jour de la semaine
+
 ---
 
 # 12 - Automatiser
 
-## Les jobs cron : syntaxe (1/3)
+## Les jobs cron : syntaxe (1/4)
 
 ```
 10 * 1 * * /chemin/vers/un/script
@@ -2419,7 +2456,7 @@ job 6 at Thu Oct 6 20:22:00 2018
 
 # 12 - Automatiser
 
-## Les jobs cron : syntaxe (2/3)
+## Les jobs cron : syntaxe (2/4)
 
 ```
 0 8 * * 1-5 /chemin/vers/un/script
@@ -2453,7 +2490,7 @@ job 6 at Thu Oct 6 20:22:00 2018
 
 ## Les jobs cron : syntaxe (4/4)
 
-- `http://crontab.guru/` to the rescue !
+- <a href="http://crontab.guru/" style='color: gold;'>crontab.guru</a> to the rescue !
 
 ---
 
@@ -2484,15 +2521,165 @@ job 6 at Thu Oct 6 20:22:00 2018
 
 class: impact
 
-# 13 - Misc / Astuces / syntaxes avancées
+# 13 - Astuces diverses, syntaxes avancées
 
 ---
 
-TODO / FIXME
-- xargs?
-- Programmation parallèle
-- eval
-- tableaux
-- manip bash cheloues style ${foo:-} / valeur par défaut / replace / ...
+# 13 - Astuces diverses, syntaxes avancées
+
+## Syntaxes d'expansion 'avancées'
+
+⚠️  efficace mais obscur... | <a href="https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html" style="color: gold">Documentation</a>
+
+- `${VAR:-default}` : retourne `$VAR` si non-vide, sinon `default`
+- `${VAR:X:Y}` : retourne les caractères X à Y de `$VAR` (par ex de 7 à -2)
+- `${VAR/pattern/replace}` : retourne `$VAR` mais avec `pattern` remplacé par `replace`
+- `${VAR//pattern}` : retourne `$VAR` mais sans les occurences de `pattern`
+- `${VAR%%pattern}` : retourne `$VAR` mais en supprimant `pattern` à la fin de la chaine
+- `${VAR^^}`, `${VAR,,}` : retourne `$VAR` mais tout en majuscule ou tout en minuscule
+
+Autres astuces "pure bash" documentées <a href="https://github.com/dylanaraps/pure-bash-bible/blob/master/README.md#strings" style="color: gold">ici</a>
+
+---
+
+# 13 - Astuces diverses, syntaxes avancées
+
+## `eval` (what could go <a href="https://imgs.xkcd.com/comics/goto.png" style="color:gold;">wrong</a>?)
+
+Pour des cas d'usage avancés / meta ... Par exemple : définir une variable dont le nom est contenu dans une variable : 
+
+```bash
+VARNAME=toto
+eval "$VARNAME=coucou"
+echo $toto   # -> Affiche coucou
+```
+
+⚠️  NB: comme dans les autres langages, `eval` est à utiliser avec des précautions, SURTOUT si des entrées utilisateur interviennent dedans.
+
+---
+
+# 13 - Astuces diverses, syntaxes avancées
+
+## Tableaux / "array"
+
+Bash peut manipuler des "vrais" tableaux de données (attention à la syntaxe !
+
+```bash
+# Initialiser un tableau
+IFS= LEGUMES=(patate carotte tomate "choux rouge")
+
+# Ajouter une valeur
+LEGUMES+=(poireau)
+
+# Itérer dessus
+for legume in ${LEGUMES[@]}; do
+    echo $legume
+done
+```
+
+---
+
+# 13 - Astuces diverses, syntaxes avancées
+
+## `xargs` (1/2)
+
+Des fois, nous voudrions utiliser la sortie d'une commande comme **arguments** d'une autres commandes, quelque chose comme : 
+
+```bash
+cat fichiers_a_supprimer | rm
+# rm: missing operand
+```
+
+On peut potentiellement écrire: `rm $(cat fichiers_a_supprimer)`
+
+Mais on peut aussi utiliser `xargs` : 
+
+```bash
+cat fichiers_a_supprimer | xargs
+```
+
+---
+
+# 13 - Astuces diverses, syntaxes avancées
+
+## `xargs` (2/2)
+
+`xargs` s'arrange pour appeler la commande spécifiée avec comme argument les données de l'*entrée standard*
+
+- `xargs -a <fichier> <cmd>` peut également utiliser le contenu d'un fichier comme argument de la commande
+- `<cmd1> | xargs -p <cmd2>` pour demander confirmation avant chaque action
+- `<cmd1> | xargs -P 3 -n 1 <cmd2>` pour paralleliser sur 3 CPU les commandes (avec 1 argument par commande)
+
+---
+
+# 13 - Astuces diverses, syntaxes avancées
+
+## Parallèlisation / asynchrone en bash (1/4)
+
+`<cmd1> | parallel --jobs <N> <cmd2>` est une alternative à xargs pour paralleliser des tâches
+
+`parallel` est un outil "récent" installable avec `apt install parallel`
+
+---
+
+# 13 - Astuces diverses, syntaxes avancées
+
+## Parallèlisation / asynchrone en bash (2/4)
+
+On peut également, dans un script :
+- lancer un (ou plusieurs) process en arrière plan avec `cmd &`
+- obtenir le PID du process qui vient d'être lancé, via la variable spéciale `$!`
+- attendre la fin d'un process avec `wait $PID`
+
+On peut ainsi reproduire "à la main" quelque chose de similaire à `parallel` par exemple.
+
+---
+
+# 13 - Astuces diverses, syntaxes avancées
+
+## Parallèlisation / asynchrone en bash (3/4)
+
+Dans certains cas, on souhaite pouvoir communiquer après-coup des données aux sous-process en arrière plan ... ou bien récupérer sa sortie ... dans ce cas là on peut créer des "tuyaux nommé" (name pipe):
+
+```bash
+# Créer un tuyau "in" et un tuyau "out"
+mkfifo in out
+
+# Lancer le process en arrière plan
+ma_commande <in >out &
+
+# Envoyer des données en entrée
+cat data.txt > in
+
+# Lire la sortie et mettre le résultat dans RESULT
+read RESULT < out
+```
+
+---
+
+# 13 - Astuces diverses, syntaxes avancées
+
+## Parallèlisation / asynchrone en bash (4/4)
+
+... ou alors, lancer les process avec `coproc` : 
+
+```bash
+# Lancer la commande et nommer ce sousprocess "mycoproc"
+coproc mycoproc { cmd; }
+
+# Injecter des données après-coup sur l'entrée standard
+echo my input data >&"${mycoproc[1]}"
+
+# Lire la sortie de la commande
+result="$(cat <&"${mycoproc[0]}")"
+```
+
+Plus d'infos dans <a href="https://unix.stackexchange.com/questions/86270/how-do-you-use-the-command-coproc-in-various-shells" style="color: gold;">ce thread stack-overflow</a>
+
+---
+
+# 13 - Astuces diverses, syntaxes avancées
+
+Divers utilitaires et ressources autour de Bash : <a href="https://github.com/awesome-lists/awesome-bash/blob/master/README.md" style="color: gold;">awesome-bash</a>
 
 
