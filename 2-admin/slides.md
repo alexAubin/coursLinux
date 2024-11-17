@@ -1,4 +1,4 @@
-title: Linux administration
+title: Administration Linux
 class: animation-fade
 layout: true
 
@@ -6,9 +6,133 @@ layout: true
 
 class: impact
 
-# Administration Linux
+<h1 style="font-size:4em;">
+Administration Linux<br/>
+</h1>
+
+<h2 style="font-size:2em;">Installation et mise en oeuvre</h2>
+
+.center[
+![](img/jedi.png)
+]
 
 ---
+
+# À propos de moi
+
+.col-12[
+.col-4[
+.center[
+![](img/me.jpg)
+]
+]
+
+.col-8[.center[
+<br>
+<br>
+`https://github.com/alexAubin`
+<br>
+<br>
+`alex.aubin@mailoo.org`
+<br>
+<br>
+]]
+]
+
+.col-4[.center[
+Ingénieur/Physicien
+
+![](img/cern.png)
+</br>
+![](img/particles.jpg)
+]]
+
+.col-4[.center[
+Dev / adminsys / ...
+
+![](img/yunohost.png)
+![](img/arn.png)
+![](img/odoo.png)
+]]
+
+.col-4[.center[
+Formateur
+
+![](img/python_arduino_linux.png)
+]]
+
+---
+
+# À propos de vous
+
+---
+
+# Organisation
+
+## Horaires
+
+- 9h00 -> 12h30 <small>(pause de 10 min autour de 10h30)</small>
+- Repas
+- 13h30 -> 17h00 <small>(pause de 10 min autour de 15h30)</small>
+
+.center[
+(soit 7h00 de formation / jour !)
+]
+
+## Émargement : toutes les demi-journées
+
+## Évaluation de la formation : le dernier jour
+
+---
+
+# Plan de la formation
+
+- **Jour 1**
+  - 0 - Rappels (?)
+  - 1 - Le(s) shell(s)
+  - 2 - Écrire et exécuter des scripts
+  - 3 - Enchainement de commandes et redirections
+  - 4 - Pipes (`|`), filtres, boîte à outils
+- **Jour 2**
+  - 5 - Installer une distribution, gérer les partitions
+  - 6 - Le gestionnaire de paquet (+ discussion sur les archives)
+- **Jour 3**
+  - 7 - Notions de réseau
+  - 8 - Notions de cryptographie
+  - 9 - Se connecter et gérer un serveur avec SSH
+
+---
+
+# Plan de la formation
+
+- **Jour 4**
+  - 10 - `systemd`, services et sécurité basique d'un serveur
+  - 11 - Déployer un site "basique" avec nginx
+  - 12 - Tâches automatiques (cron)
+- **Jour 5**
+  - 13 - Déployer une "vrai" app : Nextcloud ?
+  - 14 - Conteneurs Docker, LXC, approche DevOps ?
+
+---
+
+# Méthode de travail
+
+- Alternance théorie / pratique
+- Publication du contenu au fur et à mesure
+    - sur <a href="https://aleks.internetlib.re/docs/formationLinux" style="color: gold;">aleks.internetlib.re/docs/formationLinux</a>
+- Travail dans une machine virtuelle Guacamole
+    - sur <a href="https://formationlinux.internetlib.re/" style="color: gold;">formationlinux.internetlib.re</a> (en HTTP sans s !)
+    - login: votre prenom en minuscule
+    - password: `ilovelinux`
+- N'hésitez pas à poser des questions - je suis payé pour ça !
+
+
+
+---
+
+class: impact
+
+# 0 - Rappels (?)
 
 .center[
 ![](img/previously.jpg)
@@ -16,66 +140,1095 @@ class: impact
 
 ---
 
-# Previously on Games of Codes
+# 0 - Rappels (?)
 
-- Découverte de Linux
-- La ligne de commande
-- Des fichiers
-- Des utilisateurs et des permissions
-- Des processus
-- Assembler des commandes
-- Écriture de script
+## (1/5) La ligne de commande
+
+- `cd` pour changer de dossier courant
+- `ls` / `ls -l` / `ll` pour lister les fichiers
+    - les fichiers commençant par `.` ne sont pas affichés par défaut
+- Les commandes ont des options courtes (par ex. `-f`) ou longues (par ex. `--fullscreen`)
+- Obtenir de l'aide : `cmd --help` (ou `-h`), ou `man cmd`
 
 ---
 
-# Rappels
+# 0 - Rappels (?)
+
+## (2/5) Raccourcis clavier
+
+- Auto-complétion avec `Tab`ulation
+- Flèches haut/bas pour retrouver les commandes précédentes
+- `Ctrl+R` pour chercher dans les commandes précédentes, `history` pour afficher tout l'historique
+- `Ctrl+C` pour annuler la commande en cours
+- `Ctrl+A`/`E` pour aller au début / à la fin, `Ctrl+U` pour effacer tout ce qui est à gauche
+- Copier-coller avec sélection et clic-du-milieu, ou bien `Ctrl+Insert` et `Shift+Insert`
 
 .center[
-### Utilisez [Tab], ↑ ↓, et Ctrl+A/E !
+### Utilisez [Tab] et ↑ ↓
 
-### Soyez attentif à ce que vous tapez et à ce que la machine vous renvoie
+### Et soyez attentif à ce que vous tapez
+
+### et à ce que la machine vous renvoie !
 ]
 
----
-
-# Cette semaine
-
-- installer et gérer une distribution
-- acquérir des bases de réseau et de sécurité
-- administrer un serveur à distance
-- configurer et gérer des services
-- déployer un serveur web / des apps web
 
 ---
 
-# Plan
+# 0 - Rappels (?)
 
-1. Installer une distribution, gérer les partitions
-2. Le gestionnaire de paquet (et les archives)
-3. Notions de réseau
-4. Notions de cryptographie
-5. Se connecter et gérer un serveur avec SSH
-6. Services et sécurité basique d'un serveur
-7. Déployer un site "basique" avec nginx
-8. Déployer une "vrai" app : Nextcloud ?
+## (3/5) Manipuler des fichiers
+
+- chemin relatif vs chemin absolu
+    - en particulier, pas besoin de systématiquement se déplacer avec `cd` pour manipuler un fichier
+- **Créer** / **éditer** des fichiers textes : `nano` (ou `vim`)
+- **Créer un dossier**: `mkdir <dossier>`
+- **Afficher** un fichier dans le terminal : `cat <fichier>`
+    - ou `tail -n 20 <fichier>` pour les 20 dernières lignes
+- **Déplacer/renommer**: `mv <source> <destination>` (move)
+- **Copier** : `cp <source> <destination>` (ou `cp -r` pour un dossier)
+- **Supprimer** : `rm <cible>` (ou `rm -r` pour un dossier)
+- Récupérer des fichiers depuis internet (via une URL) `wget <url>` ou `curl <url>`
+
+---
+
+# 0 - Rappels (?)
+
+## (4/5) Utilisateurs et permissions
+
+- Chaque user a un répertoire personnel, classiquement `/home/<username>/`
+- `root` est dieu sur la machine
+- `sudo` permet d'exécuter ponctuellement une commande en tant que `root` (si on est *sudoers*)
+    - `sudo su` ou `sudo -i` pour ouvrir un shell interactif
+- `groups` pour lister les groupes dans lesquelles nous sommes
+- Les users sont référencés dans dans `/etc/passwd`
+- Les permissions et propriétaires des fichiers sont montrés dans le retour de `ls -l` 
+- `chmod` : changer les permissions
+- `chown` : changer le propriétaire / groupe
+- `namei -l /chemin/du/fichier` <small>pour inspecter les permissions de tout un chemin</small>
+
+---
+
+# 0 - Rappels (?)
+
+## (5/5) Les processus
+
+- Différence entre programme et processus
+- Notion de PID, PPID, de propriétaire et permission
+- `ps -ef --forest` pour voir l'arborescence des process en cours
+- `top`, `htop` pour voir "dynamiquement" les process en cours (notamment conso de CPU/RAM)
+- `cmd &` pour lancer une commande en arrière-plan <small>(ou aussi : `Ctrl+Z` puis `bg` si on a oublié de mettre le `&`)</small>
+- `screen` / `tmux` pour lancer des commandes sans être lié à un terminal particulier 
+- `kill` / `kill -9` pour tuer un process via son PID
 
 ---
 
 class: impact
 
-# 1. Installer une distribution
+# 1 - Le(s) shell(s)
+
+---
+
+# 1 - Le(s) shell(s)
+
+### Origine historique : le tty (teletype)
+
+.center[
+![](img/tty1.jpg)
+![](img/tty2.jpg)
+]
+
+---
+
+# 1 - Le(s) shell(s)
+
+### Le terminal
+
+Dans le temps, il s'agissait d'une machine sans interface graphique, similaire à un minitel qui permettait d'interagir avec le "vrai" ordinateur (mainframe) à distance.
+
+De nos jours, par abus de language un terminal est en fait un **émulateur** de terminal, c'est-à-dire un programme qui émule la même fonctionnalité. (La distinction terminal/mainframe a disparu)
+
+### Le shell
+
+Il s'agit du programme qui gère l'invite de commande et l'execution des commandes tapées. Classiquement, il s'agit de `bash`. Il existe d'autres shell comme `sh`, `zsh`, `fish`, ...
+
+Lorsque l'on programme dans certains languages de scripting, on parle aussi de shell `python`, `perl`, `ruby`, `javascript`, ...
+
+Un shell que vous utilisez peut potentiellement être situé sur une autre machine que celle devant laquelle vous êtes !
+
+---
+
+# 1 - Le(s) shell(s)
+
+### Les différents shells
+
+- `bash` ("Bourne-Again" shell) : c'est le plus classique, souvent utilisé aussi pour créer des scripts
+- `sh` (aussi appellé `dash`) : c'est l'ancêtre de `bash`, plus rudimentaire (pas d'historique, pas d'autocomplétion)
+- `zsh` : un shell plus puissant que `bash` (meilleur autocomplétion, partage d'historique entre les shells ouverts, correction des typos, ..)
+- `fish` : un shell encore plus moderne et convivial
+- et d'autres moins courants / historiques : `ash`, `csh`, `ksh`, ...
+
+.center[
+![](img/evolution_of_shells.gif)
+]
+
+---
+
+# 1 - Le(s) shell(s)
+
+- Le shell qu'on utilise par défaut est configuré dans `/etc/passwd`
+- On peut le changer avec `chsh`
+- On peut aussi simplement lancer manuelle un shell en lançant la commande : `bash`, `zsh`, `python`, ...
+
+----
+
+- Dans certains contextes on utilise un shell qui n'est pas la machine devant laquelle on est:
+    - Lancer une session `ssh`
+    - Ouvrir un shell dans un docker ou un LXC
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Variables d'envionnement
+
+Lorsque vous êtes dans un shell, il existe des *variables d'environnement* qui définissent certains comportements.
+
+Par exemple, la variable 'HOME' contient `/home/padawan` et corresponds à l'endroit où `cd` retourne par défaut (si pas de dossier donné en argument)
+
+Autre exemples :
+
+```
+SHELL : /bin/bash (généralement)
+LANG, LC_ALL, ... : langue utilisée par les messages
+USER, USERNAME : nom d'utilisateur
+```
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Changer une variable d'envionnement
+
+Exemple :
+
+```
+HOME=/usr/cache/
+```
+
+## Afficher une variable
+
+```
+$ echo $HOME
+/usr/cache/
+```
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Lister les variables d'envionnement
+
+`env` permet de lister les variables d'environnement
+
+```
+$ env
+LC_ALL=en_US.UTF-8
+HOME=/home/alex
+LC_MONETARY=fr_FR.UTF-8
+TERM=rxvt-unicode-256color
+[...]
+```
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Personnaliser l'invite de commande
+
+- La variable `PS1` décrit l'apparence de l'invite de commande !
+- Généralement, `PS1` vaut : `\u@\h:\w$`
+- `\u` corresponds au nom d'utilisateur
+- `\h` corresponds au nom de la machine (host)
+- `\w` corresponds au repertoire de travail (working directory)
+- `\n` corresponds ... à un retour à la ligne !
+
+`PS2` corresponds à l'invite de commande de deuxième niveau !
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Ecrire du texte en couleur
+
+Syntaxe absolument abominable 😭 !
+
+```
+echo -e "\033[31mCeci est en rouge\033[0m"
+echo -e "\033[32mCeci est en vert\033[0m"
+echo -e "\033[33mCeci est en jaune\033[0m"
+echo -e "\033[7mCeci est surligné\033[0m"
+echo -e "\033[31;1;7;6mCeci est surligné rouge gras surligné clignotant\033[0m"
+```
+
+Couleurs : 30 à 38
+
+Effets : 0 à 7
+
+---
+
+# 1 - Le(s) shell(s)
+
+## PS1 en couleur ...
+
+```
+PS1="\[\033[31;1;7;6m\]\u\[\033[0m\]@\h:\w$ "
+```
+
+🙀
+
+N.B. : pour les couleurs dans le PS1, ne pas oublier d'ajouter des `\[` et `\]` autour des codes couleurs ... sinon le terminal buggera à moitié...
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Définir des aliases
+
+Un alias est un nom "custom" pour une commande et des options
+
+```
+alias ll='ls -l'
+alias rm='rm -i'
+alias ls='ls --color=auto'
+```
+
+On peut connaître les alias existants avec juste `alias`
+
+(Mauvaise blague : définir `alias cd='rm -r'` !)
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Les fichiers de profil
+
+- Le fichier `~/.bashrc` est lu à chaque lancement de shell
+- Il permet de définir des commandes à lancer à ce moment
+- Par exemple, des alias à définir ou des variables à changer...
+- Pour appliquer les modifications, il faut faire `source ~/.bashrc`
+
+Autres fichiers de profils : `~/.profile` et `/etc/bash_profile`
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Quotes, caractères spéciaux, expansion (1/6)
+
+Les simple quotes empêche l'interprétation des caractères spéciaux
+
+```bash
+echo $HOME    # -> affiche le contenu de la variable
+echo "$HOME"  # -> affiche aussi le contenu de la variable
+echo '$HOME'  # -> affiche littéralement $HOME
+```
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Quotes, caractères spéciaux, expansion (2/6)
+
+Et aussi :
+
+```bash
+ls mon super fichier.pdf   # Donne sans doute des erreurs disans qu'il n'y a pas de 
+                           # fichier "mon", ni fichier "super", ni fichier "fichier.pdf"
+
+ls "mon super fichier.pdf" # -> fonctionne
+ls 'mon super fichier.pdf" # -> fonctionne
+
+ls $NOM_DE_FICHIER         # -> fonctionne si le fichier existe et ne contient pas d'espace
+ls "$NOM_DE_FICHIER"       # -> fonctionne même si le nom contient des espaces
+ls '$NOM_DE_FICHIER'       # -> affiche littéralement $NOM_DE_FICHIER
+```
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Quotes, caractères spéciaux, expansion (3/6)
+
+Wildcard / joker
+
+```bash
+echo *.py     # -> affiche le nom des fichiers qui se terminent 
+              # par .py dans le dossier courant
+              # (ou bien littéralement *.py si aucune match)
+
+echo "*.py"   # -> affiche *.py littéralement
+echo '*.py'   # -> affiche *.py littéralement
+```
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Quotes, caractères spéciaux, expansion (4/6)
+
+Tilde `~` désigne le répertoire personnel, par exemple : 
+
+```bash
+echo ~/toto
+
+# équivaut à écrire
+
+echo $HOME/toto
+
+# équivaut à écrire
+
+echo /home/<votre_user/toto
+```
+
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Quotes, caractères spéciaux, expansion (5/6)
+
+On peut "empêcher", ou "échapper" un caractère spécial avec `\`
+
+```bash
+echo \*.py    # Affiche littéralement: *.py
+echo \$HOME   # Affiche littéralement: $HOME
+```
+
+---
+
+# 1 - Le(s) shell(s)
+
+## Quotes, caractères spéciaux, expansion (6/6)
+
+Un peu moins connu : l'utilisation des accolades `{}` : 
+
+```bash
+mv toto{,.bkp}
+
+# équivaut à écrire :
+
+mv toto toto.bkp
+```
+
+---
+
+class: impact
+
+# 2 - Écrire et executer des scripts
+
+---
+
+# 2 - Écrire / executer des scripts
+
+## Des scripts
+
+- `bash` <small>(`/bin/bash`)</small> est un interpreteur
+    - en mode interactif, un interpréteur de commande est souvent appelé un shell
+- Plutôt que de faire de l'interactif, on peut écrire une suite d'instruction qu'il doit executer (un script)
+- Un script peut être considéré comme un type de programme <small>(caractérisé par le fait qu'il reste de taille modeste)</small>
+
+---
+
+# 2 - Écrire / executer des scripts
+
+## Utilité des scripts bash
+
+Ce que ça ne fait généralement **pas** :
+- du calcul scientifique
+- des interfaces graphiques / web
+- des manipulations 'fines' d'information
+
+Ce que ça fait plutôt bien :
+- prototypage rapide
+- automatisation de tâches d'administration (fichiers, commandes, ..)
+- de la "glue" entre différents programmes
+- simplifier des procédures complexes mais en gardant une dose de paramétrabilité / interactivité
+
+---
+
+# 2 - Écrire / executer des scripts
+
+## Ecrire un script (1/2)
+
+```bash
+#!/bin/bash
+
+# Un commentaire
+cmd1
+cmd2
+cmd3
+...
+
+exit 0    # (Optionnel, 0 par defaut)
+```
+
+---
+
+# 2 - Écrire / executer des scripts
+
+## Ecrire un script (2/2)
+
+```bash
+#!/bin/bash
+
+echo "Hello, world !"
+echo "How are you today ?"
+```
+
+---
+
+# 2 - Écrire / executer des scripts
+
+## `exit`
+
+- `exit` permet d'interrompre le script immédiatement
+- `exit 0` quitte et signale que tout s'est bien passé
+- `exit 1` (ou une valeur différente de 0) quitte et signale un problème
+
+---
+
+# 2 - Écrire / executer des scripts
+
+## Executer un script (1/3)
+
+Première façon : avec l'interpreteur `bash`
+
+- `bash script.sh` execute `script.sh` dans un processus à part
+- on annonce explicitement qu'il s'agit d'un script bash
+    - dans l'absolu, pas besoin d'avoir mis `#!/bin/bash`
+
+---
+
+# 2 - Écrire / executer des scripts
+
+## Executer un script (2/3)
+
+Deuxième façon : avec `source`
+
+- `source script.sh` execute le script **dans** le terminal en cours
+- 95% du temps, ce n'est pas `source` qu'il faut utiliser pour votre cas d'usage !
+- Cas d'usage typique de `source` : recharger le `.bashrc`
+- (Autre cas : `source venv/bin/activate` pour les virtualenv python)
+
+---
+
+# 2 - Écrire / executer des scripts
+
+## Executer un script (3/3)
+
+Troisième façon : en donnant les permissions d'execution à votre script
+
+```
+chmod +x script.sh   # À faire la première fois seulement
+./script.sh
+```
+
+- l'interpreteur utilisé sera implicitement celui défini après le `#!` à la première ligne
+- (dans notre cas : `#!/bin/bash`)
+
+---
+
+# 2 - Écrire / executer des scripts
+
+## Parenthèse sur la variable `PATH` (1/2)
+
+La variable d'environnement `PATH` défini où aller chercher les programmes
+
+```bash
+$ echo $PATH
+/usr/local/bin:/usr/bin:/bin:/usr/local/sbin
+
+$ which ls
+/usr/bin/ls
+
+$ which script.sh
+which: no script.sh in (/usr/local/bin:/usr/bin:/bin:/usr/local/sbin
+```
+
+---
+
+# 2 - Écrire / executer des scripts
+
+## Parenthèse sur la variable `PATH` (2/2)
+
+```bash
+$ ./script.sh  # Fonctionnera (si +x activé)
+$ script.sh    # Ne fonctionnera a priori pas
+```
+
+Néanmoins il est possible d'ajouter des dossiers à `PATH` :
+
+```bash
+PATH="$PATH:/home/padawan/my_programs/"
+```
+
+Ensuite, vous pourrez utiliser depuis n'importe où les programmes dans `~/my_programs` !
+
+---
+
+# 2 - Écrire / executer des scripts
+
+## Résumé
+
+- `bash script.sh` est la manière "explicite" de lancer un script bash
+- `./script.sh` lance un executable (+x) via un chemin absolu ou relatif
+- `source script.sh` execute le code *dans le shell en cours* !
+- `script.sh` peut être utilisé seulement si le script est dans un des dossier de `PATH`
+
+
+
+
+
+
+
+
+---
+
+class: impact
+
+# 3 - Redirections, assemblages
+
+---
+
+# 3 - Redirections, assemblages
+
+## Schema fonctionnel d'une commande
+
+- Une commande est une boîte avec des entrées / sorties
+- et un code de retour (`$?`)
+   - 0 : tout s'est bien passé
+   - 1 (ou toute valeur différente de 0) : problème !
+
+.center[
+![](img/commandbox.png)
+]
+
+---
+
+# 3 - Redirections, assemblages
+
+## Entrées / sorties
+
+.center[
+![](img/commandbox.png)
+]
+
+- **arguments** : donnés lors du lancement de la commande (ex: `/usr/` dans `ls /usr/`)
+- **stdin** : flux d'entrée (typ. viens du clavier)
+- **stdout** : flux de sortie (typ. vers le terminal)
+- **stderr** : flux d'erreur (typ. vers le terminal aussi !)
+
+---
+
+# 3 - Redirections, assemblages
+
+## Code de retour
+
+```bash
+$ ls /toto
+ls: cannot access '/toto': No such file or directory
+$ echo $?
+2
+```
+
+---
+
+# 3 - Redirections, assemblages
+
+## Rediriger les entrées/sorties (1/3)
+
+- `cmd > fichier` : renvoie stdout vers un fichier (le fichier sera d'abord écrasé !)
+- `cmd >> fichier ` : ajoute stdout à la suite du fichier
+- `cmd < fichier` : utiliser 'fichier' comme stdin pour la commande
+- `cmd <<< "chaine"` : utiliser 'chaine" comme stdin pour la commande
+
+Exemples
+
+```bash
+ls -la ~/ > tous_mes_fichiers.txt  # Sauvegarde la liste de tous les fichiers dans le home
+echo "manger" >> todo.txt          # Ajoute "manger" a la liste des choses à faire
+wc <<< "une grande phrase"           # Compte le nomde de mot d'une chaine
+```
+
+---
+
+# 3 - Redirections, assemblages
+
+## Rediriger les entrées/sorties (2/3)
+
+- `commande 2> fichier` : renvoie stderr vers un fichier (le fichier sera d'abord écrasé !)
+- `commande 2>&1` : renvoie stderr vers stdout !
+- `commande &> fichier` : renvoie stderr *et* stdout vers un fichier (le fichier sera d'abord écrasé !)
+
+Exemples :
+
+```bash
+ls /* 2> errors  # Sauvegarde les erreurs dans 'errors'
+ls /* 2>&1 > log # Redirige les erreurs vers stdout (la console) et stdout vers 'log'
+ls /* > log 2>&1 # Redirige tout vers 'log' !
+ls /* &> log     # Redirige tout vers 'log' !
+```
+
+---
+
+# 3 - Redirections, assemblages
+
+## Rediriger les entrées/sorties (3/3)
+
+Fichiers speciaux :
+- `/dev/null` : puit sans fond (trou noir)
+- `/dev/urandom` : generateur aleatoire (trou blanc)
+
+.center[
+![](img/bottomlesspit.png)
+]
+
+---
+
+# 3 - Redirections, assemblages
+
+## Rediriger les entrées/sorties (3/3)
+
+Fichiers speciaux :
+- `/dev/null` : puit sans fond (trou noir)
+- `/dev/urandom` : generateur aleatoire (trou blanc)
+
+```bash
+ls /* 2> /dev/null           # Ignore stderr
+mv ./todo.txt /dev/null      # Façon originale de supprimer un fichier !
+head -c 5 < /dev/urandom     # Affiche 5 caractères de /dev/urandom
+cat /dev/urandom > /dev/null # Injecte de l'aleatoire dans le puit sans fond
+```
+
+---
+
+# 3 - Redirections, assemblages
+
+## Assembler des commandes
+
+Executer plusieurs commandes à la suite :
+
+- `cmd1; cmd2` : execute `cmd1` puis `cmd2`
+- `cmd1 && cmd2` : execute `cmd1` puis `cmd2` mais seulement si `cmd1` reussie !
+- `cmd1 || cmd2` : execute `cmd1` puis `cmd2` mais seulement si `cmd1` a échoué
+- `cmd1 && { cmd2; cmd3; }` : "groupe" `cmd2` et `cmd3` ensemble (attention à la syntaxe !!)
+
+Que fait `cmd1 && cmd2 || cmd3` ?
+
+---
+
+class: impact
+
+# 4 - Pipes et boîte à outils
+
+---
+
+# 4 - Pipes et boîte à outils
+
+## Pipes ! (1/3)
+
+- `cmd1 | cmd2` permet d'assembler des commandes de sorte à ce que le `stdout` de `cmd1` devienne le `stdin` de `cmd2` !
+
+Exemple : `cat /etc/login.defs | head -n 3`
+
+.center[
+![](img/pipe.png)
+]
+
+- (Attention, par défaut `stderr` n'est pas affecté par les pipes !)
+
+---
+
+# 4 - Pipes et boîte à outils
+
+## Pipes ! (2/3)
+
+Lorsqu'on utilise des pipes, c'est generalement pour enchaîner des opérations comme :
+- générer ou récupérer des données
+- filtrer ces données
+- modifier ces données à la volée
+
+Sous Linux : tout est fichier / tout est flux de texte
+
+---
+
+# 4 - Pipes et boîte à outils
+
+## Pipes ! (3/3)
+
+Precisions techniques
+- La transmission d'une commande à l'autre se fait "en temps réel". La première commande n'a pas besoin d'être terminée pour que la deuxieme commence à travailler.
+- Si la deuxieme commande a terminée, la première *peut* être terminée prématurément (SIGPIPE).
+    - C'est le cas par exemple pour `cat tres_gros_fichier | head -n 3`
+
+---
+
+# 4 - Pipes et boîte à outils
+
+## Boîte à outils : `tee`
+
+`tee` permet de rediriger `stdout` vers un fichier tout en l'affichant quand meme dans la console
+
+```bash
+tree ~/documents | tee arbo_docs.txt  # Affiche et enregistre l'arborescence de ~/documents
+openssl speed | tee -a tests.log      # Affiche et ajoute la sortie de openssl à la suite de tests.log
+```
+
+(Note à propos de `commande | sudo tee fichier`)
+
+---
+
+# 4 - Pipes et boîte à outils
+
+## Boîte à outils : `grep` (1/3)
+
+`grep` permet de trouver des lignes qui contiennent un mot clef (ou plus generalement, une expression)
+
+```bash
+$ ls -l | grep r2d2
+-rw-r--r--  1 alex alex        0 Oct  2 20:31 r2d2.conf
+-rw-r--r--  1 r2d2 alex     1219 Jan  6  2018 zblorf.scd
+```
+
+```bash
+$ cat /etc/login.defs | grep TIMEOUT
+LOGIN_TIMEOUT		60
+```
+
+(on aurait aussi pu simplement faire : `grep TIMEOUT /etc/login.defs`)
+
+---
+
+# 4 - Pipes et boîte à outils
+
+## Boîte à outils : `grep` (2/3)
+
+Une option utile (parmis d'autres) : `-v` permet d'inverser le filtre
+
+```bash
+$ ls -l | grep -v "alex alex"
+total 158376
+d---rwxr-x  2 alex droid    4096 Oct  2 15:48 droidplace
+-rw-r--r--  1 r2d2 alex     1219 Jan  6  2018 zblorf.scd
+```
+
+On peut créer un "ou" avec : `r2d2\|c3p0`
+
+```bash
+$ ps -ef | grep "alex\|r2d2"
+# Affiche seulement les lignes contenant alex ou r2d2
+```
+
+---
+
+# 4 - Pipes et boîte à outils
+
+## Boîte à outils : `grep` (3/3)
+
+On peut faire référence à des débuts ou fin de ligne avec `^` et `$` :
+
+```bash
+$ cat /etc/os-release | grep "^ID"
+ID=manjaro
+
+$ ps -ef | grep "bash$"
+alex      5411   956  0 Oct02 pts/13   00:00:00 -bash
+alex      5794   956  0 Oct02 pts/14   00:00:00 -bash
+alex      6164   956  0 Oct02 pts/15   00:00:00 -bash
+root      6222  6218  0 Oct02 pts/15   00:00:00 bash
+```
+
+---
+
+# 4 - Pipes et boîte à outils
+
+## Boîte à outils : `tr`
+
+`tr` ('translate') traduit des caractères d'un ensemble par des caractère d'un autre ensemble ...
+
+```bash
+$ cat /etc/os-release \
+   | grep "^ID" \
+   | tr '=' ' '
+ID manjaro
+
+$ echo "coucou" | tr 'a-q' 'A-Q'
+COuCOu
+```
+
+---
+
+# 4 - Pipes et boîte à outils
+
+## Boîte à outils : `awk`
+
+`awk` est un processeur de texte assez puissant ...
+- En pratique, il est souvent utilisé pour "récupérer seulement une ou plusieurs colonnes"
+- Attention à la syntaxe un peu compliquée !
+
+```bash
+$ cat /etc/os-release  \
+    | grep "^ID"       \
+    | tr '=' ' '       \
+    | awk '{print $2}' \
+manjaro
+
+$ who | awk '{print $1 " " $4}'
+alex 22:10
+r2d2 11:27
+```
+
+---
+
+# 4 - Pipes et boîte à outils
+
+## Boîte à outils : `awk`
+
+- L'option `-F` permet de specifier un autre délimiteur
+
+```bash
+cat /etc/passwd | awk -F: '{print $3}'  # Affiche les UID des utilisateurs
+```
+
+(Equivalent à `cat /etc/passwd | cut -d: -f 3`)
+
+---
+
+# 4 - Pipes et boîte à outils
+
+## Boîte à outils : `sort`
+
+`sort` est un outil de tri :
+- `-k` permet de spécifier quel colonne utiliser pour trier (par défaut : la 1ère)
+- `-n` permet de trier par ordre numérique (par défaut : ordre alphabetique)
+
+```bash
+ps -ef | sort         # Trie les processus par proprietaire (1ere col)
+ps -ef | sort -k2 -n  # Trie les processus par PID (2eme col., chiffres)
+```
+
+---
+
+# 4 - Pipes et boîte à outils
+
+## Boîte à outils : `uniq`
+
+`uniq` permet de ne garder que des occurences uniques ... ou de compter un nombre d'occurence (avec `-c`)
+
+`uniq` s'utilise 90% du temps sur des données **déjà triées** par sort
+
+```bash
+who | awk '{print $1}' | sort | uniq                   # Affiche la liste des users loggués
+who | awk '{print $1}' | sort | uniq -c                # Compte le nombre de shell par user loggué
+```
+
+---
+
+# 4 - Pipes et boîte à outils
+
+## Boîte à outils : `sed`
+
+`sed` est un outil de manipulation de texte très puissant ... mais sa syntaxe est complexe.
+
+Comme premier contact : utilisation pour chercher et remplacer : `s/motif/remplacement/g`
+
+Exemple :
+```bash
+ls -l | sed 's/alex/padawan/g' # Remplace toutes les occurences de alex par padawan
+```
+
+---
+
+# 4 - Pipes et boîte à outils
+
+## Boîte à outils : `find`
+
+`find` permet de trouver (recursivement) des fichiers répondant à des critères sur le nom, la date de modif, la taille, ...
+
+Exemples:
+```bash
+# Lister tous les fichiers en .service dans /etc
+find /etc -name "*.service"
+
+# Lister tous les fichiers dans /var/log modifiés il y a moins de 5 minutes
+find /var/log -mmin 5
+```
+
+---
+
+# 4 - Pipes et boîte à outils
+
+## Recap (QUELQUES outils)
+
+(en tout cas leur utilisation la plus commune)
+
+- `tee` : montrer la sortie dans le terminal tout en la copiant dans un fichier
+- `tr` : supprimer / remplacer certains caractères
+- `grep` : garder seulement les lignes qui matchent (ou pas) une expression
+- `awk` : garder seulement une colonne de donnée
+- `cut` : garder seulement une colonne de donnée (similaire à `awk` mais différent)
+- `sort` : trier des données
+- `uniq` : garder seulement des lignes uniques (ou compter combien d'occurences)
+- `sed` : chercher et remplacer une expression par une autre
+- `find` : chercher des fichiers qui correspondent à certains critères (nom, date de modif, ...)
+
+
+
+
+---
+
+class: impact
+
+# 5 - Installer une distribution
 
 ### et gérer les partitions
 
+
+
+
+
+
+
+
+
+
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
-Installons un système Linux nous-même ... et au passage, choisissons un environnement graphique (ou bien si vous ne voulez pas choisir : gardez Cinnamon)
+## Les distributions
+
+Un ensemble de programmes "packagés", préconfigurés, intégré pour un usage ~précis ou suivant une philosophie particulière
+
+- Un noyau (Linux)
+- Des programmes (GNU, ...)
+- Des pré-configurations
+- Un gestionnaire de paquet
+- Un (ou des) environnements graphiques (Gnome, KDE, Cinnamon, Mate, ...)
+- Une suite de logiciel intégrée avec l'environnement graphique
+- Des objectifs / une philosophie
+
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
+
+## Les distributions
+
+![](img/debian.png)
+![](img/ubuntu.png)
+![](img/mint.png)
+![](img/centos.png)
+![](img/arch.png)
+![](img/kali.png)
+![](img/android.png)
+![](img/yunohost.png)
+![](img/kubernetes.png)
+
+- **Debian** : réputé très stable, typiquement utilisé pour les serveurs
+- **Ubuntu, Mint** : grand public
+- **CentOS**, RedHat : pour les besoins des entreprises
+- **Archlinux** : un peu plus technicienne, très à jour avec les dernières version des logiciels
+- **Kali Linux** : orientée sécurité et pentesting
+- **Android** : pour l'embarqué (téléphone, tablette)
+- **YunoHost** : auto-hébergement "grand public"
+- **Kubernetes** / k8s : devops, déploiement et orchestration de flotte de conteneur
+
+---
+
+# 5 - Installer une distribution
+
+## Les distributions
+
+Et bien d'autres : Gentoo, LinuxFromScratch, Fedora, OpenSuse, Slackware, Alpine, Devuan, elementaryOS, ...
+
+
+
+---
+
+# 5 - Installer une distribution
+
+## Linux, les environnement
+
+- Gnome
+- Cinnamon, Mate
+- KDE
+- XFCE, LXDE
+- Tiling managers (awesome, i3w, ...)
+
+---
+
+# 5 - Installer une distribution
+
+## Linux, les environnements (Gnome)
+
+.center[
+![](img/gnome.jpg)
+]
+
+---
+
+# 5 - Installer une distribution
+
+## Linux, les environnements (KDE)
+
+.center[
+![](img/kde.jpg)
+]
+
+---
+
+# 5 - Installer une distribution
+
+## Linux, les environnements (Cinnamon)
+
+.center[
+![](img/cinnamon.jpg)
+]
+
+---
+
+# 5 - Installer une distribution
+
+## Linux, les environnements (XFCE)
+
+.center[
+![](img/cinnamon.jpg)
+]
+
+---
+
+# 5 - Installer une distribution
+
+## Linux, les environnements (XFCE)
+
+.center[
+![](img/xfce.jpg)
+]
+
+---
+
+# 5 - Installer une distribution
+
+## Linux, les environnements (Awesome)
+
+.center[
+![](img/awesome.jpg)
+]
+
+---
+
+# 5 - Installer une distribution
 
 ## Fonctionnement de l'environnement graphique : Xorg
 
@@ -87,6 +1240,10 @@ Il fonctionne en client/serveur
 
 Qui s'occupe de toute la gestion des fenêtres (bordures, décoration, redimensionnement, minimisation, vignette, ...)
 
+## On a également : le "DM" (display manager)
+
+Souvent uniquement utilisé comme interface de login pour ensuiter lancer le vrai environnement graphique (voir [ici](https://www.baeldung.com/linux/display-managers-install-uninstall))
+
 ---
 
 .center[
@@ -95,7 +1252,17 @@ Qui s'occupe de toute la gestion des fenêtres (bordures, décoration, redimensi
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
+
+**Pour le TP : on installera Linux Mint**
+
+- (Choix arbitraire du formateur)
+- Distribution simple, sobre, pas spécialement controversée (?)
+- Profite de la stabilité de Debian et de l'accessibilité d'Ubuntu
+
+---
+
+# 5 - Installer une distribution
 
 ## Procédure d'installation générale
 
@@ -110,7 +1277,7 @@ Qui s'occupe de toute la gestion des fenêtres (bordures, décoration, redimensi
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Telecharger l'ISO
 
@@ -120,7 +1287,7 @@ Qui s'occupe de toute la gestion des fenêtres (bordures, décoration, redimensi
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Vérifier l'intégrité / authenticité
 
@@ -135,7 +1302,7 @@ Qui s'occupe de toute la gestion des fenêtres (bordures, décoration, redimensi
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Le BIOS
 
@@ -151,7 +1318,7 @@ Qui s'occupe de toute la gestion des fenêtres (bordures, décoration, redimensi
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Le BIOS
 
@@ -161,7 +1328,7 @@ Qui s'occupe de toute la gestion des fenêtres (bordures, décoration, redimensi
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Live CD/USB
 
@@ -180,7 +1347,7 @@ Qui s'occupe de toute la gestion des fenêtres (bordures, décoration, redimensi
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Lancer l'installation
 
@@ -190,7 +1357,7 @@ Qui s'occupe de toute la gestion des fenêtres (bordures, décoration, redimensi
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Lancer l'installation
 
@@ -200,7 +1367,7 @@ Qui s'occupe de toute la gestion des fenêtres (bordures, décoration, redimensi
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Plan de partitionnement (exemple!)
 
@@ -215,7 +1382,7 @@ Qui s'occupe de toute la gestion des fenêtres (bordures, décoration, redimensi
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Lancer l'installation "pour de vrai"
 
@@ -224,7 +1391,7 @@ Qui s'occupe de toute la gestion des fenêtres (bordures, décoration, redimensi
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Finir l'installation
 
@@ -234,7 +1401,7 @@ Qui s'occupe de toute la gestion des fenêtres (bordures, décoration, redimensi
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## GRUB
 
@@ -244,7 +1411,7 @@ Qui s'occupe de toute la gestion des fenêtres (bordures, décoration, redimensi
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## GRUB
 
@@ -255,7 +1422,7 @@ Qui s'occupe de toute la gestion des fenêtres (bordures, décoration, redimensi
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Résumé du boot complet (du Bios à l'interface de login)
 
@@ -265,7 +1432,7 @@ Qui s'occupe de toute la gestion des fenêtres (bordures, décoration, redimensi
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Log du boot
 
@@ -274,7 +1441,7 @@ peuvent être trouvés dans `/var/log/dmesg`
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Init levels / Run levels
 
@@ -290,7 +1457,7 @@ peuvent être trouvés dans `/var/log/dmesg`
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Login
 
@@ -300,7 +1467,7 @@ peuvent être trouvés dans `/var/log/dmesg`
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Le bureau
 
@@ -310,7 +1477,7 @@ peuvent être trouvés dans `/var/log/dmesg`
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Notation des patitions
 
@@ -320,7 +1487,7 @@ peuvent être trouvés dans `/var/log/dmesg`
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Notation des patitions
 
@@ -336,7 +1503,7 @@ Les disques partitions sous Linux sont généralement dénommées :
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Outil pour lister les disques, gérer les partions
 
@@ -351,7 +1518,7 @@ Device       Start      End  Sectors  Size Type
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Les points de montage
 
@@ -364,7 +1531,7 @@ Une partition ou n'importe quel "bidule de stockage" peut être "monté" dans le
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Les points de montage
 
@@ -375,7 +1542,7 @@ Une partition ou n'importe quel "bidule de stockage" peut être "monté" dans le
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Les points de montage
 
@@ -390,7 +1557,7 @@ $ ls /media/usbkey
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Les points de montage
 
@@ -402,7 +1569,7 @@ $ umount /media/usbkey
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Les points de montage : `/etc/fstab`
 
@@ -418,7 +1585,7 @@ UUID=[id tres long] /home/       ext4    defaults        0       2
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Les points de montage : outils
 
@@ -433,7 +1600,7 @@ $ mount
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Les points de montage : outils
 
@@ -454,7 +1621,7 @@ tmpfs           567M   16K  567M   1% /run/user/1000
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
 ## Les points de montage : outils
 
@@ -470,9 +1637,24 @@ sda             8:0    0 29.8G  0 disk
 
 ---
 
-# 1. Installer une distribution
+# 5 - Installer une distribution
 
-## Autres configurations du système (avec systemd)
+## Obtenir des infos sur le matériel
+
+- `lsblk` : lister les stockages
+- `lsusb` : lister les périphériques USB
+- `lspci` : lister les périphériques PCI
+- `lscpu` : lister les CPU (ou bien : `cat /proc/cpuinfo`)
+- `lsmem` : lister les barettes de RAM (ou bien : `free -h`)
+- `ip a`: lister les interfaces réseau
+
+Ou encore des outils plus généraux (à installer, pas présent sur le système de base) : `lshw`, `hwinfo`, `dmidecode`, `inxi`
+
+---
+
+# 5 - Installer une distribution
+
+## Autres configurations du système (avec `systemd`)
 
 - `hostnamectl` 
 - `timedatectl`
@@ -482,13 +1664,13 @@ sda             8:0    0 29.8G  0 disk
 
 class: impact
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 ### (et les archives)
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 ## Motivation
 
@@ -502,7 +1684,7 @@ Historiquement, c'est très compliqué d'installer un programme :
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 ## Le travail d'une distribution <small>(entre autre)</small>
 
@@ -512,7 +1694,7 @@ Historiquement, c'est très compliqué d'installer un programme :
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 ## Le gestionnaire de paquet c'est :
 
@@ -524,7 +1706,7 @@ Historiquement, c'est très compliqué d'installer un programme :
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 ## Comparaison avec Windows
 
@@ -538,7 +1720,7 @@ Sous Windows
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 .center[
 *One package to rule them all*
@@ -552,7 +1734,7 @@ Sous Windows
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 ## Sous Debian
 
@@ -568,7 +1750,7 @@ Sous Windows
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 ## Parenthèse sur `apt-get`
 
@@ -578,7 +1760,7 @@ Sous Windows
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 ## Utilisation de `apt`
 
@@ -591,7 +1773,7 @@ Sous Windows
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 .center[
 ![](img/aptinstallooffice.png)
@@ -600,7 +1782,7 @@ Sous Windows
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 ## Mais qu'est-ce que c'est, un paquet ?
 
@@ -613,7 +1795,7 @@ Un programme, et des fichiers (dossier `debian/`) qui décrivent le paquet :
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 ## Mettre à jour les paquets
 
@@ -628,13 +1810,13 @@ Un programme, et des fichiers (dossier `debian/`) qui décrivent le paquet :
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 N.B. : pour les moldus dans la vraie vie, il y a des interfaces graphiques pour gérer tout ça sans ligne de commande, mais ici on présente les détails techniques
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 ## Les dépots
 
@@ -642,16 +1824,16 @@ Les dépots de paquets sont configurés via `/etc/apt/sources.list` et les fichi
 
 Exemple :
 ```
-deb http://ftp.debian.fr/debian/ stretch main contrib
+deb http://ftp.debian.fr/debian/ bookworm main contrib
 ```
 
-- `stretch` est le nom actuel de la distribution
+- `bookworm` est le nom de la version majeure actuel de la distribution
 - `main` et `contrib` sont des composantes à utiliser
 - le protocole est `http` ... l'authenticité des paquets est géré par un autre mécanisme (GPG)
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 ## Les versions de Debian
 
@@ -667,22 +1849,22 @@ Les versions tournent tous les ~2 ans environ
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 ## Les versions de Debian
 
 Basé sur les personnages de Toy Story
 
-- 7, `wheezy` (oldoldoldstable)
-- 8, `jessie` (oldoldstable)
-- 9, `stretch` (oldstable, depuis juillet 2019)
-- 10, `buster` **(stable, depuis juillet 2019)**
-- 11, `bullseye` (testing, deviendra stable fin juillet 2021)
-- 12, `bookworm` (future testing, stable en été 2023 ?)
+- 9, `stretch` (oldoldoldstable, été 2017)
+- 10, `buster` (oldoldstable, été 2019)
+- 11, `bullseye` (oldstable, été 2021)
+- ➡️ **12, `bookworm` (stable, depuis juin 2023)**
+- 13, `trixie` (testing, devindra stable en été 2025 ?)
+- 14, `forky` (été 2027 ?)
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 .center[
 ![](img/debiantimeline.png)
@@ -690,7 +1872,16 @@ Basé sur les personnages de Toy Story
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
+
+.center[
+![](img/debiantimeline2.png)
+]
+
+
+---
+
+# 6 - Le gestionnaire de paquet
 
 ## Naviguez dans les paquets debian en ligne
 
@@ -702,7 +1893,7 @@ Basé sur les personnages de Toy Story
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 ## Les backports
 
@@ -714,20 +1905,85 @@ Basé sur les personnages de Toy Story
 
 - Si on a besoin de dépendances récentes, on les installe généralement avec le gestionnaire de paquet correspondant au language de notre app : `pip`, `npm`, `composer`, `carton`, `gem`, ... 
 
-
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 ## Et les autres distributions ?
 
-- Redhat/Centos : `yum install <pkg>`, `yum search <keyword>`, `yum makecache`, `yum update`, ...
+- RedHat/Centos : `yum install <pkg>`, `yum search <keyword>`, `yum makecache`, `yum update`, ...
+   - plus moderne (meilleure perf et UX) : `dnf` !
 
 - Archlinux : `pacman -S <pkg>`, `-Ss <keyword>`, `-Syu`, ...
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
+
+## Quid de RedHat / CentOS ?
+
+Red Hat : l'une des (la?) plus grosse entreprise dédiée à l'open source 
+
+Historiquement : 
+- **RHEL** (Red Hat Enterprise Linux) : une version de Linux éditée par Red Hat, basée sur Fedora, mais avec avec des garanties de qualité, sécurité et support long terme (payant)
+- **CentOS** (Community Enterprise OS) : une version "gratuite" (mais sans support) de RHEL (utilisée par de nombreuse entreprise qui n'ont pas les moyens d'avoir une license RHEL)
+
+Une histoire compliquée, des changements de politique en 2021 et 2023 ...
+- Red Hat semble avoir une volontée de mettre le grapin sur les entreprises qui utilisent CentOS 
+- [CentOS Stream : ce qui va changer et comment se préparer](https://goodtech.info/centos-stream-ce-qui-va-changer-et-comment-se-preparer/)
+- [Red Hat and the Clone Wars (4 articles)](https://dissociatedpress.net/2023/06/24/red-hat-and-the-clone-wars/)
+
+---
+
+# 6 - Le gestionnaire de paquet
+
+## Quid de RedHat / CentOS ?
+
+De nos jours : 
+
+- **Fedora** : innovation/integration (10000 projets upstream). Cadence "rapide" : nouvelle version majeure tous les 6 mois, maintenues ~un an
+- **CentOS "stream"** : basé sur une version spécifique de Fedora, corresponds à une "rolling release" de Red Hat pour les versions RHEL
+- **RHEL** : idem qu'historiquement ... nouvelles versions majeures tous les ~3 ans, support jusqu'à 10~14 ans (!!). Nouvelle version mineure tous les ~6 mois
+- **AlmaLinux** et **RockyLinux** : des tentatives pour recréer un "RHEL gratuit" comme CentOS l'était avant. Visent une compatibilité extrêmement proche ("bug-for-bug") de RHEL.
+
+---
+
+.center[
+![](img/rhel.png)
+![](img/rhel2.png)
+]
+
+---
+
+.center[
+![](img/rhel3.png)
+]
+
+
+---
+
+<https://www.openlogic.com/blog/top-open-source-operating-systems-2022>
+
+.center[
+![](img/serverstats.webp)
+]
+
+---
+
+# 6 - Le gestionnaire de paquet
+
+## Debian versus RHEL
+
+- (Une comparaison plus pertinente serait Ubuntu Server versus RHEL)
+- Debian utilise des `.deb` (`dpkg` + `apt`)
+- RHEL utilise des `.rpm` (`rpm` + `yum`/`dnf`)
+- RHEL intègre de base SELinux (Security-Enhanced Linux) -> <https://www.youtube.com/watch?v=_WOKRaM-HI4>
+- RHEL encourage l'utilisation de `XFS` tandis que Debian utilise traditionelle du `ext4`
+- Red Hat dispose d'outils spécifiques pour de la gestion de parc (Red Hat Satellite) ou cloud (OpenShift)
+
+---
+
+# 6 - Le gestionnaire de paquet
 
 ## Gérer des archives
 
@@ -743,7 +1999,7 @@ tar -xvf monarchive.tar
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 ## Gérer des archives
 
@@ -761,7 +2017,7 @@ gzip -d zblorf.scd.gz
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 ## Gérer des archives
 
@@ -777,7 +2033,7 @@ tar -xvzf monarchive.tar.gz
 
 ---
 
-# 2. Le gestionnaire de paquet
+# 6 - Le gestionnaire de paquet
 
 ## Gérer des archives
 
@@ -790,13 +2046,13 @@ tar -xvzf monarchive.tar.gz
 
 class: impact
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## en 60 slides !
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Objectifs
 
@@ -810,7 +2066,7 @@ class: impact
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Notions essentielles à acquérir
 
@@ -822,7 +2078,7 @@ class: impact
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Teh interntez
 
@@ -832,7 +2088,7 @@ class: impact
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Modele OSI
 
@@ -857,7 +2113,7 @@ class: impact
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Modele OSI "simplifié": le modèle TCP/IP
 
@@ -868,7 +2124,7 @@ class: impact
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Encapsulation des données
 
@@ -884,7 +2140,7 @@ class: impact
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Exemple de réseau
 
@@ -895,7 +2151,7 @@ class: impact
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 1 : cable RJ45 / paires torsadées
 
@@ -909,7 +2165,7 @@ class: impact
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 1 : WiFi
 
@@ -923,7 +2179,7 @@ class: impact
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 1 : 4G/5G
 
@@ -933,7 +2189,7 @@ class: impact
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 1 : fibre optique
 
@@ -944,7 +2200,7 @@ class: impact
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 1 : liaisons intercontinentales
 
@@ -955,7 +2211,7 @@ class: impact
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 2 : Ethernet
 
@@ -971,7 +2227,7 @@ class: impact
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 2 : Ethernet
 
@@ -984,7 +2240,7 @@ class: impact
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 2 : Ethernet
 
@@ -998,7 +2254,7 @@ class: impact
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 2 : Ethernet
 
@@ -1007,7 +2263,7 @@ Qu'est-ce qu'un VLAN ?
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 2 : les interfaces dans Linux
 
@@ -1017,27 +2273,61 @@ Qu'est-ce qu'un VLAN ?
     - Aujourd'hui les noms sont un peu plus complexes / arbitraires
     - Il existe toujours une interface `lo` (loopback, la boucle locale - 127.0.0.1)
     - Il peut y'avoir d'autres interfaces ou bridges "virtuelles" (contexte de conteneur, etc..)
+- version courte, moins technique avec `ip -br a`
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 2 : les interfaces dans Linux
-
 
 ```bash
 $ ip a
 1: lo: <LOOPBACK,UP,LOWER_UP>
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    [...]
 2: enp0s25: <NO-CARRIER,BROADCAST,MULTICAST,UP>
     link/ether 33:0e:d8:3f:65:7e
+    [...]
 3: wlp3s0: <BROADCAST,MULTICAST,UP,LOWER_UP>
     link/ether 68:a6:2d:9f:ad:07
+    [...]
+
+
+$ ip -br a
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+enp0s25          DOWN           169.254.8.190/16
+wlp3s0           UP             192.168.1.172/24 2a01:e0a:b28:ab40:xxxx:xxxx:xxxx:xxxx/64 fe80::51d3:7ab2:9548:5353/64
 ```
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
+
+## Couche 2 : le fichier `/etc/network/interfaces`
+
+NB : de nos jours, la très grande majorité du temps, la config de base DHCP fonctionne très bien
+
+```
+allow-hotplug eth0
+iface eth0 inet dhcp
+```
+
+Mais on peut aussi faire une config manuelle, par ex. :
+
+```
+auto ens33
+iface ens33 inet static
+    address 10.0.0.43
+    netmask 255.255.255.0
+    gateway 10.0.0.138
+    dns-search exemple.com
+    dns-nameservers 8.8.8.8 4.4.4.4
+```
+
+---
+
+# 7 - Notions de réseau
 
 ## Couche 3 : IP
 
@@ -1053,7 +2343,7 @@ $ ip a
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 3 : IP
 
@@ -1078,7 +2368,7 @@ $ ip a
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 3 : IP : système d'adressage (IPv4) 
 
@@ -1088,7 +2378,7 @@ $ ip a
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 3 : IP : IPv4 frame / paquet
 
@@ -1098,7 +2388,7 @@ $ ip a
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 3 : IP
 
@@ -1110,7 +2400,7 @@ $ ip a
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 3 : IP
 
@@ -1123,7 +2413,7 @@ $ ip a
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 3 : IP
 
@@ -1136,7 +2426,7 @@ $ ip a
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 3 : IP
 
@@ -1151,7 +2441,7 @@ $ ip a
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 3 : Et l'IPv6 ?
 
@@ -1167,7 +2457,7 @@ $ ip a
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 3 : Et l'IPv6 ?
 
@@ -1177,7 +2467,7 @@ $ ip a
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 3 : Et l'IPv6 ?
 
@@ -1188,7 +2478,7 @@ $ ip a
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 3 : commandes essentielles
 
@@ -1206,7 +2496,7 @@ Voir aussi : `ifconfig` (deprecated) et `ipconfig` (sous windows!)
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 3 : commandes essentielles
 
@@ -1227,7 +2517,7 @@ Note: `ping` utilise le protocole `ICMP` qui a lieu au niveau de la couche 3 (ou
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 3 : commandes essentielles
 
@@ -1245,7 +2535,7 @@ mnt-by:         WIKIMEDIA-MNT
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 3 : commandes essentielles
 
@@ -1266,7 +2556,7 @@ $ traceroute 91.198.174.192
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 4 : TCP
 
@@ -1280,7 +2570,7 @@ $ traceroute 91.198.174.192
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 4 : Notion de port
 
@@ -1295,7 +2585,7 @@ $ traceroute 91.198.174.192
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 4 : commandes essentielles
 
@@ -1312,7 +2602,7 @@ waterfox  12193 alex IPv4 shadow.local:32580->cybre.space:https (ESTABLISHED)
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 4 : commandes essentielles
 
@@ -1325,23 +2615,22 @@ Connection to 44.112.42.13 22 port [tcp/ssh] succeeded!
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
-## Couche 4 : commandes essentielles
+## Couche 4 : commandes avancées
 
-`tcpdump` pour regarder l'activité sur le réseau
+Étudier l'activité sur le réseau
+- `tcpdump` pour regarder l'activité sur le réseau
+- `wireshark`, similaire à tcpdump, mais beaucoup plus puissant, et en interface graphique
+
+Configurer des règles (typiquement pare-feu, redirection de port)
+- `iptables` ... ou `nftables` (plus moderne ... mais moins de doc dispo sur Internet?)
+- `ufw` (pare-feu construit sur `iptables`, voir TP plus tard)
+
 
 ---
 
-# 3. Notions de réseau
-
-## Couche 4 : commandes essentielles
-
-`wireshark`, similaire à tcpdump, mais beaucoup plus puissant, et en interface graphique
-
----
-
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 5+ : Modèle client/serveur
 
@@ -1357,7 +2646,7 @@ Le **client** est celui qui demande le service selon **le protocole**
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 5+ : `netstat`
 
@@ -1373,7 +2662,7 @@ tcp6    :::25       LISTEN   1331/master # <- postfix, un serveur mail
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 5+ : notion de protocole
 
@@ -1392,7 +2681,7 @@ tcp6    :::25       LISTEN   1331/master # <- postfix, un serveur mail
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 5+ : HTTP
 
@@ -1405,7 +2694,7 @@ tcp6    :::25       LISTEN   1331/master # <- postfix, un serveur mail
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Couche 5+ : Le web
 
@@ -1416,7 +2705,7 @@ tcp6    :::25       LISTEN   1331/master # <- postfix, un serveur mail
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Le web
 
@@ -1431,7 +2720,7 @@ tcp6    :::25       LISTEN   1331/master # <- postfix, un serveur mail
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## DNS : Domain name server (1/5)
 
@@ -1444,7 +2733,7 @@ tcp6    :::25       LISTEN   1331/master # <- postfix, un serveur mail
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## DNS : Domain name server (2/5)
 
@@ -1459,7 +2748,7 @@ tcp6    :::25       LISTEN   1331/master # <- postfix, un serveur mail
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## DNS : Domain name server (3/5)
 
@@ -1472,7 +2761,7 @@ nameserver 89.234.141.66
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## DNS : Domain name server (4/5)
 
@@ -1490,7 +2779,7 @@ wikipedia.org mail is handled by 10 mx1001.wikimedia.org.
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## DNS : Domain name server (5/5)
 
@@ -1532,7 +2821,7 @@ ff02::2 ip6-allrouters
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Réseau local, DHCP, NAT (1/6)
 
@@ -1561,7 +2850,7 @@ ff02::2 ip6-allrouters
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Réseau local, DHCP, NAT (4/6)
 
@@ -1573,7 +2862,7 @@ ff02::2 ip6-allrouters
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Réseau local, DHCP, NAT (5/6)
 
@@ -1589,7 +2878,7 @@ La situation se complexifie avec Virtualbox :
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Et les VPNs, késaco ?
 
@@ -1599,7 +2888,7 @@ La situation se complexifie avec Virtualbox :
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Et les VPNs, késaco ?
 
@@ -1615,7 +2904,7 @@ Plusieurs utilités possibles:
 
 ---
 
-# 3. Notions de réseau
+# 7 - Notions de réseau
 
 ## Autres notions : proxys, firewall
 
@@ -1623,11 +2912,11 @@ Plusieurs utilités possibles:
 
 class: impact
 
-# 4. Notions de cryptographie
+# 8 - Notions de cryptographie
 
 ---
 
-# 4. Notions de cryptographie
+# 8 - Notions de cryptographie
 
 ## Principe, vocabulaire
 
@@ -1639,7 +2928,7 @@ Protéger des messages (confidentialité, authenticité, intégrité) en s’aid
 
 ---
 
-# 4. Notions de cryptographie
+# 8 - Notions de cryptographie
 
 ## Exemple de chiffrement symétrique
 
@@ -1655,7 +2944,7 @@ Olqxa f'hvw vbpsdwrfkh
 
 ---
 
-# 4. Notions de cryptographie
+# 8 - Notions de cryptographie
 
 ## Chiffrement asymétrique
 
@@ -1665,7 +2954,7 @@ Pas d'équivalent classique ...
 
 ---
 
-# 4. Notions de cryptographie
+# 8 - Notions de cryptographie
 
 ## Chiffrement asymétrique
 
@@ -1675,7 +2964,7 @@ Les mathématiques permettent de générer un couple de clef (A, B) :
 
 ---
 
-# 4. Notions de cryptographie
+# 8 - Notions de cryptographie
 
 ## Chiffrement asymétrique
 
@@ -1698,7 +2987,7 @@ Les mathématiques permettent de générer un couple de clef (A, B) :
 
 ---
 
-# 4. Notions de cryptographie
+# 8 - Notions de cryptographie
 
 ## Chiffrement asymétrique
 
@@ -1720,7 +3009,7 @@ Les mathématiques permettent de générer un couple de clef (A, B) :
 
 ---
 
-# 4. Notions de cryptographie
+# 8 - Notions de cryptographie
 
 ## Echange de clef
 
@@ -1732,7 +3021,7 @@ Problème général de sécurité : il est difficile de s'assurer de l'authentic
 
 ---
 
-# 4. Notions de cryptographie
+# 8 - Notions de cryptographie
 
 ## Solution 1 : la vraie vie
 
@@ -1740,7 +3029,7 @@ Voir Edward Snowden en chair et en os, et récupérer la clef avec lui
 
 ---
 
-# 4. Notions de cryptographie
+# 8 - Notions de cryptographie
 
 ## Solution 2 : web of trust
 
@@ -1748,7 +3037,7 @@ La clef de Edward Snowden a été signé par pleins de journalistes et activitst
 
 ---
 
-# 4. Notions de cryptographie
+# 8 - Notions de cryptographie
 
 ## Solution 3 : autorités de certification
 
@@ -1761,7 +3050,7 @@ Vous faites confiance à Microsoft et Google (!?), qui certifient avoir vérifi�
 
 ---
 
-# 4. Notions de cryptographie
+# 8 - Notions de cryptographie
 
 ## Applications
 
@@ -1775,11 +3064,11 @@ Vous faites confiance à Microsoft et Google (!?), qui certifient avoir vérifi�
 
 class: impact
 
-# 5. Se connecter et gérer un serveur avec SSH
+# 9 - Se connecter et gérer un serveur avec SSH
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 ## À propos des serveurs
 
@@ -1791,7 +3080,7 @@ Serveur (au sens matériel)
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 ## À propos des serveurs
 
@@ -1804,7 +3093,7 @@ Serveur (au sens logiciel)
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 ## Serveurs : quel support matériel ?
 
@@ -1814,7 +3103,7 @@ Serveur (au sens logiciel)
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 ## Serveurs : quel support matériel ?
 
@@ -1825,7 +3114,7 @@ Serveur (au sens logiciel)
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 .center[
 ![](img/klaoude.png)
@@ -1841,7 +3130,7 @@ Serveur (au sens logiciel)
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 ## "Virtual" Private Server (VPS)
 
@@ -1853,7 +3142,7 @@ VPS = une VM dans un datacenter
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 ## "Virtual" Private Server (VPS)
 
@@ -1865,7 +3154,7 @@ VPS = une VM dans un datacenter
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 .center[
 ![](img/digitalocean.png)
@@ -1873,7 +3162,7 @@ VPS = une VM dans un datacenter
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 .center[
 ![](img/scaleway.png)
@@ -1881,7 +3170,7 @@ VPS = une VM dans un datacenter
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 ## SSH : Secure Shell
 
@@ -1894,7 +3183,7 @@ VPS = une VM dans un datacenter
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 ## Syntaxe : `ssh utilisateur@machine`
 
@@ -1909,7 +3198,7 @@ Are you sure you want to continue connecting (yes/no)? █
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 ## Syntaxe : `ssh utilisateur@machine`
 
@@ -1926,7 +3215,7 @@ admin@ynh-forge.netlib.re's password: █
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 ## Syntaxe : `ssh utilisateur@machine`
 
@@ -1946,7 +3235,7 @@ admin@ynh-forge:~$ █
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 ## SSH : se logguer
 
@@ -1957,7 +3246,7 @@ admin@ynh-forge:~$ █
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 ## SSH : avec une clef
 
@@ -1970,7 +3259,7 @@ admin@ynh-forge:~$ █
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 ## SSH : avec une clef
 
@@ -1982,7 +3271,7 @@ $ ssh-keygen -t rsa -b 4096 -C "Clef pour la formation"
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 ## SSH : avec une clef
 
@@ -2002,7 +3291,7 @@ SHA256:ZcAKHVtTXUPz3ipqia4i+soRHZQ4tYsDGfc5ieEGWcY "Clef pour la formation"
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 ## SSH : avec une clef
 
@@ -2019,7 +3308,7 @@ ssh-copy-id -i chemin/vers/la/clef user@machine
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 ## SSH : avec une clef
 
@@ -2032,7 +3321,7 @@ Enter passphrase for key '/home/alex/.ssh/ma_clef': █
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 ## SSH : avec une clef
 
@@ -2051,7 +3340,7 @@ user@jaimelecafe.com:~$ █
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 ## SSH : configuration côté client
 
@@ -2068,7 +3357,7 @@ Host jaimelecafe
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 .center[
 ![](img/sneakyfoxssh.jpg)
@@ -2076,7 +3365,7 @@ Host jaimelecafe
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 ## SCP : copier des fichiers
 
@@ -2092,7 +3381,7 @@ $ scp bob@dismorphia.info:/home/alex/.bashrc ./
 
 ---
 
-# 5. SSH et les serveurs
+# 9 - SSH et les serveurs
 
 ## Divers
 
@@ -2104,11 +3393,11 @@ $ scp bob@dismorphia.info:/home/alex/.bashrc ./
 
 class: impact
 
-# 6 - Services et sécurité basique d'un serveur
+# 10 - Services et sécurité basique d'un serveur
 
 ---
 
-# 6 - Services et sécurité
+# 10 - Services et sécurité
 
 ## Objectifs
 
@@ -2117,7 +3406,7 @@ class: impact
 
 ---
 
-# 6 - Services et sécurité
+# 10 - Services et sécurité
 
 ## `sshd`
 
@@ -2133,7 +3422,7 @@ En particulier :
 
 ---
 
-# 6 - Services et sécurité
+# 10 - Services et sécurité
 
 ## `/etc/ssh/sshd_config`
 
@@ -2146,7 +3435,7 @@ AllowGroups root ssh
 
 ---
 
-# 6 - Services et sécurité
+# 10 - Services et sécurité
 
 ## Bonnes pratiques en terme de ssh
 
@@ -2157,7 +3446,7 @@ AllowGroups root ssh
 
 ---
 
-# 6 - Services et sécurité
+# 10 - Services et sécurité
 
 ## Gérer un service avec `systemd`
 
@@ -2197,7 +3486,7 @@ Oct 10 20:39:37 scw-5e2fca sshd[5063]: Connection closed by 5.101.40.101 port 33
 
 ---
 
-# 6 - Services et sécurité
+# 10 - Services et sécurité
 
 ## Investiguer des logs
 
@@ -2219,7 +3508,7 @@ Oct 10 21:01:39 scw-5e2fca sshd[5174]: Connection closed by 5.101.40.101 port 35
 ```
 ---
 
-# 6 - Services et sécurité
+# 10 - Services et sécurité
 
 ### Qu'est-ce que c'est un service systemd?
 
@@ -2236,32 +3525,101 @@ Config:
 
 ---
 
-# 6 - Services et sécurité
+# 10 - Services et sécurité
 
-### Qu'est-ce que c'est systemd
+### Qu'est-ce que c'est systemd (1/2)
 
-- Une suite d'outils pour manipuler pleins d'aspects du système
-- ... en particulier, tout le système d'`init` et les services (`systemctl`), alternative à `SysVinit`
-- Mais aussi:
-    - `localectl` (gestion des traduction / localisation)
-    - `hostnamectl` (nom de la machine, etc.)
-    - `systemd-resolve` (un service qui gère la résolution DNS)
-    - les points de montage
-    - les tâches programmées (cron -> timer)
+- Le **système d'init (PID 1)** pour gérer le démarrage des services (et les autres "runlevel": rescue, shutdown, ...)
+- ... mais aussi : **un ensemble d'outils "uniformes"** pour gérer de nombreux aspects du système
+    - date, locale, montages, journaux, quotas, tâches planifiées, login, ...
+- Systemd a été créé en **2010** par des ingénieurs de **RedHat**, puis intégré dans Fedora en 2011
+- Article originel : **["Rethinking PID 1"](https://0pointer.de/blog/projects/systemd.html)**
 
 ---
 
-# 6 - Services et sécurité
+# 10 - Services et sécurité
 
-## Investiguer des logs
+### Qu'est-ce que c'est systemd (2/2)
 
-The systemd way : `journalctl -u <nom_du_service>`
+- **systemd** succède à l'ancien système d'init qui était le plus répandu : **SysVinit**
+    - SysVinit était relativement *laborieux à maintenir, les scripts de chaque service étantverbeux, non-standardisés, et la définition des dépendances (ordre) dans lequel lancer les services était complexe et manuelle*.
+        - Exemple : <https://www.cyberciti.biz/tips/linux-write-sys-v-init-script-to-start-stop-service.html>
+        - [Explications d'un mainteneur de Archlinux sur l'adoption de systemd en alternative à SysVinit](https://old.reddit.com/r/archlinux/comments/4lzxs3/why_did_archlinux_embrace_systemd/d3rhxlc/)
+    - SysVinit était également relativement lent, tandis que systemd parallélise "agressivement" le lancement des services
+    - NB: Ceci dit **l'adoption de systemd a été possible aussi car il est backward-compatible** avec ces "anciens" services SysVinit !
+- Systemd utilise aussi beaucoup les **"cgroups"** (control groups) pour mettre des quotas/limites sur les ressources (ou au contraire, les prioriser), via les units `.slice`. (Voir aussi : `systemd-cgls` et `systemd-cgtop`)
 
+
+---
+
+# 10 - Services et sécurité
+
+Les différents aspects du système sont gérés dans des "unités"<small>, en particulier dans `/etc/systemd/system/`</small>
+
+Type principaux :
+- `.service` : un programme, "daemon" qui écoute et réponds à des requêtes ou effectue une action
+- `.target` : une "cible", un ensemble de service à lancer
+- `.timer` : un déclenchement planifié pour un `.service` (alternative moderne aux jobs crons)
+- `.path` : un déclenchement pour un `.service` lorsqu'un fichier ou dossier est modifié
+- `.mount` / `.automount` : un montage d'un support de stockage sur un point de montage
+
+Et aussi : 
+- `.slice` : un ensemble de services (ou de sous-slices) permettant de poser des contraintes sur les ressources utilisables via les `cgroups`
+- `.scope` : un groupe de processus, potentiellement lancé par autre chose que systemd
+- `.socket` : permet certaines forme de communication réseau ou inter-process (IPC)
+- `.device` : périphériques matériels, etc...
+
+---
+
+# 10 - Services et sécurité
+
+### Systemd: les journaux avec `journalctl`
+
+C'est un mécanisme centralisé / unifié pour agrégger et étudier les informations rapportées par les "unit". Il remplace/complète le mécanisme traditionel de logs dans `/var/log` avec `syslog` / `rsyslog`.
+
+<br/>
+
+
+.center[
 Par exemple : `journalctl -u ssh`
+]
+
 
 ---
 
-# 6 - Services et sécurité
+# 10 - Services et sécurité
+
+### Systemd: autres commandes importantes
+
+- `localectl` : gestion de la langue système, clavier, localisation...
+- `datetimectl` : gestion de la date, heure, fuseau horaire, ...
+- `hostnamectl` : gestion de l'identité de la machine
+- `resolvectl` / `systemd-resolve` : configuration du résolveur DNS 
+- `systemd-run`, `systemd-nspawn` : lancer des commandes via systemd (dans un scope ou un namespace)
+- `systemd-detect-virt` : détecter le type de virtualisation/conteneur
+
+Commandes relatives aux unités :
+- `systemctl list-timers` : lister les timers et leur date de prochaine exécution
+- `systemctl cat <unit>` : afficher la configuration systemd de cette unité 
+- `systemctl daemon-reload` : recharger la conf.  de systemd après qu'on ait modifié une unité
+- `systemd-cgls` et `systemd-cgtop` : similaire à `top` mais pour les "cgroups"
+
+---
+
+# 10 - Services et sécurité
+
+### Systemd: controverses
+
+- ["Feature-creep"](https://en.wikipedia.org/wiki/Feature_creep) / ["Scope creep"](https://en.wikipedia.org/wiki/Scope_creep)  vs ["La philosophie Unix"](https://en.wikipedia.org/wiki/Unix_philosophy)
+- Relativement monolithique (morceaux inter-dépendants)
+- Mauvaise réputation de l'auteur principal (Lennart Poettering)
+- Stockage des journaux en format binaire (journalctl) qui romp avec l'idée que "tout est fichier, tout est flux de texte"
+
+<https://en.wikipedia.org/wiki/Systemd#Reception>
+
+---
+
+# 10 - Services et sécurité
 
 ## Protéger contre le brute-force : `fail2ban`
 
@@ -2275,7 +3633,7 @@ Par exemple : `journalctl -u ssh`
 
 ---
 
-# 6 - Services et sécurité
+# 10 - Services et sécurité
 
 ## `fail2ban` : exemple de la jail SSH
 
@@ -2295,7 +3653,7 @@ logpath = /var/log/auth.log
 
 ---
 
-# 6 - Services et sécurité
+# 10 - Services et sécurité
 
 ## `fail2ban` : le log de fail2ban
 
@@ -2314,7 +3672,7 @@ logpath = /var/log/auth.log
 
 ---
 
-# 6 - Services et sécurité
+# 10 - Services et sécurité
 
 ## `fail2ban` : exemple de la jail recidive
 
@@ -2336,7 +3694,7 @@ findtime = 86400   ; 1 day
 
 ---
 
-# 6 - Services et sécurité
+# 10 - Services et sécurité
 
 ## Sécurité : modèle de menace
 
@@ -2351,7 +3709,7 @@ findtime = 86400   ; 1 day
 
 ---
 
-# 6 - Services et sécurité
+# 10 - Services et sécurité
 
 ## Sécurité : modèle de menace
 
@@ -2366,7 +3724,7 @@ findtime = 86400   ; 1 day
 
 ---
 
-# 6 - Services et sécurité
+# 10 - Services et sécurité
 
 ## Sécurité basique d'une machine (bureau, serveur)
 
@@ -2384,7 +3742,7 @@ findtime = 86400   ; 1 day
 
 ---
 
-# 6 - Services et sécurité
+# 10 - Services et sécurité
 
 .center[
 ![](img/xkcd_password.jpg)
@@ -2392,7 +3750,7 @@ findtime = 86400   ; 1 day
 
 ---
 
-# 6 - Services et sécurité
+# 10 - Services et sécurité
 
 .center[
 ![](img/xkcd_security.png)
@@ -2401,7 +3759,7 @@ findtime = 86400   ; 1 day
 
 ---
 
-# 6 - Services et sécurité
+# 10 - Services et sécurité
 
 ## Exemple de risque de sécurité subtil
 
@@ -2417,11 +3775,11 @@ Le mot de passe `super_secret` sera visible par d'autres utilisateurs dans `ps -
 
 class: impact
 
-# 7. Déployer un site "basique" avec nginx
+# 11 - Déployer un site "basique" avec nginx
 
 ---
 
-# 7. Nginx
+# 11 - Nginx
 
 ## Généralités
 
@@ -2435,7 +3793,7 @@ Intérêt dans cette formation :
 
 ---
 
-# 7. Nginx
+# 11 - Nginx
 
 ## Configuration, logs
 
@@ -2446,7 +3804,7 @@ Intérêt dans cette formation :
 
 ---
 
-# 7. Nginx
+# 11 - Nginx
 
 ## `/etc/nginx/sites-enabled/default`
 
@@ -2461,7 +3819,7 @@ server {
 
 ---
 
-# 7. Nginx
+# 11 - Nginx
 
 ## Location blocks
 
@@ -2479,7 +3837,7 @@ En allant sur `monsite.web/blog`, on accédera aux fichiers dans `/var/www/blog/
 
 ---
 
-# 7. Nginx
+# 11 - Nginx
 
 ## Location blocks
 
@@ -2501,7 +3859,7 @@ En allant sur `monsite.web/app`, nginx deleguera la requête à un autre program
 
 ---
 
-# 7. Nginx
+# 11 - Nginx
 
 ## `nginx -t` : verifier que la conf semble correcte
 
@@ -2515,7 +3873,7 @@ nginx: configuration file /etc/nginx/nginx.conf test is successfu
 
 ---
 
-# 7. Nginx
+# 11 - Nginx
 
 ## Fichier de log (`access.log`)
 
@@ -2528,7 +3886,7 @@ nginx: configuration file /etc/nginx/nginx.conf test is successfu
 
 ---
 
-# 7. Nginx
+# 11 - Nginx
 
 ## Fichier d'erreurs (`error.log`)
 

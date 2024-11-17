@@ -511,7 +511,7 @@ Un ensemble de programmes "packagés", préconfigurés, intégré pour un usage 
 - **Archlinux** : un peu plus technicienne, très à jour avec les dernières version des logiciels
 - **Kali Linux** : orientée sécurité et pentesting
 - **Android** : pour l'embarqué (téléphone, tablette)
-- **YunoHost** : auto-hébergement grand-public
+- **YunoHost** : auto-hébergement "grand public"
 - **Kubernetes** / k8s : devops, déploiement et orchestration de flotte de conteneur
 
 ---
